@@ -1,1 +1,2 @@
 echo "App/Recordings/" >> .gitignore
+echo "__pycache__/" >> .gitignore
