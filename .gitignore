@@ -1,3 +1,11 @@
 App/Recordings/
 __pycache__/
 dataset/
+.venv/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.csv
+*.wav
+*.mp4
