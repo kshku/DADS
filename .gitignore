@@ -1,3 +1,4 @@
 App/Recordings/
 __pycache__/
 dataset/
+.ipynb_checkpoints/
