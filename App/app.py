@@ -1,232 +1,331 @@
-import tkinter as tk
-from tkinter import ttk
-from tkinter import DISABLED, NORMAL
-import threading
-from plots import mel_filterbank, RATE, CHUNK
-from audio_utils import AudioRecorder
-import matplotlib
-matplotlib.use("TkAgg")  # Important for Tkinter compatibility
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-from matplotlib.animation import FFMpegWriter
-import os
-import numpy as np
-from datetime import datetime
-matplotlib.use("TkAgg")  # Important for Tkinter compatibility
+import sys
+from PyQt5.QtWidgets import (
+    QApplication, QWidget, QVBoxLayout, QHBoxLayout,
+    QPushButton, QLabel, QFileDialog, QStackedWidget
+)
+from PyQt5.QtGui import QFont, QCursor
+from PyQt5.QtCore import Qt
 
-class StutterApp:
-    def __init__(self, root):
-        self.root = root
-        self.stop_event = threading.Event()
-        self.recorder = AudioRecorder()
-        self.recorder.start_stream()  # Start stream on initialization
-        self.video_writer = None
-        self.recording_video = False
-        self.spectrogram_running = False
+class MainWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+        # Initialize variables
+        self.audio_file = None
+        self.audio_data = None
+        self.initUI()
+
+    def initUI(self):
+        # Set window properties
+        self.setWindowTitle("DADS")
+        self.setGeometry(100, 100, 1000, 600)
+        self.setStyleSheet("""
+            QWidget {
+                background-color: #1a1a1a;
+                color: #ffffff;
+            }
+            QPushButton {
+                background-color: #2d3436;
+                color: #ffffff;
+                border: none;
+                padding: 15px;
+                border-radius: 8px;
+                font-size: 14px;
+                min-width: 120px;
+                border: 1px solid #404040;
+            }
+            QPushButton:hover {
+                background-color: #353b48;
+                border: 1px solid #505050;
+            }
+            QMainWindow {
+                padding: 0;
+                margin: 0;
+            }
+            QLabel {
+                color: #ffffff;
+            }
+            QLabel#mainArea {
+                background-color: #2d3436;
+                border-radius: 10px;
+                padding: 20px;
+                border: 1px solid #404040;
+                margin-right: 5px;
+            }
+            QLabel#stutterArea {
+                background-color: #2d3436;
+                border-radius: 10px;
+                padding: 20px;
+                border: 1px solid #404040;
+                margin-left: 5px;
+                font-size: 14px;
+                color: white;
+            }
+            QFrame#bottomBar {
+                background-color: #2f3640;
+                border-top-left-radius: 15px;
+                border-top-right-radius: 15px;
+                padding: 10px;
+            }
+        """)
+
+        # Create main layout with stacked widget
+        main_layout = QVBoxLayout()
+        self.setLayout(main_layout)
         
-        # Create Recordings directory if it doesn't exist
-        if not os.path.exists("Recordings"):
-            os.makedirs("Recordings")
-
-        # Main Frame for Center Alignment
-        self.main_frame = tk.Frame(root)
-        self.main_frame.pack(expand=True)
-
-        # Functionalities Row
-        self.controls_frame = tk.Frame(self.main_frame)
-        self.controls_frame.pack(pady=10)
-
-        self.start_btn = tk.Button(self.controls_frame, text="▶ Start Spectrogram", command=self.start_spectrogram)
-        self.start_btn.grid(row=0, column=0, padx=5)
-
-        self.stop_btn = tk.Button(self.controls_frame, text="⏹ Stop", command=self.stop_spectrogram, state=DISABLED)
-        self.stop_btn.grid(row=0, column=1, padx=5)
-
-        self.record_btn = tk.Button(self.controls_frame, text="🔴 Start Recording", command=self.start_recording)
-        self.record_btn.grid(row=0, column=2, padx=5)
-
-        self.stop_record_btn = tk.Button(self.controls_frame, text="💾 Stop Recording", command=self.stop_recording, state=DISABLED)
-        self.stop_record_btn.grid(row=0, column=3, padx=5)
-
-        # Stutter Visualization Area
-        self.stutter_label = tk.Label(self.main_frame, text="Stutter Visualization", font=("Arial", 14))
-        self.stutter_label.pack(pady=10)
-
-        self.stutter_canvas = tk.Canvas(self.main_frame, width=800, height=400, bg="white")
-        self.stutter_canvas.pack(pady=5)
-
-        self.status_label = tk.Label(self.main_frame, text="Status: Ready", font=("Arial", 12))
-        self.status_label.pack(pady=10)
-
-    def update_status(self, message):
-        self.status_label.config(text=f"Status: {message}")
-
-    def start_spectrogram(self):
-        if not self.spectrogram_running:
-            self.update_status("Running Spectrogram")
-            self.stop_event.clear()
-            self.spectrogram_running = True
-            self.start_btn.config(state=DISABLED)
-            self.stop_btn.config(state=NORMAL)
-            threading.Thread(target=self.run_spectrogram_with_video, daemon=True).start()
-
-    def stop_spectrogram(self):
-        if self.spectrogram_running:
-            self.update_status("Spectrogram Stopped")
-            self.stop_event.set()
-            self.spectrogram_running = False
-            self.start_btn.config(state=NORMAL)
-            self.stop_btn.config(state=DISABLED)
-            if self.recording_video:
-                self.stop_recording()
-
-    def start_recording(self):
-        if not self.spectrogram_running:
-            self.update_status("Please start the spectrogram first")
-            return
-            
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        self.current_recording_path = os.path.join("Recordings", f"recording_{timestamp}")
+        # Create stacked widget for switching between views
+        self.stack = QStackedWidget()
         
-        try:
-            # Ensure Recordings directory exists
-            os.makedirs("Recordings", exist_ok=True)
+        # Create and add main view
+        self.main_page = QWidget()
+        self.init_main_page()
+        self.stack.addWidget(self.main_page)
+        
+        # Create and add analysis view
+        self.analysis_page = QWidget()
+        self.init_analysis_page()
+        self.stack.addWidget(self.analysis_page)
+
+        # Add stack to main layout
+        main_layout.addWidget(self.stack)
+
+    def on_analysis(self):
+        self.stack.setCurrentIndex(1)  # Switch to analysis view
+        
+    def on_upload(self):
+        file_path, _ = QFileDialog.getOpenFileName(
+            self,
+            "Select Audio File",
+            "",
+            "Audio Files (*.wav *.mp3)"
+        )
+        if file_path:
+            print(f"Selected file: {file_path}")
             
-            # Start audio recording first
-            self.update_status("Recording Audio and Video")
-            self.recording_video = True
-            self.recorder.start_recording(f"{self.current_recording_path}.wav")
-            
-            # Set up video writer
-            fig = plt.gcf()  # Get current figure
-            if fig:
-                self.video_writer = FFMpegWriter(
-                    fps=30,
-                    metadata=dict(title='Spectrogram Recording', artist='StutterApp'),
-                    codec='h264',
-                    bitrate=-1
-                )
-                self.video_writer.setup(fig, f"{self.current_recording_path}.mp4", dpi=100)
-                
-                # Update UI
-                self.record_btn.config(state=DISABLED)
-                self.stop_record_btn.config(state=NORMAL)
-                print(f"🎙 Recording started... Saving to {self.current_recording_path}")
-            else:
-                print("No active figure found for recording")
-                self.update_status("Error: No active figure found")
-                self.recording_video = False
-                self.recorder.stop_recording()  # Stop audio recording if video fails
-        except Exception as e:
-            print(f"Error starting recording: {e}")
-            self.update_status(f"Error starting recording: {str(e)}")
-            self.recording_video = False
-            if hasattr(self, 'video_writer') and self.video_writer:
-                self.video_writer.finish()
-                self.video_writer = None
+    def on_analyze(self):
+        if not self.is_analyzing:
+            # Start analysis
+            self.is_analyzing = True
+            self.analyze_btn.setText("Stop")
+            self.analyze_btn.setStyleSheet("""
+                QPushButton {
+                    background-color: #c0392b;
+                    color: white;
+                    border: none;
+                    padding: 15px;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    min-width: 120px;
+                    border: 1px solid #e74c3c;
+                }
+                QPushButton:hover {
+                    background-color: #e74c3c;
+                    border: 1px solid #c0392b;
+                }
+            """)
+            print("Starting analysis...")
+        else:
+            # Stop analysis
+            self.is_analyzing = False
+            self.analyze_btn.setText("Start")
+            self.analyze_btn.setStyleSheet("""
+                QPushButton {
+                    background-color: #27ae60;
+                    color: white;
+                    border: none;
+                    padding: 15px;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    min-width: 120px;
+                    border: 1px solid #2ecc71;
+                }
+                QPushButton:hover {
+                    background-color: #2ecc71;
+                    border: 1px solid #27ae60;
+                }
+            """)
+            print("Stopping analysis...")
 
-    def stop_recording(self):
-        try:
-            if self.recording_video:
-                # Stop video recording first
-                if hasattr(self, 'video_writer') and self.video_writer:
-                    self.video_writer.finish()
-                    self.video_writer = None
-                
-                # Stop audio recording
-                self.recorder.stop_recording(f"{self.current_recording_path}.wav")
-                self.recording_video = False
-                
-                # Update UI
-                self.update_status("Recording Stopped")
-                self.record_btn.config(state=NORMAL)
-                self.stop_record_btn.config(state=DISABLED)
-                print(f"💾 Saved recording to {self.current_recording_path}")
-        except Exception as e:
-            print(f"Error stopping recording: {e}")
-            self.update_status(f"Error stopping recording: {str(e)}")
-        finally:
-            # Ensure buttons are reset even if there's an error
-            self.recording_video = False
-            self.record_btn.config(state=NORMAL)
-            self.stop_record_btn.config(state=DISABLED)
+    def init_main_page(self):
+        layout = QVBoxLayout()
+        self.main_page.setLayout(layout)
+        
+        # Create title bar
+        title_bar = QWidget()
+        title_bar.setStyleSheet("""
+            QWidget {
+                background-color: #16181c;
+                min-height: 40px;
+                max-height: 40px;
+                border-bottom: 1px solid #404040;
+            }
+        """)
+        title_layout = QHBoxLayout(title_bar)
+        title_layout.setContentsMargins(10, 0, 10, 0)
 
-    def run_spectrogram_with_video(self):
-        try:
-            N_FFT = 1024
-            HISTORY_LEN = 100
-            DPI = 100
-            mel_fb = mel_filterbank(n_filters=40, n_fft=N_FFT, sr=RATE)
-            mel_spec = np.zeros((mel_fb.shape[0], HISTORY_LEN))
+        title = QLabel("Stutter Detection System")
+        title.setFont(QFont("Arial", 16, QFont.Bold))
+        title.setStyleSheet("color: white;")
+        title.setAlignment(Qt.AlignCenter)
+        title_layout.addWidget(title)
+        layout.addWidget(title_bar)
 
-            fig, ax = plt.subplots(figsize=(12, 6), dpi=DPI)
-            im = ax.imshow(
-                mel_spec,
-                aspect="auto",
-                origin="lower",
-                cmap="magma",
-                interpolation="none",
-                extent=[0, HISTORY_LEN, 0, mel_fb.shape[0]]
-            )
-            ax.set_xlabel("Time Frames")
-            ax.set_ylabel("Mel Filter Bank")
-            ax.set_title("Real-Time Mel Spectrogram")
-            fig.colorbar(im, ax=ax, label="Magnitude (dB)")
+        # Create split content area
+        content_widget = QWidget()
+        content_layout = QHBoxLayout(content_widget)
+        content_layout.setContentsMargins(0, 0, 0, 0)
+        content_widget.setMinimumHeight(350)
 
-            def update(frame):
-                nonlocal mel_spec
-                if self.stop_event.is_set():
-                    plt.close(fig)
-                    return [im]
-                try:
-                    raw_data = self.recorder.stream.read(CHUNK, exception_on_overflow=False)
-                    if raw_data:
-                        data = np.frombuffer(raw_data, dtype=np.int16)
-                        
-                        # FFT processing
-                        fft_data = np.fft.rfft(data, n=N_FFT)
-                        power_spectrum = np.abs(fft_data) ** 2
-                        
-                        # Mel spectrogram processing
-                        mel_energy = np.dot(mel_fb, power_spectrum)
-                        mel_db = 20 * np.log10(mel_energy + 1e-10)
-                        
-                        # Update visualization
-                        mel_spec = np.roll(mel_spec, -1, axis=1)
-                        mel_spec[:, -1] = mel_db
-                        im.set_array(mel_spec)
-                        im.set_clim(vmin=np.min(mel_spec), vmax=np.max(mel_spec))
-                        
-                        # Capture frame if recording
-                        if self.recording_video and hasattr(self, 'video_writer') and self.video_writer:
-                            try:
-                                self.video_writer.grab_frame()
-                            except Exception as e:
-                                print(f"Error grabbing video frame: {e}")
-                                self.video_writer = None
-                                self.recording_video = False
-                                self.root.after(0, self.stop_recording)  # Stop recording on main thread
-                            
-                except Exception as e:
-                    print(f"Error in update: {e}")
-                return [im]
+        self.main_area = QLabel("Ready to start...")
+        self.main_area.setObjectName("mainArea")
+        self.main_area.setAlignment(Qt.AlignCenter)
 
-            # Initialize animation
-            ani = animation.FuncAnimation(
-                fig, update, interval=30,
-                blit=True, cache_frame_data=False
-            )
-            plt.show()
+        self.passage_area = QLabel("Select Passage\nNo passage selected")
+        self.passage_area.setObjectName("stutterArea")
+        self.passage_area.setAlignment(Qt.AlignTop | Qt.AlignCenter)
+        
+        content_layout.addWidget(self.main_area, 80)
+        content_layout.addWidget(self.passage_area, 20)
+        layout.addWidget(content_widget)
 
-        except Exception as e:
-            print(f"Error in spectrogram: {e}")
-            self.update_status(f"Error: {str(e)}")
-        finally:
-            if self.recording_video:
-                self.stop_recording()
+        # Bottom bar
+        bottom_bar = QWidget()
+        bottom_bar.setObjectName("bottomBar")
+        bottom_bar.setMaximumHeight(80)
+        bottom_layout = QHBoxLayout()
+        bottom_bar.setLayout(bottom_layout)
+
+        upload_btn = QPushButton("📁")
+        self.analyze_btn = QPushButton("Start")
+        self.analysis_btn = QPushButton("🔍 Analyze")
+
+        analyze_style = """
+            QPushButton {
+                background-color: #1b7a44;
+                color: white;
+                border: none;
+                padding: 15px;
+                border-radius: 8px;
+                font-size: 14px;
+                min-width: 120px;
+            }
+            QPushButton:hover {
+                background-color: #218c4e;
+            }
+        """
+        
+        analysis_style = """
+            QPushButton {
+                background-color: #2c3e50;
+                color: white;
+                border: none;
+                padding: 15px;
+                border-radius: 8px;
+                font-size: 14px;
+                min-width: 120px;
+            }
+            QPushButton:hover {
+                background-color: #34495e;
+            }
+        """
+        
+        self.analyze_btn.setStyleSheet(analyze_style)
+        self.analysis_btn.setStyleSheet(analysis_style)
+
+        bottom_layout.addStretch()
+        for btn in [upload_btn, self.analyze_btn, self.analysis_btn]:
+            bottom_layout.addWidget(btn)
+            btn.setCursor(Qt.PointingHandCursor)
+        bottom_layout.addStretch()
+
+        upload_btn.clicked.connect(self.on_upload)
+        self.analyze_btn.clicked.connect(self.on_analyze)
+        self.analysis_btn.clicked.connect(self.on_analysis)
+
+        layout.addWidget(bottom_bar)
+
+    def init_analysis_page(self):
+        layout = QVBoxLayout()
+        self.analysis_page.setLayout(layout)
+        
+        # Create title bar
+        title_bar = QWidget()
+        title_bar.setStyleSheet("""
+            QWidget {
+                background-color: #16181c;
+                min-height: 40px;
+                max-height: 40px;
+                border-bottom: 1px solid #404040;
+            }
+        """)
+        title_layout = QHBoxLayout(title_bar)
+        title_layout.setContentsMargins(10, 0, 10, 0)
+
+        title = QLabel("Analysis View")
+        title.setFont(QFont("Arial", 16, QFont.Bold))
+        title.setStyleSheet("color: white;")
+        title.setAlignment(Qt.AlignCenter)
+        title_layout.addWidget(title)
+        layout.addWidget(title_bar)
+
+        # Create split content area
+        content_widget = QWidget()
+        content_layout = QHBoxLayout(content_widget)
+        content_layout.setContentsMargins(0, 0, 0, 0)
+        content_widget.setMinimumHeight(350)
+
+        analysis_area = QLabel("Analysis Content")
+        analysis_area.setObjectName("mainArea")
+        analysis_area.setAlignment(Qt.AlignCenter)
+
+        passage_area = QLabel("Stutter Classes Detected\nNone detected")
+        passage_area.setObjectName("stutterArea")
+        passage_area.setAlignment(Qt.AlignTop | Qt.AlignCenter)
+        
+        content_layout.addWidget(analysis_area, 80)
+        content_layout.addWidget(passage_area, 20)
+        layout.addWidget(content_widget)
+
+        # Bottom bar with back button
+        bottom_bar = QWidget()
+        bottom_bar.setObjectName("bottomBar")
+        bottom_bar.setMaximumHeight(80)
+        bottom_layout = QHBoxLayout()
+        bottom_bar.setLayout(bottom_layout)
+
+        back_btn = QPushButton("← Back")
+        back_btn.setStyleSheet("""
+            QPushButton {
+                background-color: #2c3e50;
+                color: white;
+                border: none;
+                padding: 15px;
+                border-radius: 8px;
+                font-size: 14px;
+                min-width: 120px;
+            }
+            QPushButton:hover {
+                background-color: #34495e;
+            }
+        """)
+        back_btn.setCursor(Qt.PointingHandCursor)
+        back_btn.clicked.connect(self.on_back)
+
+        bottom_layout.addWidget(back_btn)
+        bottom_layout.addStretch()
+
+        layout.addWidget(bottom_bar)
+
+    def on_back(self):
+        self.stack.setCurrentIndex(0)  # Switch back to main view
+
+    def on_analysis(self):
+        self.stack.setCurrentIndex(1)  # Switch to analysis view
+
+def main():
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec_())
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    root.geometry("900x600")  # Adjusted window size for better visualization
-    app = StutterApp(root)
-    root.mainloop()
+    main()
