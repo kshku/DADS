@@ -16,7 +16,8 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtGui import QFont, QCursor, QPixmap, QImage
 from PyQt5.QtCore import (
-    Qt, QIODevice, QBuffer, QByteArray, QFile, QDataStream, QTimer
+    Qt, QIODevice, QBuffer, QByteArray, QFile, QDataStream, QTimer,
+    QDateTime # --- NEW: Added for report timestamp ---
 )
 from PyQt5.QtMultimedia import (
     QAudioFormat, QAudioInput, QAudioDeviceInfo,
@@ -763,16 +764,85 @@ class MainWindow(QWidget):
         plot_layout.addWidget(self.audio_controls_widget) # Add controls below plot
         self.audio_controls_widget.hide() # Hide by default
 
-        # Right-side panel
-        self.stutter_classes_area = QLabel("Stutter Classes Detected:\n- None")
-        self.stutter_classes_area.setObjectName("stutterListArea")
-        self.stutter_classes_area.setStyleSheet(
-            "background-color: #1e1e1e; border-radius: 8px; padding: 20px; border: 1px solid #333333; font-size: 16px;"
+        # --- NEW: Right-side panel (Stutter Classes) ---
+        self.stutter_panel = QWidget()
+        self.stutter_panel.setObjectName("stutterPanel") # For styling
+        # This stylesheet applies to the panel AND its children
+        self.stutter_panel.setStyleSheet(
+            """
+            QWidget#stutterPanel {
+                background-color: #1e1e1e; 
+                border-radius: 8px; 
+                padding: 20px; 
+                border: 1px solid #333333;
+            }
+            QLabel#stutterTitle {
+                font-size: 18px;
+                font-weight: bold;
+                color: #ffffff;
+                padding-bottom: 10px;
+                border-bottom: 1px solid #444;
+                margin-bottom: 15px;
+            }
+            QLabel.stutterClassLabel {
+                font-size: 16px;
+                padding: 5px 0;
+                color: #e0e0e0;
+            }
+            /* Style for the new export button */
+            QPushButton#exportButton {
+                background-color: #00695c; /* Teal color */
+                color: #ffffff;
+                border: none;
+                padding: 12px 18px;
+                border-radius: 6px;
+                font-size: 14px;
+                font-weight: bold;
+                min-width: 110px;
+            }
+            QPushButton#exportButton:hover {
+                background-color: #00897b;
+            }
+            QPushButton#exportButton:pressed {
+                background-color: #004d40;
+            }
+            """
         )
-        self.stutter_classes_area.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+        stutter_layout = QVBoxLayout(self.stutter_panel)
+        stutter_layout.setContentsMargins(0, 0, 0, 0) # Padding is handled by stylesheet
+        stutter_layout.setSpacing(5)
+
+        title_label = QLabel("Stutter Classes Detected")
+        title_label.setObjectName("stutterTitle")
+        stutter_layout.addWidget(title_label)
+
+        # --- Dummy Stutter Class Labels ---
+        self.class_prolongation = QLabel("Prolongation: Yes")
+        self.class_prolongation.setProperty("class", "stutterClassLabel")
+        self.class_repetition = QLabel("Repetition: No")
+        self.class_repetition.setProperty("class", "stutterClassLabel")
+        self.class_blockage = QLabel("Blockage: Yes")
+        self.class_blockage.setProperty("class", "stutterClassLabel")
+        self.class_interjection = QLabel("Interjection: No")
+        self.class_interjection.setProperty("class", "stutterClassLabel")
+        
+        stutter_layout.addWidget(self.class_prolongation)
+        stutter_layout.addWidget(self.class_repetition)
+        stutter_layout.addWidget(self.class_blockage)
+        stutter_layout.addWidget(self.class_interjection)
+        
+        stutter_layout.addStretch(1) # Push button to the bottom
+
+        # --- Export Button ---
+        self.export_report_btn = QPushButton("Export Report")
+        self.export_report_btn.setObjectName("exportButton") 
+        self.export_report_btn.setCursor(QCursor(Qt.PointingHandCursor))
+        stutter_layout.addWidget(self.export_report_btn)
+        
+        # --- (End of new widget block) ---
         
         content_layout.addWidget(analysis_plot_container, 75)
-        content_layout.addWidget(self.stutter_classes_area, 25)
+        content_layout.addWidget(self.stutter_panel, 25) # Add new panel
         layout.addWidget(content_widget, 1)
 
         # --- Bottom Bar ---
@@ -799,6 +869,9 @@ class MainWindow(QWidget):
         self.audio_slider.sliderPressed.connect(self.on_slider_pressed)
         self.audio_slider.sliderMoved.connect(self.on_slider_moved)
         self.audio_slider.sliderReleased.connect(self.on_slider_released)
+        
+        # --- NEW: Export Button Connection ---
+        self.export_report_btn.clicked.connect(self.on_export_report)
 
         self.analysis_canvas.clear_plot()
 
@@ -1177,7 +1250,8 @@ class MainWindow(QWidget):
                 
                 # --- TODO: Add your other analysis logic here ---
                 # e.g., run model, get results
-                # self.stutter_classes_area.setText(results)
+                # self.class_prolongation.setText(f"Prolongation: {results.prolongation}")
+                # self.class_repetition.setText(f"Repetition: {results.repetition}")
                 
                 # Reset seek time
                 self.current_seek_time = 0.0
@@ -1459,6 +1533,58 @@ class MainWindow(QWidget):
                 self.audio_slider.setValue(self.audio_slider.maximum())
             
             self.audio_play_buffer.seek(0)
+            
+    # --- NEW: Report Export Function ---
+    def on_export_report(self):
+        """Saves the current stutter analysis report to a text file."""
+        
+        # Get the filename from the status label on the *main page*
+        status_text = self.status_label.text()
+        if status_text.startswith("Loaded: "):
+            filename = status_text.replace("Loaded: ", "")
+        elif status_text.startswith("Recording saved:\n"):
+            filename = status_text.split('\n')[-1]
+        elif status_text.startswith("Viewing: "):
+            filename = "N/A (PDF Mode)"
+        else:
+            filename = "N/A"
+
+        # 1. Collate the report data from the labels
+        report_lines = [
+            "Stutter Analysis Report",
+            "=========================",
+            f"Audio File: {filename}",
+            f"Report Date: {QDateTime.currentDateTime().toString(Qt.ISODate)}",
+            "",
+            "--- Detected Classes (Dummy Data) ---",
+            self.class_prolongation.text(),
+            self.class_repetition.text(),
+            self.class_blockage.text(),
+            self.class_interjection.text()
+        ]
+        
+        # 2. Open Save File Dialog
+        default_filename = "stutter_report.txt"
+        file_path, _ = QFileDialog.getSaveFileName(
+            self, 
+            "Save Report", 
+            default_filename, 
+            "Text Files (*.txt);;All Files (*)"
+        )
+        
+        if not file_path:
+            # User cancelled
+            return
+            
+        # 3. Write the file
+        try:
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write("\n".join(report_lines))
+                
+            print(f"Report saved to {file_path}")
+            
+        except Exception as e:
+            print(f"Error saving report: {e}")
 
 
 # --- Main execution ---
@@ -1470,3 +1596,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
