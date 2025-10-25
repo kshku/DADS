@@ -7,10 +7,60 @@ from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout,
     QPushButton, QLabel, QFrame, QSlider
 )
-from PyQt5.QtCore import Qt, QTimer, pyqtSignal
+from PyQt5.QtCore import Qt, QTimer, pyqtSignal, QThread, pyqtSignal as Signal
 from PyQt5.QtMultimedia import QAudio
 from PyQt5.QtGui import QCursor
 from plot_canvas import PlotCanvas
+from connector import StutterDetector
+import tempfile
+import os
+
+
+class StutterDetectionThread(QThread):
+    """Background thread for running stutter detection"""
+    detection_complete = Signal(dict)
+    detection_error = Signal(str)
+    
+    def __init__(self, audio_data, sample_rate, parent=None):
+        super().__init__(parent)
+        self.audio_data = audio_data
+        self.sample_rate = sample_rate
+        self.temp_file = None
+    
+    def run(self):
+        """Run stutter detection in background"""
+        try:
+            # Create temporary WAV file
+            with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as tmp:
+                self.temp_file = tmp.name
+                
+                # Write WAV file
+                import wave
+                with wave.open(self.temp_file, 'wb') as wav_file:
+                    wav_file.setnchannels(1)  # Mono
+                    wav_file.setsampwidth(2)  # 16-bit
+                    wav_file.setframerate(self.sample_rate)
+                    wav_file.writeframes(self.audio_data.tobytes())
+            
+            # Initialize detector and process
+            detector = StutterDetector(
+                models_dir="Model/models/copy",
+                detection_threshold=0.5
+            )
+            
+            results = detector.process_audio_file(self.temp_file)
+            
+            # Clean up temp file
+            if self.temp_file and os.path.exists(self.temp_file):
+                os.remove(self.temp_file)
+            
+            self.detection_complete.emit(results)
+            
+        except Exception as e:
+            if self.temp_file and os.path.exists(self.temp_file):
+                os.remove(self.temp_file)
+            self.detection_error.emit(str(e))
+
 
 class AnalysisWidget(QWidget):
     """Widget for analyzing audio and controlling playback"""
@@ -27,6 +77,8 @@ class AnalysisWidget(QWidget):
         self.playback_start_position_sec = 0.0
         self.was_playing_before_drag = False
         self.is_seeking = False
+        self.detection_thread = None
+        self.detection_results = None
         
         self._init_ui()
         self.playback_timer.timeout.connect(self.update_playback_progress)
@@ -151,13 +203,24 @@ class AnalysisWidget(QWidget):
         title_label.setStyleSheet("font-size: 18px; font-weight: bold; color: #ffffff;")
         stutter_layout.addWidget(title_label)
         
+        # Status label for detection progress
+        self.detection_status_label = QLabel("Analyzing...")
+        self.detection_status_label.setStyleSheet(
+            "font-size: 14px; padding: 10px; color: #ffa500; "
+            "background-color: #2a2a2a; border-radius: 4px;"
+        )
+        self.detection_status_label.setAlignment(Qt.AlignCenter)
+        stutter_layout.addWidget(self.detection_status_label)
+        self.detection_status_label.hide()
+        
         self.class_prolongation = QLabel("Prolongation: -")
-        self.class_repetition = QLabel("Repetition: -")
-        self.class_blockage = QLabel("Blockage: -")
+        self.class_soundrep = QLabel("Sound Repetition: -")
+        self.class_wordrep = QLabel("Word Repetition: -")
+        self.class_block = QLabel("Block: -")
         self.class_interjection = QLabel("Interjection: -")
         
-        for lbl in [self.class_prolongation, self.class_repetition, 
-                    self.class_blockage, self.class_interjection]:
+        for lbl in [self.class_prolongation, self.class_soundrep, self.class_wordrep,
+                    self.class_block, self.class_interjection]:
             lbl.setStyleSheet("font-size: 16px; padding: 5px 0; color: #e0e0e0;")
             stutter_layout.addWidget(lbl)
         
@@ -232,6 +295,10 @@ class AnalysisWidget(QWidget):
                 self.audio_controls_widget.show()
                 self.graph_controls_widget.show()
                 self.analysis_canvas.update_progress_line(0)
+                
+                # Start stutter detection in background
+                self.start_stutter_detection()
+                
             except Exception as e:
                 print(f"Error during analysis: {e}")
                 self.analysis_canvas.clear_plot(f"Error: {e}")
@@ -243,8 +310,95 @@ class AnalysisWidget(QWidget):
             self.slider_container.hide()
             self.current_samples = None
     
+    def start_stutter_detection(self):
+        """Start stutter detection in background thread"""
+        if self.current_samples is None:
+            return
+        
+        # Show detection status
+        self.detection_status_label.setText("Analyzing stutters...")
+        self.detection_status_label.show()
+        
+        # Reset labels to show analyzing state
+        self.class_prolongation.setText("Prolongation: Analyzing...")
+        self.class_soundrep.setText("Sound Repetition: Analyzing...")
+        self.class_wordrep.setText("Word Repetition: Analyzing...")
+        self.class_block.setText("Block: Analyzing...")
+        self.class_interjection.setText("Interjection: Analyzing...")
+        
+        # Create and start detection thread
+        sample_rate = self.audio_handler.get_sample_rate()
+        self.detection_thread = StutterDetectionThread(self.current_samples, sample_rate)
+        self.detection_thread.detection_complete.connect(self.on_detection_complete)
+        self.detection_thread.detection_error.connect(self.on_detection_error)
+        self.detection_thread.start()
+    
+    def on_detection_complete(self, results):
+        """Handle completed stutter detection"""
+        self.detection_results = results
+        self.detection_status_label.hide()
+        
+        # Extract detection results from first chunk
+        if 0 in results and 'detections' in results[0]:
+            detections = results[0]['detections']
+            
+            # Update labels with probabilities and detection status
+            for stutter_type, result in detections.items():
+                prob = result['probability']
+                detected = result['detected']
+                
+                # Format: "Type: XX.X% ✓" or "Type: XX.X%"
+                status_text = f"{prob*100:.1f}%"
+                if detected:
+                    status_text += " ✓"
+                    color = "#4CAF50"  # Green for detected
+                else:
+                    color = "#e0e0e0"  # Normal color
+                
+                # Update appropriate label
+                if stutter_type == 'prolongation':
+                    self.class_prolongation.setText(f"Prolongation: {status_text}")
+                    self.class_prolongation.setStyleSheet(f"font-size: 16px; padding: 5px 0; color: {color};")
+                elif stutter_type == 'soundrep':
+                    self.class_soundrep.setText(f"Sound Repetition: {status_text}")
+                    self.class_soundrep.setStyleSheet(f"font-size: 16px; padding: 5px 0; color: {color};")
+                elif stutter_type == 'wordrep':
+                    self.class_wordrep.setText(f"Word Repetition: {status_text}")
+                    self.class_wordrep.setStyleSheet(f"font-size: 16px; padding: 5px 0; color: {color};")
+                elif stutter_type == 'block':
+                    self.class_block.setText(f"Block: {status_text}")
+                    self.class_block.setStyleSheet(f"font-size: 16px; padding: 5px 0; color: {color};")
+                elif stutter_type == 'interjection':
+                    self.class_interjection.setText(f"Interjection: {status_text}")
+                    self.class_interjection.setStyleSheet(f"font-size: 16px; padding: 5px 0; color: {color};")
+        else:
+            self.on_detection_error("No detection results available")
+    
+    def on_detection_error(self, error_msg):
+        """Handle detection error"""
+        self.detection_status_label.setText(f"Detection Error")
+        self.detection_status_label.setStyleSheet(
+            "font-size: 14px; padding: 10px; color: #ff5555; "
+            "background-color: #2a2a2a; border-radius: 4px;"
+        )
+        
+        # Reset labels to show error
+        error_text = "Error"
+        self.class_prolongation.setText(f"Prolongation: {error_text}")
+        self.class_soundrep.setText(f"Sound Repetition: {error_text}")
+        self.class_wordrep.setText(f"Word Repetition: {error_text}")
+        self.class_block.setText(f"Block: {error_text}")
+        self.class_interjection.setText(f"Interjection: {error_text}")
+        
+        print(f"Stutter detection error: {error_msg}")
+    
     def unload_analysis(self):
         """Clean up analysis view"""
+        # Stop detection thread if running
+        if self.detection_thread and self.detection_thread.isRunning():
+            self.detection_thread.quit()
+            self.detection_thread.wait()
+        
         if self.audio_handler and self.audio_handler.audio_output:
             self.audio_handler.audio_output.stop()
         self.playback_timer.stop()
@@ -254,6 +408,16 @@ class AnalysisWidget(QWidget):
         self.current_playback_position_sec = 0.0
         self.playback_start_position_sec = 0.0
         self.is_seeking = False
+        self.detection_results = None
+        
+        # Reset stutter labels
+        self.class_prolongation.setText("Prolongation: -")
+        self.class_soundrep.setText("Sound Repetition: -")
+        self.class_wordrep.setText("Word Repetition: -")
+        self.class_block.setText("Block: -")
+        self.class_interjection.setText("Interjection: -")
+        self.detection_status_label.hide()
+        
         self.analysis_canvas.clear_plot()
         self.audio_controls_widget.hide()
         self.graph_controls_widget.hide()
