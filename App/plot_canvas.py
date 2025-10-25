@@ -25,16 +25,21 @@ class PlotCanvas(FigureCanvas):
         # --- Add a progress line ---
         self.progress_line = self.axes.axvline(0, color='r', linestyle='--', linewidth=1.5)
         self.total_time_sec = 0
+        
+        # --- Sliding window parameters ---
+        self.window_size = 5.0  # 5 second window
+        self.current_window_start = 0.0
+        self.all_samples = None
+        self.sample_rate = None
+        self.current_view_type = None  # 'waveform' or 'spectrogram'
 
         # Initialize the FigureCanvas
         super(PlotCanvas, self).__init__(fig)
         self.setParent(parent)
 
     def plot_spectrogram(self, samples, sample_rate):
-        """Clears the axes and plots a new spectrogram."""
+        """Stores data and plots the first 5-second window of spectrogram."""
         try:
-            self.axes.clear()
-
             # Ensure samples are a numpy array of floats and normalized if int16
             samples = np.asarray(samples)
             if samples.dtype == np.int16 or samples.dtype == np.int32:
@@ -42,44 +47,66 @@ class PlotCanvas(FigureCanvas):
             else:
                 samples = samples.astype(np.float32)
 
-            # Plot spectrogram (use reasonable FFT params to improve appearance)
-            self.axes.specgram(samples, Fs=sample_rate, cmap='viridis', NFFT=1024, noverlap=512)
-            self.axes.set_title('Spectrogram')
+            # Store the full audio data
+            self.all_samples = samples
+            self.sample_rate = sample_rate
+            self.total_time_sec = len(samples) / sample_rate
+            self.current_view_type = 'spectrogram'
+            self.current_window_start = 0.0
+            
+            # Plot the first 5-second window
+            self._plot_window_spectrogram()
+            
+        except Exception as e:
+            print(f"Error plotting spectrogram: {e}")
+            self.axes.clear()
+            self.axes.text(0.5, 0.5, f'Error: {e}', color='red', ha='center', va='center')
+            self.draw()
+    
+    def _plot_window_spectrogram(self):
+        """Plot the current 5-second window of spectrogram."""
+        try:
+            self.axes.clear()
+            
+            # Calculate window boundaries
+            start_time = self.current_window_start
+            end_time = min(start_time + self.window_size, self.total_time_sec)
+            
+            # Extract samples for this window
+            start_sample = int(start_time * self.sample_rate)
+            end_sample = int(end_time * self.sample_rate)
+            window_samples = self.all_samples[start_sample:end_sample]
+            
+            # Plot spectrogram
+            self.axes.specgram(window_samples, Fs=self.sample_rate, cmap='viridis', NFFT=1024, noverlap=512)
+            self.axes.set_title(f'Spectrogram ({start_time:.1f}s - {end_time:.1f}s)')
             self.axes.set_xlabel('Time (s)')
             self.axes.set_ylabel('Frequency (Hz)')
-            # --- ADD THESE LINES FOR WHITE LABELS ---
-            self.axes.set_facecolor('#1e1e1e') # Keep background dark
+            self.axes.set_facecolor('#1e1e1e')
             self.axes.tick_params(axis='x', colors='#ffffff')
             self.axes.tick_params(axis='y', colors='#ffffff')
             self.axes.xaxis.label.set_color('#ffffff')
             self.axes.yaxis.label.set_color('#ffffff')
             self.axes.title.set_color('#ffffff')
-            # --- END OF FIX ---
-
-            # Set the x-axis limit to the total time
-            self.total_time_sec = len(samples) / sample_rate
-            self.axes.set_xlim(0, self.total_time_sec)
-
-            # Re-add the progress line after plotting so it stays on top
+            
+            # Set x-axis to show actual time values
+            self.axes.set_xlim(0, end_time - start_time)
+            
+            # Re-add the progress line
             self.progress_line = self.axes.axvline(0, color='r', linestyle='--', linewidth=1.5, zorder=10)
             
             try:
                 self.figure.tight_layout()
             except Exception:
                 pass
-
+                
             self.draw()
         except Exception as e:
-            print(f"Error plotting spectrogram: {e}")
-            self.axes.clear()
-            self.axes.text(0.5, 0.5, f'Error: {e}', color='red', ha='center', va='center')
-            self.draw()
+            print(f"Error plotting window spectrogram: {e}")
 
     def plot_waveform(self, samples, sample_rate):
-        """Clears the axes and plots a new waveform."""
+        """Stores data and plots the first 5-second window of waveform."""
         try:
-            self.axes.clear()
-
             # Ensure samples are a numpy array of floats and normalize int16
             samples = np.asarray(samples)
             if samples.dtype == np.int16 or samples.dtype == np.int32:
@@ -87,53 +114,92 @@ class PlotCanvas(FigureCanvas):
             else:
                 samples = samples.astype(np.float32)
 
-            # Calculate total time and time axis
+            # Store the full audio data
+            self.all_samples = samples
+            self.sample_rate = sample_rate
             self.total_time_sec = len(samples) / sample_rate
-            time_axis = np.linspace(0, self.total_time_sec, num=len(samples))
-
-            self.axes.plot(time_axis, samples, color='#3498db', linewidth=0.5)
-            self.axes.set_title('Waveform')
-            self.axes.set_xlabel('Time (s)')
-            self.axes.set_ylabel('Amplitude')
-            # --- ADD THESE LINES FOR WHITE LABELS ---
-            self.axes.set_facecolor('#1e1e1e') # Keep background dark
-            self.axes.tick_params(axis='x', colors='#ffffff')
-            self.axes.tick_params(axis='y', colors='#ffffff')
-            self.axes.xaxis.label.set_color('#ffffff')
-            self.axes.yaxis.label.set_color('#ffffff')
-            self.axes.title.set_color('#ffffff')
-            # --- END OF FIX ---
-
-            # Set the x-axis limit to the total time
-            self.axes.set_xlim(0, self.total_time_sec)
-            # Set y-axis limits to just beyond the min/max amplitude
-            min_val = np.min(samples)
-            max_val = np.max(samples)
-            padding = (max_val - min_val) * 0.1 if max_val != min_val else 0.1
-            self.axes.set_ylim(min_val - padding, max_val + padding)
-
-            # Re-add the progress line after plotting so it stays on top
-            self.progress_line = self.axes.axvline(0, color='r', linestyle='--', linewidth=1.5, zorder=10)
-            self.progress_line.set_visible(True)
-
-            # Adjust layout to prevent clipping
-            try:
-                self.figure.tight_layout()
-            except Exception:
-                pass
-
-            self.draw()
+            self.current_view_type = 'waveform'
+            self.current_window_start = 0.0
+            
+            # Plot the first 5-second window
+            self._plot_window_waveform()
+            
         except Exception as e:
             print(f"Error plotting waveform: {e}")
             self.axes.clear()
             self.axes.text(0.5, 0.5, f'Error: {e}', color='red', ha='center', va='center')
             self.draw()
+    
+    def _plot_window_waveform(self):
+        """Plot the current 5-second window of waveform."""
+        try:
+            self.axes.clear()
+            
+            # Calculate window boundaries
+            start_time = self.current_window_start
+            end_time = min(start_time + self.window_size, self.total_time_sec)
+            
+            # Extract samples for this window
+            start_sample = int(start_time * self.sample_rate)
+            end_sample = int(end_time * self.sample_rate)
+            window_samples = self.all_samples[start_sample:end_sample]
+            
+            # Create time axis for this window
+            time_axis = np.linspace(0, end_time - start_time, num=len(window_samples))
+            
+            self.axes.plot(time_axis, window_samples, color='#3498db', linewidth=0.5)
+            self.axes.set_title(f'Waveform ({start_time:.1f}s - {end_time:.1f}s)')
+            self.axes.set_xlabel('Time (s)')
+            self.axes.set_ylabel('Amplitude')
+            self.axes.set_facecolor('#1e1e1e')
+            self.axes.tick_params(axis='x', colors='#ffffff')
+            self.axes.tick_params(axis='y', colors='#ffffff')
+            self.axes.xaxis.label.set_color('#ffffff')
+            self.axes.yaxis.label.set_color('#ffffff')
+            self.axes.title.set_color('#ffffff')
+            
+            # Set x-axis
+            self.axes.set_xlim(0, end_time - start_time)
+            
+            # Set y-axis limits
+            min_val = np.min(window_samples)
+            max_val = np.max(window_samples)
+            padding = (max_val - min_val) * 0.1 if max_val != min_val else 0.1
+            self.axes.set_ylim(min_val - padding, max_val + padding)
+            
+            # Re-add the progress line
+            self.progress_line = self.axes.axvline(0, color='r', linestyle='--', linewidth=1.5, zorder=10)
+            self.progress_line.set_visible(True)
+            
+            try:
+                self.figure.tight_layout()
+            except Exception:
+                pass
+                
+            self.draw()
+        except Exception as e:
+            print(f"Error plotting window waveform: {e}")
 
     def update_progress_line(self, time_sec):
-        """Moves the progress line to the specified time."""
+        """Moves the progress line and updates window if needed."""
         if time_sec > self.total_time_sec:
              time_sec = self.total_time_sec
-        self.progress_line.set_xdata([time_sec, time_sec])
+        
+        # Calculate which window this time should be in
+        target_window_start = int(time_sec / self.window_size) * self.window_size
+        
+        # Check if we need to change the window (forward or backward)
+        if target_window_start != self.current_window_start:
+            # We've moved to a different window - replot
+            self.current_window_start = target_window_start
+            if self.current_view_type == 'spectrogram':
+                self._plot_window_spectrogram()
+            elif self.current_view_type == 'waveform':
+                self._plot_window_waveform()
+        
+        # Update progress line position relative to current window
+        relative_time = time_sec - self.current_window_start
+        self.progress_line.set_xdata([relative_time, relative_time])
         # Use draw_idle for better performance in animations
         self.draw_idle()
 
@@ -141,6 +207,11 @@ class PlotCanvas(FigureCanvas):
         """Clears the axes and displays a text message."""
         self.axes.clear()
         self.total_time_sec = 0
+        self.all_samples = None
+        self.sample_rate = None
+        self.current_window_start = 0.0
+        self.current_view_type = None
+        
         # Re-add the progress line so it's ready for the next plot
         self.progress_line = self.axes.axvline(0, color='r', linestyle='--', linewidth=1.5)
         self.progress_line.set_visible(False) # Hide it

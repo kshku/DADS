@@ -90,12 +90,27 @@ class AnalysisWidget(QWidget):
         self.analysis_canvas = PlotCanvas(analysis_plot_container)
         plot_layout.addWidget(self.analysis_canvas, 1)
         
-        # Audio Slider
+        # Audio Slider with time label
+        slider_container = QWidget()
+        slider_layout = QHBoxLayout(slider_container)
+        slider_layout.setContentsMargins(0, 0, 0, 0)
+        slider_layout.setSpacing(10)
+        
         self.audio_slider = QSlider(Qt.Horizontal)
         self.audio_slider.setObjectName("audioSlider")
         self.audio_slider.setCursor(QCursor(Qt.PointingHandCursor))
-        plot_layout.addWidget(self.audio_slider)
-        self.audio_slider.hide()
+        
+        # Time label to show current position
+        self.time_label = QLabel("0:00 / 0:00")
+        self.time_label.setStyleSheet("color: #ffffff; font-size: 12px; min-width: 100px;")
+        self.time_label.setAlignment(Qt.AlignCenter)
+        
+        slider_layout.addWidget(self.audio_slider)
+        slider_layout.addWidget(self.time_label)
+        
+        plot_layout.addWidget(slider_container)
+        slider_container.hide()
+        self.slider_container = slider_container
         
         # Audio Controls
         self.audio_controls_widget = QWidget()
@@ -208,7 +223,10 @@ class AnalysisWidget(QWidget):
                 total_time_ms = int(self.analysis_canvas.total_time_sec * 1000)
                 self.audio_slider.setRange(0, total_time_ms)
                 self.audio_slider.setValue(0)
-                self.audio_slider.show()
+                self.slider_container.show()
+                
+                # Update time label
+                self.update_time_label(0, self.analysis_canvas.total_time_sec)
                 
                 self.play_pause_btn.setText("▶ Play")
                 self.audio_controls_widget.show()
@@ -222,7 +240,7 @@ class AnalysisWidget(QWidget):
             self.analysis_canvas.clear_plot("No audio data to analyze")
             self.audio_controls_widget.hide()
             self.graph_controls_widget.hide()
-            self.audio_slider.hide()
+            self.slider_container.hide()
             self.current_samples = None
     
     def unload_analysis(self):
@@ -239,7 +257,7 @@ class AnalysisWidget(QWidget):
         self.analysis_canvas.clear_plot()
         self.audio_controls_widget.hide()
         self.graph_controls_widget.hide()
-        self.audio_slider.hide()
+        self.slider_container.hide()
         self.current_samples = None
     
     def draw_current_graph(self):
@@ -290,14 +308,19 @@ class AnalysisWidget(QWidget):
         self.is_seeking = True
     
     def on_slider_moved(self, position_ms):
-        """Handle slider movement - update visual position"""
+        """Handle slider movement - update visual position and time label"""
         if not self.audio_handler or not self.is_seeking:
             return
         
         # Update visual position immediately
         new_time_sec = position_ms / 1000.0
         self.current_playback_position_sec = new_time_sec
+        
+        # Update the graph window if needed
         self.analysis_canvas.update_progress_line(new_time_sec)
+        
+        # Update time label
+        self.update_time_label(new_time_sec, self.analysis_canvas.total_time_sec)
     
     def on_slider_released(self):
         """Handle slider release - seek to new position"""
@@ -412,6 +435,9 @@ class AnalysisWidget(QWidget):
             self.audio_slider.setValue(position_ms)
             self.audio_slider.blockSignals(False)
             
+            # Update time label
+            self.update_time_label(self.current_playback_position_sec, total_time)
+            
             # Check if we reached the end
             if progress >= 1.0:
                 self.audio_handler.audio_output.stop()
@@ -429,3 +455,12 @@ class AnalysisWidget(QWidget):
             self.audio_slider.blockSignals(False)
             
             self.play_pause_btn.setText("▶ Play")
+    
+    def update_time_label(self, current_sec, total_sec):
+        """Update the time label with formatted time"""
+        current_min = int(current_sec // 60)
+        current_s = int(current_sec % 60)
+        total_min = int(total_sec // 60)
+        total_s = int(total_sec % 60)
+        
+        self.time_label.setText(f"{current_min}:{current_s:02d} / {total_min}:{total_s:02d}")
