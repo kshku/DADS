@@ -1,0 +1,5 @@
+block_model_1024_512_128_40.pth: 0.68
+interjection_model_1024_512_128_40.pth: 0.71
+prolongation_model_1024_512_128_40.pth: 0.76
+soundrep_model_1024_512_256_40.pth: 0.82
+wordrep_model_1024_512_64_40.pth: 0.81
