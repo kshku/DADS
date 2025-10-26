@@ -5,7 +5,7 @@ Handles audio analysis, playback controls, and visualization
 import numpy as np
 from PyQt5.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout,
-    QPushButton, QLabel, QFrame, QSlider
+    QPushButton, QLabel, QFrame, QSlider, QMessageBox, QFileDialog
 )
 from PyQt5.QtCore import Qt, QTimer, pyqtSignal, QThread, pyqtSignal as Signal
 from PyQt5.QtMultimedia import QAudio
@@ -14,6 +14,7 @@ from plot_canvas import PlotCanvas
 from connector import StutterDetector
 import tempfile
 import os
+from datetime import datetime
 
 
 class StutterDetectionThread(QThread):
@@ -79,6 +80,15 @@ class AnalysisWidget(QWidget):
         self.is_seeking = False
         self.detection_thread = None
         self.detection_results = None
+        
+        # Stutter detection counters - persistent across audio files
+        self.stutter_counts = {
+            'prolongation': 0,
+            'soundrep': 0,
+            'wordrep': 0,
+            'block': 0,
+            'interjection': 0
+        }
         
         self._init_ui()
         self.playback_timer.timeout.connect(self.update_playback_progress)
@@ -213,11 +223,11 @@ class AnalysisWidget(QWidget):
         stutter_layout.addWidget(self.detection_status_label)
         self.detection_status_label.hide()
         
-        self.class_prolongation = QLabel("Prolongation: -")
-        self.class_soundrep = QLabel("Sound Repetition: -")
-        self.class_wordrep = QLabel("Word Repetition: -")
-        self.class_block = QLabel("Block: -")
-        self.class_interjection = QLabel("Interjection: -")
+        self.class_prolongation = QLabel("Prolongation: - [0]")
+        self.class_soundrep = QLabel("Sound Repetition: - [0]")
+        self.class_wordrep = QLabel("Word Repetition: - [0]")
+        self.class_block = QLabel("Block: - [0]")
+        self.class_interjection = QLabel("Interjection: - [0]")
         
         for lbl in [self.class_prolongation, self.class_soundrep, self.class_wordrep,
                     self.class_block, self.class_interjection]:
@@ -252,6 +262,7 @@ class AnalysisWidget(QWidget):
         self.play_pause_btn.clicked.connect(self.on_play_pause)
         self.spec_btn.clicked.connect(lambda: self.on_graph_type_changed('spectrogram'))
         self.wave_btn.clicked.connect(lambda: self.on_graph_type_changed('waveform'))
+        self.export_report_btn.clicked.connect(self.export_report)
         self.audio_slider.sliderPressed.connect(self.on_slider_pressed)
         self.audio_slider.sliderMoved.connect(self.on_slider_moved)
         self.audio_slider.sliderReleased.connect(self.on_slider_released)
@@ -347,13 +358,22 @@ class AnalysisWidget(QWidget):
                 prob = result['probability']
                 detected = result['detected']
                 
-                # Format: "Type: XX.X% ✓" or "Type: XX.X%"
+                # Increment counter if detected
+                if detected and stutter_type in self.stutter_counts:
+                    self.stutter_counts[stutter_type] += 1
+                
+                # Get current count
+                count = self.stutter_counts.get(stutter_type, 0)
+                
+                # Format: "Type: XX.X% ✓ [count]" or "Type: XX.X% [count]"
                 status_text = f"{prob*100:.1f}%"
                 if detected:
                     status_text += " ✓"
                     color = "#4CAF50"  # Green for detected
                 else:
                     color = "#e0e0e0"  # Normal color
+                
+                status_text += f" [{count}]"  # Add count at the end
                 
                 # Update appropriate label
                 if stutter_type == 'prolongation':
@@ -376,19 +396,29 @@ class AnalysisWidget(QWidget):
     
     def on_detection_error(self, error_msg):
         """Handle detection error"""
+        print(f"Detection Error: {error_msg}")  # Print to console for debugging
+        
         self.detection_status_label.setText(f"Detection Error")
         self.detection_status_label.setStyleSheet(
             "font-size: 14px; padding: 10px; color: #ff5555; "
             "background-color: #2a2a2a; border-radius: 4px;"
         )
         
-        # Reset labels to show error
+        # Reset labels to show error with current counts
         error_text = "Error"
-        self.class_prolongation.setText(f"Prolongation: {error_text}")
-        self.class_soundrep.setText(f"Sound Repetition: {error_text}")
-        self.class_wordrep.setText(f"Word Repetition: {error_text}")
-        self.class_block.setText(f"Block: {error_text}")
-        self.class_interjection.setText(f"Interjection: {error_text}")
+        for stutter_type in ['prolongation', 'soundrep', 'wordrep', 'block', 'interjection']:
+            count = self.stutter_counts.get(stutter_type, 0)
+            
+            if stutter_type == 'prolongation':
+                self.class_prolongation.setText(f"Prolongation: {error_text} [{count}]")
+            elif stutter_type == 'soundrep':
+                self.class_soundrep.setText(f"Sound Repetition: {error_text} [{count}]")
+            elif stutter_type == 'wordrep':
+                self.class_wordrep.setText(f"Word Repetition: {error_text} [{count}]")
+            elif stutter_type == 'block':
+                self.class_block.setText(f"Block: {error_text} [{count}]")
+            elif stutter_type == 'interjection':
+                self.class_interjection.setText(f"Interjection: {error_text} [{count}]")
         
         print(f"Stutter detection error: {error_msg}")
     
@@ -410,12 +440,12 @@ class AnalysisWidget(QWidget):
         self.is_seeking = False
         self.detection_results = None
         
-        # Reset stutter labels
-        self.class_prolongation.setText("Prolongation: -")
-        self.class_soundrep.setText("Sound Repetition: -")
-        self.class_wordrep.setText("Word Repetition: -")
-        self.class_block.setText("Block: -")
-        self.class_interjection.setText("Interjection: -")
+        # Reset stutter labels with counts preserved
+        self.class_prolongation.setText(f"Prolongation: - [{self.stutter_counts['prolongation']}]")
+        self.class_soundrep.setText(f"Sound Repetition: - [{self.stutter_counts['soundrep']}]")
+        self.class_wordrep.setText(f"Word Repetition: - [{self.stutter_counts['wordrep']}]")
+        self.class_block.setText(f"Block: - [{self.stutter_counts['block']}]")
+        self.class_interjection.setText(f"Interjection: - [{self.stutter_counts['interjection']}]")
         self.detection_status_label.hide()
         
         self.analysis_canvas.clear_plot()
@@ -559,9 +589,11 @@ class AnalysisWidget(QWidget):
         should_play = was_playing if force_play_state is None else force_play_state
         
         if should_play:
+            # Reset audio output to clear any buffered data
             self.audio_handler.audio_output.reset()
-            self.audio_handler.playback_start_time = 0  # Reset internal timer
+            # Start playback from the new position
             self.audio_handler.audio_output.start(self.audio_handler.audio_play_buffer)
+            # Start the timer to update progress
             self.playback_timer.start()
             self.play_pause_btn.setText("❚❚ Pause")
         else:
@@ -575,16 +607,15 @@ class AnalysisWidget(QWidget):
         state = self.audio_handler.audio_output.state()
         
         if state == QAudio.ActiveState and not self.is_seeking:
-            # Calculate progress based on buffer position and bytes processed
-            bytes_available = self.audio_handler.audio_play_buffer.size()
-            bytes_processed = self.audio_handler.audio_play_buffer.pos()
-            progress = bytes_processed / bytes_available if bytes_available > 0 else 0
+            # Use actual elapsed time from audio output
+            elapsed_microseconds = self.audio_handler.audio_output.processedUSecs()
+            elapsed_seconds = elapsed_microseconds / 1_000_000.0
             
-            # Calculate current time position
-            total_time = self.analysis_canvas.total_time_sec
-            self.current_playback_position_sec = progress * total_time
+            # Calculate current position based on where we started + elapsed time
+            self.current_playback_position_sec = self.playback_start_position_sec + elapsed_seconds
             
             # Clamp to valid range
+            total_time = self.analysis_canvas.total_time_sec
             self.current_playback_position_sec = max(0, min(
                 self.current_playback_position_sec, 
                 total_time
@@ -603,7 +634,7 @@ class AnalysisWidget(QWidget):
             self.update_time_label(self.current_playback_position_sec, total_time)
             
             # Check if we reached the end
-            if progress >= 1.0:
+            if self.current_playback_position_sec >= total_time - 0.1:  # Small buffer for end detection
                 self.audio_handler.audio_output.stop()
                 self.playback_timer.stop()
                 self.play_pause_btn.setText("▶ Play")
@@ -628,3 +659,145 @@ class AnalysisWidget(QWidget):
         total_s = int(total_sec % 60)
         
         self.time_label.setText(f"{current_min}:{current_s:02d} / {total_min}:{total_s:02d}")
+    
+    def export_report(self):
+        """Export detection results to a text file"""
+        if not self.detection_results:
+            QMessageBox.warning(
+                self,
+                "No Results",
+                "No detection results available. Please analyze an audio file first."
+            )
+            return
+        
+        # Generate filename with timestamp
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        
+        # Get audio file name (if available from audio_handler)
+        audio_filename = "unknown_audio"
+        if hasattr(self, 'audio_handler') and self.audio_handler:
+            # Try to get the file path if available
+            audio_filename = getattr(self.audio_handler, 'current_file', 'unknown_audio')
+            if audio_filename and audio_filename != 'unknown_audio':
+                audio_filename = os.path.basename(audio_filename)
+        
+        # Default filename suggestion
+        report_filename = f"stutter_report_{timestamp}.txt"
+        
+        # Get default save location (reports directory outside App folder)
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        project_root = os.path.dirname(script_dir)  # Go up one level from App/
+        default_dir = os.path.join(project_root, "reports")
+        os.makedirs(default_dir, exist_ok=True)
+        default_path = os.path.join(default_dir, report_filename)
+        
+        # Open file dialog to let user choose save location
+        save_path, _ = QFileDialog.getSaveFileName(
+            self,
+            "Save Report As",
+            default_path,
+            "Text Files (*.txt);;All Files (*)"
+        )
+        
+        # If user cancelled, return
+        if not save_path:
+            return
+        
+        report_path = save_path
+        
+        # Generate report content
+        try:
+            with open(report_path, 'w') as f:
+                f.write("=" * 60 + "\n")
+                f.write("STUTTER DETECTION REPORT\n")
+                f.write("=" * 60 + "\n\n")
+                
+                # Date and time
+                f.write(f"Report Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                f.write(f"Audio File: {audio_filename}\n")
+                
+                # Audio file path (if available)
+                if hasattr(self, 'audio_handler') and self.audio_handler:
+                    full_path = getattr(self.audio_handler, 'current_file', None)
+                    if full_path:
+                        f.write(f"File Path: {full_path}\n")
+                
+                f.write("\n" + "=" * 60 + "\n")
+                f.write("DETECTION RESULTS\n")
+                f.write("=" * 60 + "\n\n")
+                
+                # Extract detection results from first chunk
+                if 0 in self.detection_results and 'detections' in self.detection_results[0]:
+                    detections = self.detection_results[0]['detections']
+                    
+                    f.write("Stutter Classes Detected:\n")
+                    f.write("-" * 60 + "\n\n")
+                    
+                    # Sort by probability (highest first)
+                    sorted_detections = sorted(
+                        detections.items(),
+                        key=lambda x: x[1]['probability'],
+                        reverse=True
+                    )
+                    
+                    for stutter_type, result in sorted_detections:
+                        prob = result['probability']
+                        detected = result['detected']
+                        
+                        # Capitalize and format stutter type name
+                        display_name = stutter_type.replace('_', ' ').title()
+                        
+                        # Get counter value for this stutter type
+                        count = self.stutter_counts.get(stutter_type, 0)
+                        
+                        status = "✓ DETECTED" if detected else "○ Not Detected"
+                        f.write(f"{display_name:25s}: {prob*100:5.1f}%  {status}    [Count: {count}]\n")
+                    
+                    f.write("\n" + "=" * 60 + "\n")
+                    f.write("SUMMARY\n")
+                    f.write("=" * 60 + "\n\n")
+                    
+                    # Count detected classes
+                    detected_count = sum(1 for r in detections.values() if r['detected'])
+                    total_count = len(detections)
+                    
+                    f.write(f"Total Classes Analyzed: {total_count}\n")
+                    f.write(f"Classes Detected: {detected_count}\n\n")
+                    
+                    # List detected classes
+                    if detected_count > 0:
+                        f.write("Detected Stutter Types:\n")
+                        for stutter_type, result in sorted_detections:
+                            if result['detected']:
+                                display_name = stutter_type.replace('_', ' ').title()
+                                count = self.stutter_counts.get(stutter_type, 0)
+                                f.write(f"  - {display_name} ({result['probability']*100:.1f}%) [Count: {count}]\n")
+                    else:
+                        f.write("No stuttering detected in this audio sample.\n")
+                    
+                    # Add total counts section
+                    f.write("\n" + "-" * 60 + "\n")
+                    f.write("OVERALL COUNTS (All Audio Files Analyzed)\n")
+                    f.write("-" * 60 + "\n\n")
+                    for stutter_type in ['prolongation', 'soundrep', 'wordrep', 'block', 'interjection']:
+                        display_name = stutter_type.replace('_', ' ').title()
+                        count = self.stutter_counts.get(stutter_type, 0)
+                        f.write(f"{display_name:25s}: {count}\n")
+                
+                f.write("\n" + "=" * 60 + "\n")
+                f.write("END OF REPORT\n")
+                f.write("=" * 60 + "\n")
+            
+            # Show success message
+            QMessageBox.information(
+                self,
+                "Report Exported",
+                f"Report successfully exported to:\n{report_path}"
+            )
+            
+        except Exception as e:
+            QMessageBox.critical(
+                self,
+                "Export Error",
+                f"Failed to export report:\n{str(e)}"
+            )

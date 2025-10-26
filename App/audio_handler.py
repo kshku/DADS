@@ -17,6 +17,7 @@ class AudioHandler(QObject):
         self.audio_buffer = None
         self.audio_data = QByteArray()
         self.current_sample_rate = 0
+        self.current_file = None  # Store current audio file path
         self.audio_format_out = QAudioFormat()
         self.audio_output = None
         self.audio_play_buffer = QBuffer()
@@ -87,6 +88,9 @@ class AudioHandler(QObject):
     def load_wav_file(self, file_path):
         """Load audio from WAV file"""
         try:
+            # Store the file path
+            self.current_file = file_path
+            
             with io.BytesIO() as wav_bytes:
                 # Read file
                 with open(file_path, 'rb') as f:
