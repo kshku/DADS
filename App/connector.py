@@ -54,14 +54,22 @@ class Model(nn.Module):
 class StutterDetector:
     """Connector class for handling stutter detection using 5 separate binary models"""
     
-    def __init__(self, models_dir="Model/models/copy", detection_threshold=0.5):
+    def __init__(self, models_dir=None, detection_threshold=0.4):
         """
         Initialize the stutter detector with pre-trained binary models
         
         Args:
-            models_dir: Path to directory containing .pth model files
-            detection_threshold: Probability threshold for positive detection (default: 0.5)
+            models_dir: Path to directory containing .pth model files (default: auto-detect)
+            detection_threshold: Probability threshold for positive detection (default: 0.4)
         """
+        # Auto-detect models directory relative to this file
+        if models_dir is None:
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            project_root = os.path.dirname(current_dir)  # Go up from App/ to project root
+            models_dir = os.path.join(project_root, "Model", "models", "copy")
+            if not os.path.exists(models_dir):
+                raise RuntimeError(f"Models directory not found at: {models_dir}")
+        
         self.models_dir = models_dir
         self.detection_threshold = detection_threshold
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -99,30 +107,33 @@ class StutterDetector:
     
     def _load_models(self):
         """Load all 5 pre-trained binary models"""
-        print(f"Loading stutter detection models from {self.models_dir}...")
-        
         for i, model_file in enumerate(self.model_files):
             model_path = os.path.join(self.models_dir, model_file)
+            label_name = list(self.label_dict.keys())[i]
             
             if not os.path.exists(model_path):
-                print(f"✗ Model file not found: {model_path}")
+                error_msg = f"Model file not found: {model_file}"
                 self.models.append(None)
                 continue
             
             try:
                 model = Model(n_mels=self.n_mels)
-                model.load_state_dict(torch.load(model_path, map_location=self.device))
-                model.to(self.device)
-                model.eval()
-                self.models.append(model)
-                label_name = list(self.label_dict.keys())[i]
-                print(f"✓ Loaded {label_name} model")
+                state_dict = torch.load(model_path, map_location=self.device)
+                if state_dict:
+                    model.load_state_dict(state_dict)
+                    model.to(self.device)
+                    model.eval()
+                    self.models.append(model)
+                else:
+                    self.models.append(None)
             except Exception as e:
-                print(f"✗ Failed to load {model_file}: {e}")
+                error_msg = f"Failed to load {model_file}: {str(e)}"
                 self.models.append(None)
+                raise RuntimeError(error_msg)
         
         loaded_count = sum(1 for m in self.models if m is not None)
-        print(f"Total models loaded: {loaded_count}/5")
+        if loaded_count == 0:
+            raise RuntimeError("No models could be loaded")
     
     def pad_or_truncate(self, y):
         """Pad or truncate audio to target length"""
@@ -135,23 +146,18 @@ class StutterDetector:
             y = y[:self.target_length]
         return y
     
-    def extract_features(self, audio_file, normalize=True):
+    def extract_features(self, audio_data, normalize=True):
         """
-        Extract mel spectrogram features from audio file
+        Extract mel spectrogram features from audio data (not file)
         
         Args:
-            audio_file: Path to audio file
+            audio_data: Audio data as numpy array
             normalize: Whether to normalize features
             
         Returns:
             Mel spectrogram in dB scale (n_mels, time_frames)
         """
-        try:
-            y, _ = librosa.load(audio_file, sr=self.sample_rate, mono=True)
-        except Exception as e:
-            raise ValueError(f"Invalid audio file: {audio_file} ({e})")
-        
-        y = self.pad_or_truncate(y)
+        y = self.pad_or_truncate(audio_data)
         
         mels = librosa.feature.melspectrogram(
             y=y, 
@@ -196,64 +202,96 @@ class StutterDetector:
     
     def process_audio_file(self, audio_path, callback=None):
         """
-        Process audio file and detect stutters using all 5 models
+        Process entire audio file by splitting into 3-second chunks and detecting stutters
         
         Args:
             audio_path: Path to audio file
-            callback: Optional callback function(time_start, time_end, results)
+            callback: Optional callback function(chunk_idx, total_chunks, results)
             
         Returns:
-            Dictionary with detection results
+            Dictionary with detection results for each chunk
         """
         if not any(self.models):
             raise RuntimeError("No models loaded. Cannot perform detection.")
         
         print(f"\nProcessing audio file: {audio_path}")
         
-        # Extract features once
+        # Load entire audio file
         try:
-            mels_db = self.extract_features(audio_path)
+            y, _ = librosa.load(audio_path, sr=self.sample_rate, mono=True)
         except Exception as e:
-            print(f"Error processing audio: {e}")
-            return {}
+            raise ValueError(f"Invalid audio file: {audio_path} ({e})")
         
-        duration = self.target_duration
-        print(f"Analyzing audio (~{duration:.1f}s duration)")
+        total_duration = len(y) / self.sample_rate
+        print(f"Total audio duration: {total_duration:.2f}s")
         
-        results = {}
+        # Split into 3-second chunks
+        chunk_size = self.target_length  # 3 seconds worth of samples
+        total_chunks = int(np.ceil(len(y) / chunk_size))
+        print(f"Splitting into {total_chunks} chunks of {self.target_duration}s each\n")
         
-        # Run all models in parallel
-        with ThreadPoolExecutor(max_workers=5) as executor:
-            futures = {
-                executor.submit(self._predict_single_model, mels_db, i): i
-                for i in range(5) if self.models[i] is not None
+        all_results = {}
+        
+        for chunk_idx in range(total_chunks):
+            start_sample = chunk_idx * chunk_size
+            end_sample = min((chunk_idx + 1) * chunk_size, len(y))
+            
+            # Extract chunk
+            chunk_audio = y[start_sample:end_sample]
+            
+            # Pad if last chunk is shorter than 3 seconds
+            chunk_audio = self.pad_or_truncate(chunk_audio)
+            
+            # Calculate time range
+            time_start = chunk_idx * self.target_duration
+            time_end = min((chunk_idx + 1) * self.target_duration, total_duration)
+            
+            print(f"Chunk {chunk_idx + 1}/{total_chunks} ({time_start:.1f}s - {time_end:.1f}s)")
+            
+            # Extract features for this chunk
+            try:
+                mels_db = self.extract_features(chunk_audio)
+            except Exception as e:
+                print(f"  Error processing chunk: {e}")
+                continue
+            
+            # Run all models in parallel for this chunk
+            chunk_results = {}
+            with ThreadPoolExecutor(max_workers=5) as executor:
+                futures = {
+                    executor.submit(self._predict_single_model, mels_db, i): i
+                    for i in range(5) if self.models[i] is not None
+                }
+                
+                for future in as_completed(futures):
+                    result = future.result()
+                    if result:
+                        label_name, prob, is_detected = result
+                        chunk_results[label_name] = {
+                            'probability': prob,
+                            'detected': is_detected
+                        }
+                        
+                        if is_detected:
+                            print(f"  ✓ {label_name}: {prob:.3f} - DETECTED")
+                        else:
+                            print(f"  ○ {label_name}: {prob:.3f}")
+            
+            print()  # Empty line between chunks
+            
+            # Store chunk results
+            all_results[chunk_idx] = {
+                'time_start': time_start,
+                'time_end': time_end,
+                'detections': chunk_results
             }
             
-            for future in as_completed(futures):
-                result = future.result()
-                if result:
-                    label_name, prob, is_detected = result
-                    results[label_name] = {
-                        'probability': prob,
-                        'detected': is_detected
-                    }
-                    
-                    if is_detected:
-                        print(f"  ✓ {label_name}: {prob:.3f} - DETECTED")
-                    else:
-                        print(f"  ○ {label_name}: {prob:.3f}")
+            # Call callback if provided (for progress updates)
+            if callback:
+                callback(chunk_idx, total_chunks, chunk_results)
         
-        # Call callback if provided
-        if callback:
-            callback(0, duration, results)
-        
-        return {
-            0: {
-                'time_start': 0,
-                'time_end': duration,
-                'detections': results
-            }
-        }
+        print(f"Processed {len(all_results)} chunks successfully\n")
+        return all_results
     
     def process_audio_chunk_realtime(self, audio_data, sr):
         """
