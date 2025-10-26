@@ -62,7 +62,8 @@ class StutterDetectionThread(QThread):
                     total_prob += prob
                     max_prob = max(max_prob, prob)
             
-            avg_confidence = (total_prob / processed_chunks * 100) if processed_chunks > 0 else 0.0
+            # Use maximum confidence instead of average
+            avg_confidence = (max_prob * 100) if processed_chunks > 0 else 0.0
             detected = max_prob > 0.4
             
             aggregated[stutter_type] = {
@@ -467,8 +468,8 @@ class AnalysisWidget(QWidget):
                     if is_detected and prob > 0.4:  # Only count if it exceeds detection threshold
                         detected_chunks_count += 1
             
-            # Calculate average confidence across all chunks
-            avg_confidence = (total_prob / total_chunks * 100) if total_chunks > 0 else 0.0
+            # Use maximum confidence instead of average
+            avg_confidence = (max_prob * 100) if total_chunks > 0 else 0.0
             
             # Detected if max probability exceeds threshold (40%)
             detected = max_prob > 0.4
@@ -866,8 +867,8 @@ class AnalysisWidget(QWidget):
                             total_prob += prob
                             max_prob = max(max_prob, prob)
                     
-                    # Average confidence across all chunks
-                    avg_confidence = (total_prob / total_chunks * 100) if total_chunks > 0 else 0.0
+                    # Use maximum confidence instead of average
+                    avg_confidence = (max_prob * 100) if total_chunks > 0 else 0.0
                     detected = max_prob > 0.4
                     
                     aggregated_stats[stutter_type] = {
