@@ -21,8 +21,8 @@ from analysis_widget import AnalysisWidget
 class MainWindow(QWidget):
     """Main application window"""
     
-    # PDF folder path
-    PDF_FOLDER_PATH = "/home/chethan/WorksSpace/Git/mini-project/DADS/Passage Folder"
+    # PDF folder path - relative to the App directory
+    PDF_FOLDER_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "Passage Folder")
     
     # Application stylesheet
     STYLESHEET = """
@@ -459,7 +459,12 @@ class MainWindow(QWidget):
             self.status_label.setText("No audio data was recorded to save.")
             return
         
-        file_path, _ = QFileDialog.getSaveFileName(self, "Save Recorded Audio", "", "WAV Files (*.wav)")
+        # Set default save directory to Recordings folder (relative path)
+        recordings_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "Recordings")
+        os.makedirs(recordings_dir, exist_ok=True)
+        default_path = os.path.join(recordings_dir, "recording.wav")
+        
+        file_path, _ = QFileDialog.getSaveFileName(self, "Save Recorded Audio", default_path, "WAV Files (*.wav)")
         
         if file_path:
             if not file_path.endswith(".wav"):

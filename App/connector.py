@@ -54,13 +54,13 @@ class Model(nn.Module):
 class StutterDetector:
     """Connector class for handling stutter detection using 5 separate binary models"""
     
-    def __init__(self, models_dir=None, detection_threshold=0.3):
+    def __init__(self, models_dir=None, detection_threshold=0.4):
         """
         Initialize the stutter detector with pre-trained binary models
         
         Args:
             models_dir: Path to directory containing .pth model files (default: auto-detect)
-            detection_threshold: Probability threshold for positive detection (default: 0.3)
+            detection_threshold: Probability threshold for positive detection (default: 0.4)
         """
         # Auto-detect models directory relative to this file
         if models_dir is None:
@@ -69,7 +69,6 @@ class StutterDetector:
             models_dir = os.path.join(project_root, "Model", "models", "copy")
             if not os.path.exists(models_dir):
                 raise RuntimeError(f"Models directory not found at: {models_dir}")
-            print(f"Using models directory: {models_dir}")
         
         self.models_dir = models_dir
         self.detection_threshold = detection_threshold
@@ -108,20 +107,16 @@ class StutterDetector:
     
     def _load_models(self):
         """Load all 5 pre-trained binary models"""
-        print(f"Loading stutter detection models from {self.models_dir}...")
-        
         for i, model_file in enumerate(self.model_files):
             model_path = os.path.join(self.models_dir, model_file)
             label_name = list(self.label_dict.keys())[i]
             
             if not os.path.exists(model_path):
-                print(f"✗ Model file not found: {model_path}")
                 error_msg = f"Model file not found: {model_file}"
                 self.models.append(None)
                 continue
             
             try:
-                print(f"\nLoading {label_name} model from: {model_path}")
                 model = Model(n_mels=self.n_mels)
                 state_dict = torch.load(model_path, map_location=self.device)
                 if state_dict:
@@ -129,18 +124,16 @@ class StutterDetector:
                     model.to(self.device)
                     model.eval()
                     self.models.append(model)
-                    print(f"✓ Successfully loaded {label_name} model")
                 else:
-                    print(f"✗ Empty state dictionary for {model_file}")
                     self.models.append(None)
             except Exception as e:
                 error_msg = f"Failed to load {model_file}: {str(e)}"
-                print(f"✗ {error_msg}")
                 self.models.append(None)
                 raise RuntimeError(error_msg)
         
         loaded_count = sum(1 for m in self.models if m is not None)
-        print(f"Total models loaded: {loaded_count}/5")
+        if loaded_count == 0:
+            raise RuntimeError("No models could be loaded")
     
     def pad_or_truncate(self, y):
         """Pad or truncate audio to target length"""
@@ -235,7 +228,7 @@ class StutterDetector:
         # Split into 3-second chunks
         chunk_size = self.target_length  # 3 seconds worth of samples
         total_chunks = int(np.ceil(len(y) / chunk_size))
-        print(f"Splitting into {total_chunks} chunks of {self.target_duration}s each")
+        print(f"Splitting into {total_chunks} chunks of {self.target_duration}s each\n")
         
         all_results = {}
         
@@ -253,13 +246,13 @@ class StutterDetector:
             time_start = chunk_idx * self.target_duration
             time_end = min((chunk_idx + 1) * self.target_duration, total_duration)
             
-            print(f"\nChunk {chunk_idx + 1}/{total_chunks} ({time_start:.1f}s - {time_end:.1f}s)")
+            print(f"Chunk {chunk_idx + 1}/{total_chunks} ({time_start:.1f}s - {time_end:.1f}s)")
             
             # Extract features for this chunk
             try:
                 mels_db = self.extract_features(chunk_audio)
             except Exception as e:
-                print(f"Error processing chunk {chunk_idx}: {e}")
+                print(f"  Error processing chunk: {e}")
                 continue
             
             # Run all models in parallel for this chunk
@@ -284,6 +277,8 @@ class StutterDetector:
                         else:
                             print(f"  ○ {label_name}: {prob:.3f}")
             
+            print()  # Empty line between chunks
+            
             # Store chunk results
             all_results[chunk_idx] = {
                 'time_start': time_start,
@@ -295,7 +290,7 @@ class StutterDetector:
             if callback:
                 callback(chunk_idx, total_chunks, chunk_results)
         
-        print(f"\nProcessed {len(all_results)} chunks successfully")
+        print(f"Processed {len(all_results)} chunks successfully\n")
         return all_results
     
     def process_audio_chunk_realtime(self, audio_data, sr):

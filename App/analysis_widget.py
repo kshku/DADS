@@ -33,12 +33,6 @@ class StutterDetectionThread(QThread):
     
     def progress_callback(self, chunk_idx, total_chunks, chunk_results):
         """Callback for progress updates from detector"""
-        # Print what we got from this chunk
-        print(f"\nChunk {chunk_idx} results:")
-        for stutter_type, result in chunk_results.items():
-            if result['detected']:
-                print(f"  {stutter_type}: {result['probability']:.3f} DETECTED")
-        
         # Store chunk results
         self.chunk_detections[chunk_idx] = {'detections': chunk_results}
         
@@ -52,7 +46,6 @@ class StutterDetectionThread(QThread):
                     chunk_data['detections'][stutter_type]['detected']):
                     count += 1
             detected_counts[stutter_type] = count
-            print(f"{stutter_type} detected {count} times so far")
         
         # Calculate aggregated statistics 
         aggregated = {}
@@ -70,7 +63,7 @@ class StutterDetectionThread(QThread):
                     max_prob = max(max_prob, prob)
             
             avg_confidence = (total_prob / processed_chunks * 100) if processed_chunks > 0 else 0.0
-            detected = max_prob > 0.3
+            detected = max_prob > 0.4
             
             aggregated[stutter_type] = {
                 'confidence': avg_confidence,
@@ -98,7 +91,7 @@ class StutterDetectionThread(QThread):
                     wav_file.writeframes(self.audio_data.tobytes())
             
             # Initialize detector and process
-            detector = StutterDetector(detection_threshold=0.3)
+            detector = StutterDetector(detection_threshold=0.4)
             
             # Process with progress callback
             results = detector.process_audio_file(self.temp_file, callback=self.progress_callback)
@@ -449,21 +442,8 @@ class AnalysisWidget(QWidget):
     
     def on_detection_complete(self, results):
         """Handle completed stutter detection"""
-        import sys
-        print("\n" + "="*60, flush=True)
-        print("ON_DETECTION_COMPLETE CALLED!", flush=True)
-        print("="*60, flush=True)
-        sys.stdout.flush()
-        
         self.detection_results = results
         self.detection_status_label.setText("Analysis Complete!")
-        
-        # Debug: Check what we received
-        print(f"\n=== DETECTION COMPLETE DEBUG ===", flush=True)
-        print(f"Total results received: {len(results)}", flush=True)
-        print(f"Result keys: {list(results.keys())}", flush=True)
-        sys.stdout.flush()
-
         
         # Calculate overall statistics across all chunks
         total_chunks = len(results)
@@ -475,130 +455,27 @@ class AnalysisWidget(QWidget):
             detected_chunks_count = 0
             
             for chunk_idx, chunk_data in results.items():
-                print(f"\nChunk {chunk_idx}: {chunk_data.keys()}")
                 if 'detections' in chunk_data and stutter_type in chunk_data['detections']:
                     detection = chunk_data['detections'][stutter_type]
                     prob = detection['probability']
                     is_detected = detection['detected']
-                    print(f"  {stutter_type}: prob={prob:.3f}, detected={is_detected}")
                     
                     total_prob += prob
                     max_prob = max(max_prob, prob)
                     
                     # Count each chunk where this stutter was detected
-                    if detection['detected']:
+                    if is_detected and prob > 0.4:  # Only count if it exceeds detection threshold
                         detected_chunks_count += 1
-                        print(f"  -> Incrementing count for {stutter_type}, now: {detected_chunks_count}")
             
             # Calculate average confidence across all chunks
             avg_confidence = (total_prob / total_chunks * 100) if total_chunks > 0 else 0.0
             
-            # Detected if max probability exceeds threshold (30%)
-            detected = max_prob > 0.3
-            
-            # Set counter to the number of chunks where detected (not increment)
-            if stutter_type in self.stutter_counts:
-                self.stutter_counts[stutter_type] = detected_chunks_count
-                print(f"\n{stutter_type.upper()}: Setting count to {detected_chunks_count}")
-            
-            aggregated_stats[stutter_type] = {
-                'confidence': avg_confidence,
-                'detected': detected,
-                'max_probability': max_prob,
-                'detected_chunks': detected_chunks_count
-            }
-        
-        # Update labels with final results
-        for stutter_type, stats in aggregated_stats.items():
-            confidence = stats['confidence']
-            detected = stats['detected']
-            detected_chunks = stats['detected_chunks']
-            
-            # Get the updated count (after setting)
-            count = self.stutter_counts.get(stutter_type, 0)
-            
-            # Format: "Type: XX.X% ✓ [count]"
-            status_text = f"{confidence:.1f}%"
-            if detected:
-                status_text += " ✓"
-            status_text += f" [{count}]"
-            
-            # Debug: print actual values
-            print(f"{stutter_type}: confidence={confidence:.1f}%, detected={detected}, chunks_detected={detected_chunks}, count={count}")
-            
-            color = "#00ff00" if detected else "#888888"
-            
-            if stutter_type == 'prolongation':
-                self.class_prolongation.setText(f"Prolongation: {status_text}")
-                self.class_prolongation.setStyleSheet(f"font-size: 16px; padding: 5px 0; color: {color};")
-            elif stutter_type == 'soundrep':
-                self.class_soundrep.setText(f"Sound Repetition: {status_text}")
-                self.class_soundrep.setStyleSheet(f"font-size: 16px; padding: 5px 0; color: {color};")
-            elif stutter_type == 'wordrep':
-                self.class_wordrep.setText(f"Word Repetition: {status_text}")
-                self.class_wordrep.setStyleSheet(f"font-size: 16px; padding: 5px 0; color: {color};")
-            elif stutter_type == 'block':
-                self.class_block.setText(f"Block: {status_text}")
-                self.class_block.setStyleSheet(f"font-size: 16px; padding: 5px 0; color: {color};")
-            elif stutter_type == 'interjection':
-                self.class_interjection.setText(f"Interjection: {status_text}")
-                self.class_interjection.setStyleSheet(f"font-size: 16px; padding: 5px 0; color: {color};")
-        
-        # Hide status label after a delay
-        QTimer.singleShot(2000, self.detection_status_label.hide)
-    
-    def on_detection_complete(self, results):
-        """Handle completed stutter detection"""
-        import sys
-        print("\n" + "="*60, flush=True)
-        print("ON_DETECTION_COMPLETE CALLED!", flush=True)
-        print("="*60, flush=True)
-        sys.stdout.flush()
-        
-        self.detection_results = results
-        self.detection_status_label.setText("Analysis Complete!")
-        
-        # Debug: Check what we received
-        print(f"\n=== DETECTION COMPLETE DEBUG ===", flush=True)
-        print(f"Total results received: {len(results)}", flush=True)
-        print(f"Result keys: {list(results.keys())}", flush=True)
-        sys.stdout.flush()
-
-        # Calculate overall statistics across all chunks
-        total_chunks = len(results)
-        aggregated_stats = {}
-        
-        for stutter_type in ['prolongation', 'soundrep', 'wordrep', 'block', 'interjection']:
-            total_prob = 0.0
-            max_prob = 0.0
-            detected_chunks_count = 0
-            
-            for chunk_idx, chunk_data in results.items():
-                print(f"\nChunk {chunk_idx}: {chunk_data.keys()}")
-                if 'detections' in chunk_data and stutter_type in chunk_data['detections']:
-                    detection = chunk_data['detections'][stutter_type]
-                    prob = detection['probability']
-                    is_detected = detection['detected']
-                    print(f"  {stutter_type}: prob={prob:.3f}, detected={is_detected}")
-                    
-                    total_prob += prob
-                    max_prob = max(max_prob, prob)
-                    
-                    # Count each chunk where this stutter was detected
-                    if is_detected and prob > 0.3:  # Only count if it exceeds detection threshold
-                        detected_chunks_count += 1
-                        print(f"  -> Incrementing count for {stutter_type}, now: {detected_chunks_count}")
-            
-            # Calculate average confidence across all chunks
-            avg_confidence = (total_prob / total_chunks * 100) if total_chunks > 0 else 0.0
-            
-            # Detected if max probability exceeds threshold (30%)
-            detected = max_prob > 0.3
+            # Detected if max probability exceeds threshold (40%)
+            detected = max_prob > 0.4
             
             # Set counter to the number of chunks where detected
             if stutter_type in self.stutter_counts:
                 self.stutter_counts[stutter_type] = detected_chunks_count
-                print(f"\n{stutter_type.upper()}: Setting count to {detected_chunks_count}")
             
             aggregated_stats[stutter_type] = {
                 'confidence': avg_confidence,
@@ -621,9 +498,6 @@ class AnalysisWidget(QWidget):
             if detected:
                 status_text += " ✓"
             status_text += f" [{count}]"
-            
-            # Debug: print actual values
-            print(f"{stutter_type}: confidence={confidence:.1f}%, detected={detected}, chunks_detected={detected_chunks}, count={count}")
             
             color = "#00ff00" if detected else "#888888"
             
@@ -648,8 +522,6 @@ class AnalysisWidget(QWidget):
     
     def on_detection_error(self, error_msg):
         """Handle detection error"""
-        print(f"Detection Error: {error_msg}")  # Print to console for debugging
-        
         self.detection_status_label.setText(f"Detection Error")
         self.detection_status_label.setStyleSheet(
             "font-size: 14px; padding: 10px; color: #ff5555; "
@@ -996,7 +868,7 @@ class AnalysisWidget(QWidget):
                     
                     # Average confidence across all chunks
                     avg_confidence = (total_prob / total_chunks * 100) if total_chunks > 0 else 0.0
-                    detected = max_prob > 0.3
+                    detected = max_prob > 0.4
                     
                     aggregated_stats[stutter_type] = {
                         'confidence': avg_confidence,
@@ -1032,28 +904,7 @@ class AnalysisWidget(QWidget):
                 f.write(f"Total Classes Analyzed: {total_count}\n")
                 f.write(f"Classes Detected: {detected_count}\n\n")
                 
-                # List detected classes
-                if detected_count > 0:
-                    f.write("Detected Stutter Types:\n")
-                    for stutter_type, stats in sorted_stats:
-                        if stats['detected']:
-                            display_name = stutter_type.replace('_', ' ').title()
-                            count = self.stutter_counts.get(stutter_type, 0)
-                            f.write(f"  - {display_name}: {stats['confidence']:.1f}% [Count: {count}]\n")
-                else:
-                    f.write("No stuttering detected in this audio sample.\n")
-                
-                # Add count details section
-                f.write("\n" + "-" * 60 + "\n")
-                f.write("DETECTION COUNTS (This Audio File)\n")
-                f.write("-" * 60 + "\n\n")
-                f.write("Number of times each stutter was detected across chunks:\n\n")
-                for stutter_type in ['prolongation', 'soundrep', 'wordrep', 'block', 'interjection']:
-                    display_name = stutter_type.replace('_', ' ').title()
-                    count = self.stutter_counts.get(stutter_type, 0)
-                    f.write(f"{display_name:25s}: {count}\n")
-                
-                f.write("\n" + "=" * 60 + "\n")
+                f.write("=" * 60 + "\n")
                 f.write("END OF REPORT\n")
                 f.write("=" * 60 + "\n")
             

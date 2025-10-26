@@ -5,3 +5,4 @@ dataset/
 .venv/
 App/__pycache__/
 Recordings/
+reports/
