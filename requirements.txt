@@ -1,0 +1,11 @@
+torch
+torchaudio
+torchvision
+librosa
+jupyter
+scikit-learn
+matplotlib
+numpy
+pandas
+PyQt5
+PyMuPDF

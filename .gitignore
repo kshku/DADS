@@ -3,6 +3,7 @@ __pycache__/
 dataset/
 .ipynb_checkpoints/
 .venv/
-App/__pycache__/
 Recordings/
+.DS_Store
+.vscode/
 reports/
