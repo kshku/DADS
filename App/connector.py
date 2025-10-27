@@ -54,7 +54,7 @@ class Model(nn.Module):
 class StutterDetector:
     """Connector class for handling stutter detection using 5 separate binary models"""
     
-    def __init__(self, models_dir=None, detection_threshold=0.475):
+    def __init__(self, models_dir=None, detection_threshold=0.5):
         """
         Initialize the stutter detector with pre-trained binary models
         

@@ -22,7 +22,7 @@ class MainWindow(QWidget):
     """Main application window"""
     
     # PDF folder path - relative to the App directory
-    PDF_FOLDER_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "Passage Folder")
+    PDF_FOLDER_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "Passages")
     
     # Application stylesheet
     STYLESHEET = """
