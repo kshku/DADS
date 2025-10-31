@@ -1,4 +1,7 @@
-# Stutter Detector
+# 🗣️ DADS – Stutter Detection App
+
+**DADS** (Detecting and Analyzing Disfluencies in Speech) is an AI-powered application designed to detect stuttering in speech recordings.  
+This app allows users to record or upload audio, analyze it, and visualize stuttering patterns efficiently.
 
 **📂 Project Structure**
 
@@ -11,30 +14,18 @@ DADS/
 ```
 
 [SEP28k-dataset (from kaggle)](https://www.kaggle.com/datasets/ikrbasak/sep-28k)
-
-# 🗣️ DADS – Stutter Detection App
-
-**DADS** (Detecting and Analyzing Disfluencies in Speech) is an AI-powered application designed to detect stuttering in speech recordings.  
-This app allows users to record or upload audio, analyze it, and visualize stuttering patterns efficiently.
-
 ---
 
 ## 🚀 How to Use the App
 
-### Step 1: Fork the Repository
-- Click the **Fork** button on the top right of this repository to create your own copy.
-
----
-
-### Step 2: Clone the Forked Repository
-- Run the following command in your terminal (replace `<your-forked-repo-link>` with the link of **your forked repository**):
-
+### Step 1: Clone the Repository
+- Run the following command in your terminal (replace < repo-link > with your actual repository link):
 ```bash
-git clone <your-forked-repo-link>
+git clone <repo-link>
 ```
 
 ---
-### Step 3: Create a Virtual Environment
+### Step 2: Create a Virtual Environment
 - On macOS / Linux:
 
 ```bash
@@ -46,7 +37,7 @@ python3 -m venv .venv
 python -m venv .venv
 ```
 ---
-### Step 4: Activate the Virtual Environment and Install Dependencies
+### Step 3: Activate the Virtual Environment and Install Dependencies
 Activate the environment:
 
 - macOS / Linux:
@@ -62,7 +53,7 @@ Install the required packages:
 pip install -r requirements.txt
 ```
 ---
-### Step 5: Run the App
+### Step 4: Run the App
 
 Start the application by running:
 - macOS / Linux
