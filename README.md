@@ -1,4 +1,4 @@
-# 🗣️ DADS – Stutter Detection App
+#  DADS – Stutter Detection App
 
 **DADS** (Detecting and Analyzing Disfluencies in Speech) is an AI-powered application designed to detect stuttering in speech recordings.  
 This app allows users to record or upload audio, analyze it, and visualize stuttering patterns efficiently.
@@ -16,7 +16,7 @@ DADS/
 [SEP28k-dataset (from kaggle)](https://www.kaggle.com/datasets/ikrbasak/sep-28k)
 ---
 
-## 🚀 How to Use the App
+##  How to Use the App
 
 ### Step 1: Clone the Repository
 - Run the following command in your terminal (replace < repo-link > with your actual repository link):
@@ -65,7 +65,7 @@ python3 App/run_app.py
 python App/run_app.py
 ```
 ---
-### 📝 Commit Guidelines
+###  Commit Guidelines
 
 Follow this convention:
 
