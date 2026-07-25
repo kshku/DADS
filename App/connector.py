@@ -74,12 +74,12 @@ class StutterDetector:
         self.detection_threshold = detection_threshold
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.models = []
+        self.model_params = {}  # model_idx -> {'n_mels': int, 'n_fft': int, 'hop_length': int}
         
-        # Model parameters - MATCH TRAINING EXACTLY
-        self.window_size = 1024
-        self.hop_length = 512
-        self.n_mels = 64
-        self.epochs = 40  # From copy folder models
+        # Default audio parameters
+        self.sample_rate = 16000
+        self.target_duration = 3.0
+        self.target_length = int(self.target_duration * self.sample_rate)
         
         # Label names and model files
         self.label_dict = {
@@ -98,12 +98,21 @@ class StutterDetector:
             'interjection_model_1024_512_128_40.pth'
         ]
         
-        # Audio processing parameters
-        self.sample_rate = 16000
-        self.target_duration = 3.0
-        self.target_length = int(self.target_duration * self.sample_rate)
-        
         self._load_models()
+    
+    def _parse_model_params(self, model_file):
+        """
+        Parse training parameters from model filename.
+        Convention: {type}_model_{n_fft}_{hop_length}_{n_mels}_{epochs}.pth
+        """
+        name = model_file.replace('.pth', '')
+        parts = name.split('_')
+        # e.g. prolongation_model_1024_512_128_40
+        n_fft = int(parts[2])
+        hop_length = int(parts[3])
+        n_mels = int(parts[4])
+        epochs = int(parts[5])
+        return {'n_fft': n_fft, 'hop_length': hop_length, 'n_mels': n_mels, 'epochs': epochs}
     
     def _load_models(self):
         """Load all 5 pre-trained binary models"""
@@ -112,12 +121,13 @@ class StutterDetector:
             label_name = list(self.label_dict.keys())[i]
             
             if not os.path.exists(model_path):
-                error_msg = f"Model file not found: {model_file}"
                 self.models.append(None)
                 continue
             
             try:
-                model = Model(n_mels=self.n_mels)
+                params = self._parse_model_params(model_file)
+                self.model_params[i] = params
+                model = Model(n_mels=params['n_mels'])
                 state_dict = torch.load(model_path, map_location=self.device)
                 if state_dict:
                     model.load_state_dict(state_dict)
@@ -146,12 +156,15 @@ class StutterDetector:
             y = y[:self.target_length]
         return y
     
-    def extract_features(self, audio_data, normalize=True):
+    def extract_features(self, audio_data, n_mels, n_fft=1024, hop_length=512, normalize=True):
         """
-        Extract mel spectrogram features from audio data (not file)
+        Extract mel spectrogram features from audio data
         
         Args:
             audio_data: Audio data as numpy array
+            n_mels: Number of mel frequency bands
+            n_fft: FFT window size
+            hop_length: Hop length
             normalize: Whether to normalize features
             
         Returns:
@@ -162,9 +175,9 @@ class StutterDetector:
         mels = librosa.feature.melspectrogram(
             y=y, 
             sr=self.sample_rate, 
-            n_fft=self.window_size, 
-            hop_length=self.hop_length, 
-            n_mels=self.n_mels
+            n_fft=n_fft, 
+            hop_length=hop_length, 
+            n_mels=n_mels
         )
         mels_db = librosa.power_to_db(mels, ref=np.max)
         
@@ -199,6 +212,25 @@ class StutterDetector:
             is_detected = prob > self.detection_threshold
         
         return label_name, prob, is_detected
+    
+    def _predict_model(self, audio_data, model_idx, n_mels, n_fft, hop_length):
+        """
+        Extract features with model-specific params and run prediction
+        
+        Args:
+            audio_data: Raw audio numpy array
+            model_idx: Index of the model
+            n_mels: Number of mel bands for this model
+            n_fft: FFT size for this model
+            hop_length: Hop length for this model
+            
+        Returns:
+            (label_name, probability, is_detected) or None
+        """
+        if self.models[model_idx] is None:
+            return None
+        mels_db = self.extract_features(audio_data, n_mels=n_mels, n_fft=n_fft, hop_length=hop_length)
+        return self._predict_single_model(mels_db, model_idx)
     
     def process_audio_file(self, audio_path, callback=None):
         """
@@ -248,20 +280,17 @@ class StutterDetector:
             
             print(f"Chunk {chunk_idx + 1}/{total_chunks} ({time_start:.1f}s - {time_end:.1f}s)")
             
-            # Extract features for this chunk
-            try:
-                mels_db = self.extract_features(chunk_audio)
-            except Exception as e:
-                print(f"  Error processing chunk: {e}")
-                continue
-            
-            # Run all models in parallel for this chunk
+            # Extract features and run all models
             chunk_results = {}
             with ThreadPoolExecutor(max_workers=5) as executor:
-                futures = {
-                    executor.submit(self._predict_single_model, mels_db, i): i
-                    for i in range(5) if self.models[i] is not None
-                }
+                futures = {}
+                for i in range(5):
+                    if self.models[i] is not None:
+                        params = self.model_params[i]
+                        futures[executor.submit(
+                            self._predict_model, chunk_audio, i,
+                            params['n_mels'], params['n_fft'], params['hop_length']
+                        )] = i
                 
                 for future in as_completed(futures):
                     result = future.result()
@@ -311,26 +340,14 @@ class StutterDetector:
         # Pad or truncate
         audio_data = self.pad_or_truncate(audio_data)
         
-        # Extract features
-        mels = librosa.feature.melspectrogram(
-            y=audio_data, 
-            sr=self.sample_rate, 
-            n_fft=self.window_size, 
-            hop_length=self.hop_length, 
-            n_mels=self.n_mels
-        )
-        mels_db = librosa.power_to_db(mels, ref=np.max)
-        
-        # Normalize
-        mean = np.mean(mels_db)
-        std = np.std(mels_db) + 1e-10
-        mels_db = (mels_db - mean) / std
-        
-        # Run predictions
+        # Run predictions with per-model feature extraction
         results = {}
         for i in range(5):
             if self.models[i] is not None:
-                label_name, prob, is_detected = self._predict_single_model(mels_db, i)
+                params = self.model_params[i]
+                label_name, prob, is_detected = self._predict_model(
+                    audio_data, i, params['n_mels'], params['n_fft'], params['hop_length']
+                )
                 results[label_name] = {
                     'probability': prob,
                     'detected': is_detected
