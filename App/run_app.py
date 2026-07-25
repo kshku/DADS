@@ -1,6 +1,8 @@
 import sys
-from PyQt5.QtWidgets import QApplication
+
 from main_window import MainWindow
+from PyQt5.QtWidgets import QApplication
+
 
 # --- Main execution ---
 def main():
@@ -9,7 +11,8 @@ def main():
     window.show()
     sys.exit(app.exec_())
 
+
 if __name__ == "__main__":
-    # Note: If you encounter 'ModuleNotFoundError', you may need to adjust the path 
+    # Note: If you encounter 'ModuleNotFoundError', you may need to adjust the path
     # or ensure you run this file from the directory containing the other files.
     main()
