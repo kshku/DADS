@@ -27,9 +27,15 @@ app.include_router(analysis.router)
 
 
 @app.get("/", response_class=HTMLResponse)
-async def index(request: Request):
-    """Serve the main page."""
-    return templates.TemplateResponse("index.html", {"request": request})
+async def home(request: Request):
+    """Serve the home page with passages and PDF viewer."""
+    return templates.TemplateResponse("home.html", {"request": request})
+
+
+@app.get("/analyze", response_class=HTMLResponse)
+async def analyze(request: Request):
+    """Serve the audio analysis page."""
+    return templates.TemplateResponse("analyze.html", {"request": request})
 
 
 @app.get("/health")
