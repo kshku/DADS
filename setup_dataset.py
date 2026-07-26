@@ -17,7 +17,6 @@ import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-import numpy as np
 import pandas as pd
 from scipy.io import wavfile
 from tqdm import tqdm
@@ -102,7 +101,7 @@ def step_download(workers):
                 pbar.update(1)
     if failed:
         print(f"  {failed} downloads failed")
-    print(f"  Download complete")
+    print("  Download complete")
 
 
 # ---------------------------------------------------------------------------
