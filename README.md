@@ -1,4 +1,4 @@
-# DADS — Detecting and Analyzing Disfluencies in Speech
+# DADS — Detection and Analysis of Dysfluencies in Speech
 
 AI-powered stutter detection system. Records or uploads speech audio, analyzes it across 5 stutter types using separate CNN models, and visualizes results with waveform/spectrogram playback.
 
