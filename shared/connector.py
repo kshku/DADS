@@ -327,9 +327,7 @@ class StutterDetector:
         for i in range(5):
             if self.models[i] is not None:
                 params = self.model_params[i]
-                result = self._predict_model(
-                    audio_data, i, params["n_mels"], params["n_fft"], params["hop_length"]
-                )
+                result = self._predict_model(audio_data, i, params["n_mels"], params["n_fft"], params["hop_length"])
                 if result:
                     label_name, prob, is_detected = result
                     results[label_name] = {"probability": prob, "detected": is_detected}
