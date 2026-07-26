@@ -36,6 +36,7 @@ async def analyze_audio(file: UploadFile = File(...)):
             import librosa
 
             y, _ = librosa.load(tmp_path, sr=detector.sample_rate, mono=True)
+            y = y.astype(np.float32)
 
             total_duration = len(y) / detector.sample_rate
             chunk_size = detector.target_length
