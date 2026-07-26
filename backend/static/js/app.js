@@ -121,8 +121,19 @@
             const reader = response.body.getReader();
             const decoder = new TextDecoder();
             let buffer = '';
+            let eventType = '';
 
             analysisResults = { chunks: [], summary: null, filename: selectedFile.name };
+
+            function processLine(line) {
+                if (line.startsWith('event: ')) {
+                    eventType = line.slice(7).trim();
+                } else if (line.startsWith('data: ')) {
+                    const data = JSON.parse(line.slice(6));
+                    handleSSEEvent(eventType, data);
+                    eventType = '';
+                }
+            }
 
             while (true) {
                 const { done, value } = await reader.read();
@@ -132,15 +143,13 @@
                 const lines = buffer.split('\n');
                 buffer = lines.pop();
 
-                let eventType = '';
                 for (const line of lines) {
-                    if (line.startsWith('event: ')) {
-                        eventType = line.slice(7).trim();
-                    } else if (line.startsWith('data: ')) {
-                        const data = JSON.parse(line.slice(6));
-                        handleSSEEvent(eventType, data);
-                    }
+                    processLine(line);
                 }
+            }
+
+            if (buffer.trim()) {
+                processLine(buffer);
             }
         } catch (err) {
             progressText.textContent = `Error: ${err.message}`;
@@ -185,6 +194,9 @@
         resultsSection.classList.remove('hidden');
         reportSection.classList.remove('hidden');
 
+        if (data.spectrogram) {
+            displaySpectrogram(data.spectrogram);
+        }
         loadAudioPlayer();
     }
 
@@ -221,15 +233,24 @@
 
     function loadAudioPlayer() {
         if (!selectedFile) return;
-
         playerSection.classList.remove('hidden');
-
         if (!player) {
             player = new AudioPlayer();
-            player.init('#waveform', '#spectrogram');
+            player.init('#waveform');
         }
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                player.loadBlob(selectedFile);
+            });
+        });
+    }
 
-        player.loadBlob(selectedFile);
+    function displaySpectrogram(base64Data) {
+        const img = document.getElementById('spectrogram-img');
+        if (img && base64Data) {
+            img.src = `data:image/png;base64,${base64Data}`;
+            img.classList.remove('hidden');
+        }
     }
 
     function initPlayer() {

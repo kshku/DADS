@@ -54,7 +54,7 @@ Full desktop application with recording, playback, PDF passage viewer, and analy
 uvicorn backend.main:app --reload
 ```
 
-Opens at `http://localhost:8000`. Upload an audio file, hit Analyze, view spectrogram with real-time detection results, and download the report.
+Opens at `http://localhost:8000`. Upload an audio file (WAV, MP3, WebM, OGG, FLAC), hit Analyze, and view real-time detection results via SSE streaming with a server-side generated spectrogram and waveform playback.
 
 ## Architecture
 
@@ -87,6 +87,7 @@ Opens at `http://localhost:8000`. Upload an audio file, hit Analyze, view spectr
 | **Detector** | `shared/connector.py` | Model loading, mel spectrogram extraction, inference engine |
 | Web backend | `backend/main.py` | FastAPI app, single-page analyzer |
 | Web detector | `backend/services/detector.py` | Singleton wrapper around StutterDetector |
+| Web analysis | `backend/routers/analysis.py` | POST /api/analyze — SSE streaming + server-side spectrogram generation |
 
 ### Data Flow
 
@@ -180,7 +181,7 @@ DADS/
 │       ├── css/style.css       # Dark theme
 │       └── js/
 │           ├── app.js          # Upload, SSE, results, report download
-│           └── player.js       # wavesurfer.js + spectrogram
+│           └── player.js       # wavesurfer.js waveform player
 ├── shared/                     # Shared inference code
 │   └── connector.py            # StutterDetector + Model class
 ├── Model/

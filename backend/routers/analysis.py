@@ -1,6 +1,8 @@
 """Analysis API — SSE-based stutter detection."""
 
 import asyncio
+import base64
+import io
 import json
 import os
 import tempfile
@@ -21,7 +23,9 @@ async def analyze_audio(file: UploadFile = File(...)):
 
     audio_bytes = await file.read()
 
-    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp:
+    ext = os.path.splitext(file.filename or "audio.wav")[1] or ".wav"
+
+    with tempfile.NamedTemporaryFile(suffix=ext, delete=False) as tmp:
         tmp.write(audio_bytes)
         tmp_path = tmp.name
 
@@ -84,12 +88,15 @@ async def analyze_audio(file: UploadFile = File(...)):
 
             summary = detector.get_summary(chunk_results_all)
 
+            spectrogram_b64 = _generate_spectrogram(y, detector.sample_rate)
+
             complete_data = json.dumps(
                 {
                     "summary": summary,
                     "total_chunks": total_chunks,
                     "duration": total_duration,
                     "filename": file.filename,
+                    "spectrogram": spectrogram_b64,
                 }
             )
             yield f"event: complete\ndata: {complete_data}\n\n"
@@ -138,3 +145,29 @@ def _aggregate_results(results, processed_chunks):
         }
 
     return aggregated
+
+
+def _generate_spectrogram(y, sample_rate):
+    """Generate spectrogram image as base64 PNG (matching PyQt5 plot_canvas.py)."""
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    fig, ax = plt.subplots(figsize=(10, 2.5), facecolor="#1e1e1e")
+    ax.set_facecolor("#1e1e1e")
+
+    ax.specgram(y, Fs=sample_rate, cmap="viridis", NFFT=1024, noverlap=512)
+    ax.set_xlabel("Time (s)", color="#ffffff")
+    ax.set_ylabel("Frequency (Hz)", color="#ffffff")
+    ax.set_title("Spectrogram", color="#ffffff")
+    ax.tick_params(axis="x", colors="#ffffff")
+    ax.tick_params(axis="y", colors="#ffffff")
+    fig.tight_layout()
+
+    buf = io.BytesIO()
+    fig.savefig(buf, format="png", dpi=72, facecolor=fig.get_facecolor())
+    plt.close(fig)
+    buf.seek(0)
+
+    return base64.b64encode(buf.read()).decode("utf-8")

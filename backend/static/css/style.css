@@ -193,10 +193,9 @@ main {
     border: 1px solid var(--border);
 }
 
-#spectrogram {
+.spectrogram-img {
     width: 100%;
     border-radius: var(--radius);
-    overflow: hidden;
     margin-bottom: 0.75rem;
 }
 
