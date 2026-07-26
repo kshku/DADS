@@ -64,7 +64,7 @@ class StutterDetector:
         # Auto-detect models directory relative to this file
         if models_dir is None:
             current_dir = os.path.dirname(os.path.abspath(__file__))
-            project_root = os.path.dirname(current_dir)  # Go up from App/ to project root
+            project_root = os.path.dirname(current_dir)  # Go up from shared/ to project root
             models_dir = os.path.join(project_root, "Model", "models", "copy")
             if not os.path.exists(models_dir):
                 raise RuntimeError(f"Models directory not found at: {models_dir}")

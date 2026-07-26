@@ -1,35 +1,77 @@
 # DADS — Detection and Analysis of Dysfluencies in Speech
 
-AI-powered stutter detection system. Records or uploads speech audio, analyzes it across 5 stutter types using separate CNN models, and visualizes results with waveform/spectrogram playback.
+AI-powered stutter detection system. Analyzes speech audio across 5 stutter types using separate CNN models trained on the [SEP28k dataset](https://www.kaggle.com/datasets/ikrbasak/sep-28k), and visualizes results with waveform/spectrogram playback.
+
+## Stutter Types
+
+| Type | Description |
+|------|-------------|
+| **Prolongation** | Sound stretched beyond normal length (e.g., "sss-snake") |
+| **Block** | airflow stops mid-utterance (silent pause with visible effort) |
+| **Sound Repetition** | Repeating a single sound (e.g., "b-b-ball") |
+| **Word Repetition** | Repeating whole words (e.g., "I-I-I want") |
+| **Interjection** | Filler sounds/words (e.g., "um", "uh", "like") |
+
+## Quick Start
+
+### Prerequisites
+
+- Python 3.10
+- ffmpeg (for dataset setup)
+- CUDA-capable GPU (recommended)
+
+### Installation
+
+```bash
+git clone git@github.com:kshku/DADS.git
+cd DADS
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+### Dataset Setup
+
+One command downloads audio and extracts clips:
+
+```bash
+./setup_dataset.sh
+```
+
+This initializes the git submodule, downloads audio via ffmpeg, and extracts 3-second clips. Skip with `--skip-download` / `--skip-extract` flags.
+
+### Run — PyQt5 Desktop App
+
+```bash
+python App/run_app.py
+```
+
+Full desktop application with recording, playback, PDF passage viewer, and analysis visualization.
+
+### Run — FastAPI Web App
+
+```bash
+cd backend && uvicorn main:app --reload
+```
+
+Browser-based interface at `http://localhost:8000`. Supports file upload, audio playback with spectrogram, and real-time stutter detection.
 
 ## Architecture
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│                        PyQt5 Desktop App                     │
+│                    shared/connector.py                        │
+│                  StutterDetector + Model                      │
 │                                                              │
-│  ┌─────────────┐  ┌──────────────┐  ┌────────────────────┐  │
-│  │  PDF Viewer  │  │ Audio Handler│  │  Analysis Widget   │  │
-│  │  (passages)  │  │ (recording/  │  │  (spectrogram,     │  │
-│  │              │  │  playback)   │  │   waveform,        │  │
-│  │              │  │              │  │   stutter panel)    │  │
-│  └──────┬───────┘  └──────┬───────┘  └────────┬───────────┘  │
-│         │                 │                    │              │
-│         │                 │          ┌─────────▼──────────┐   │
-│         │                 │          │   StutterDetector   │   │
-│         │                 │          │   (connector.py)    │   │
-│         │                 │          │                     │   │
-│         │                 │          │  ┌───────────────┐  │   │
-│         │                 │          │  │  5 CNN Models  │  │   │
-│         │                 │          │  │  (per-type)    │  │   │
-│         │                 │          │  └───────────────┘  │   │
-│         │                 │          └─────────────────────┘   │
-└─────────┼─────────────────┼────────────────────┼──────────────┘
-          │                 │                    │
-          ▼                 ▼                    ▼
-    App/Passages/     WAV files          Model/models/copy/
-    (reference        (16kHz, mono)      (5 .pth weights)
-     passages)
+│  ┌───────────────┐  ┌───────────────┐  ┌──────────────────┐ │
+│  │  PyQt5 App    │  │  FastAPI Web  │  │  Training        │ │
+│  │  (App/)       │  │  (backend/)   │  │  Notebooks       │ │
+│  └───────┬───────┘  └───────┬───────┘  └──────────────────┘ │
+└──────────┼──────────────────┼────────────────────────────────┘
+           │                  │
+           ▼                  ▼
+     Model/models/copy/   Model/models/copy/
+     (5 .pth weights)     (5 .pth weights)
 ```
 
 ### Components
@@ -38,11 +80,13 @@ AI-powered stutter detection system. Records or uploads speech audio, analyzes i
 |--------|------|----------------|
 | Entry point | `App/run_app.py` | Launches QApplication, creates MainWindow |
 | Main window | `App/main_window.py` | Two-page layout (main → analysis), coordinates widgets |
-| Audio handler | `App/audio_handler.py` | Recording via QAudioInput, playback via QAudioOutput, WAV I/O |
+| Audio handler | `App/audio_handler.py` | Recording via QAudioInput, playback via QAudioOutput |
 | PDF viewer | `App/pdf_viewer_widget.py` | Renders reference passages for reading during recording |
-| Analysis widget | `App/analysis_widget.py` | Spectrogram/waveform plots, audio playback controls, stutter results panel, report export |
+| Analysis widget | `App/analysis_widget.py` | Spectrogram/waveform plots, stutter results panel, report export |
 | Plot canvas | `App/plot_canvas.py` | Matplotlib-based spectrogram and waveform rendering |
-| Detector | `App/connector.py` | Model loading, audio preprocessing, mel spectrogram extraction, inference engine |
+| **Detector** | `shared/connector.py` | Model loading, mel spectrogram extraction, inference engine |
+| Web backend | `backend/main.py` | FastAPI app, SSE streaming, passage serving |
+| Web detector | `backend/services/detector.py` | Singleton wrapper around StutterDetector |
 
 ### Data Flow
 
@@ -67,7 +111,6 @@ For each chunk:
          ▼
     extract_features()
          │
-         ├─ pad_or_truncate(audio)
          ├─ librosa.feature.melspectrogram(n_fft, hop_length, n_mels)
          ├─ librosa.power_to_db()
          └─ z-score normalization
@@ -77,14 +120,11 @@ For each chunk:
          │
          ▼
     Threshold (0.4)          → detected / not detected
-         │
-         ▼
-    Aggregate across chunks  → max probability per stutter type
 ```
 
 ## Model Architecture
 
-5 independent binary CNN models, one per stutter type. Each trained on the [SEP28k dataset](https://www.kaggle.com/datasets/ikrbasak/sep-28k).
+5 independent binary CNN models, one per stutter type.
 
 ```
 Input: mel spectrogram (1, n_mels, time_frames)
@@ -117,15 +157,7 @@ Filename convention: `{type}_model_{n_fft}_{hop_length}_{n_mels}_{epochs}.pth`
 | Word Repetition | `wordrep_model_1024_512_64_40.pth` | 64 | 0.81 |
 | Interjection | `interjection_model_1024_512_128_40.pth` | 128 | 0.71 |
 
-Each model's training parameters (`n_fft`, `hop_length`, `n_mels`, `epochs`) are encoded in the filename and parsed at runtime by `StutterDetector._parse_model_params()`.
-
-## Feature Extraction
-
-- **Sample rate:** 16kHz, mono
-- **Chunk size:** 3 seconds (48000 samples)
-- **Mel spectrogram:** per-model `n_mels` (64/128/256), `n_fft=1024`, `hop_length=512`
-- **Scale:** dB (power_to_db with max reference)
-- **Normalization:** z-score (mean=0, std=1)
+Training parameters (`n_fft`, `hop_length`, `n_mels`, `epochs`) are parsed from filenames at runtime.
 
 ## Project Structure
 
@@ -134,56 +166,31 @@ DADS/
 ├── App/                        # PyQt5 desktop application
 │   ├── run_app.py              # Entry point
 │   ├── main_window.py          # Main window, page navigation
-│   ├── audio_handler.py        # Audio recording (QAudioInput) and playback (QAudioOutput)
-│   ├── connector.py            # StutterDetector + Model class (inference engine)
-│   ├── analysis_widget.py      # Analysis page: plots, playback controls, stutter panel
+│   ├── audio_handler.py        # Audio recording and playback
+│   ├── analysis_widget.py      # Spectrogram, waveform, stutter panel
 │   ├── pdf_viewer_widget.py    # PDF passage viewer
-│   ├── plot_canvas.py          # Matplotlib canvas for spectrogram/waveform
-│   └── Passages/               # Reference passages (Rainbow Passage PDF)
+│   ├── plot_canvas.py          # Matplotlib canvas
+│   └── Passages/               # Reference passages (Rainbow Passage)
+├── backend/                    # FastAPI web application
+│   ├── main.py                 # FastAPI app entry point
+│   ├── services/detector.py    # StutterDetector singleton wrapper
+│   ├── routers/                # API endpoints (analysis, passages)
+│   ├── templates/              # Jinja2 HTML templates
+│   └── static/                 # CSS, JS, assets
+├── shared/                     # Shared inference code
+│   └── connector.py            # StutterDetector + Model class
 ├── Model/
 │   ├── models/copy/            # 5 production .pth models + accuracy.txt
-│   ├── models/                 # All trained models (52+ variants)
-│   ├── model.ipynb             # Model architecture + training code
-│   ├── model_train.ipynb       # CNNLSTM training notebook
-│   └── inference.ipynb         # CNNLSTM inference notebook
+│   ├── models/                 # All trained model variants
+│   ├── model.ipynb             # CNN architecture + training
+│   ├── model_train.ipynb       # CNNLSTM training
+│   └── inference.ipynb         # CNNLSTM inference
 ├── dataset/                    # Git submodule → SEP28k dataset
-├── requirements.txt
-└── .gitignore
-```
-
-## Setup
-
-### Prerequisites
-
-- Python 3.10
-- CUDA-capable GPU (recommended for inference speed)
-
-### Installation
-
-```bash
-git clone git@github.com:kshku/DADS.git
-cd DADS
-
-python3 -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
-
-pip install -r requirements.txt
-```
-
-### Dataset
-
-The dataset is a git submodule. Initialize after cloning:
-
-```bash
-git submodule update --init --recursive
-```
-
-Audio data (Clips/, Waves/) must be copied manually into `dataset/`.
-
-### Run
-
-```bash
-python App/run_app.py
+├── setup_dataset.sh            # Dataset setup (shell wrapper)
+├── setup_dataset.py            # Dataset setup (Python script)
+├── requirements.txt            # Python dependencies
+├── Dockerfile                  # Docker build for web backend
+└── pyproject.toml              # Ruff linting config
 ```
 
 ## Development
@@ -192,40 +199,17 @@ python App/run_app.py
 
 | Branch | Purpose |
 |--------|---------|
-| `main` | Production — protected, requires PR + review |
-| `feature/*` | New features (e.g., `feature/backend-api`) |
-| `bugfix/*` | Bug fixes |
-| `hotfix/*` | Urgent production fixes |
-| `docs/*` | Documentation changes |
+| `main` | Production — protected, requires PR |
+| `dev` | Development — integration branch |
+| `feature/*` | New features → PR to `dev` |
+| `bugfix/*` | Bug fixes → PR to `dev` |
+| `hotfix/*` | Urgent production fixes → PR to `main` |
 
 ### Commit Convention
 
-This project follows [Conventional Commits](https://www.conventionalcommits.org/):
+[Conventional Commits](https://www.conventionalcommits.org/): `<type>: <description>`
 
-```
-<type>: <description>
-```
-
-| Type | Description |
-|------|-------------|
-| `feat` | New feature |
-| `fix` | Bug fix |
-| `docs` | Documentation only |
-| `style` | Formatting (no code change) |
-| `refactor` | Code change that neither fixes a bug nor adds a feature |
-| `test` | Adding or updating tests |
-| `chore` | Build process, dependencies, tooling |
-| `ci` | CI/CD configuration |
-| `perf` | Performance improvement |
-
-**Examples:**
-
-```
-feat: add audio upload endpoint
-fix: correct n_mels parsing for wordrep model
-docs: update README with backend architecture
-chore: add Dockerfile for deployment
-```
+Types: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`, `ci`, `perf`
 
 ### Linting
 
@@ -236,5 +220,5 @@ ruff format --check .
 
 ### CI
 
-GitHub Actions runs on every PR to `main`:
+GitHub Actions runs on every PR:
 - **Lint:** `ruff check` + `ruff format --check`
