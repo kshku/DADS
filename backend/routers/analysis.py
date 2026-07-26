@@ -1,4 +1,4 @@
-"""Analysis API — SSE-based stutter detection. No persistence."""
+"""Analysis API — SSE-based stutter detection."""
 
 import asyncio
 import json
@@ -10,7 +10,9 @@ from fastapi import APIRouter, File, UploadFile
 from fastapi.responses import StreamingResponse
 from services.detector import get_detector
 
-router = APIRouter(prefix="/api/analysis", tags=["analysis"])
+router = APIRouter(prefix="/api", tags=["analysis"])
+
+LABELS = ["prolongation", "block", "soundrep", "wordrep", "interjection"]
 
 
 @router.post("/analyze")
@@ -40,8 +42,7 @@ async def analyze_audio(file: UploadFile = File(...)):
             for chunk_idx in range(total_chunks):
                 start_sample = chunk_idx * chunk_size
                 end_sample = min((chunk_idx + 1) * chunk_size, len(y))
-                chunk_audio = y[start_sample:end_sample]
-                chunk_audio = detector.pad_or_truncate(chunk_audio)
+                chunk_audio = detector.pad_or_truncate(y[start_sample:end_sample])
 
                 time_start = chunk_idx * detector.target_duration
                 time_end = min((chunk_idx + 1) * detector.target_duration, total_duration)
@@ -114,14 +115,14 @@ async def analyze_audio(file: UploadFile = File(...)):
 def _aggregate_results(results, processed_chunks):
     """Calculate aggregated stats (matching PyQt5 analysis_widget.py logic)."""
     aggregated = {}
-    for stutter_type in ["prolongation", "soundrep", "wordrep", "block", "interjection"]:
+    for label in LABELS:
         max_prob = 0.0
         detected_count = 0
 
         for chunk_data in results.values():
-            if stutter_type in chunk_data.get("detections", {}):
-                prob = chunk_data["detections"][stutter_type]["probability"]
-                is_detected = chunk_data["detections"][stutter_type]["detected"]
+            if label in chunk_data.get("detections", {}):
+                prob = chunk_data["detections"][label]["probability"]
+                is_detected = chunk_data["detections"][label]["detected"]
                 max_prob = max(max_prob, prob)
                 if is_detected and prob > 0.4:
                     detected_count += 1
@@ -129,7 +130,7 @@ def _aggregate_results(results, processed_chunks):
         confidence = max_prob * 100 if processed_chunks > 0 else 0.0
         detected = max_prob > 0.4
 
-        aggregated[stutter_type] = {
+        aggregated[label] = {
             "confidence": confidence,
             "detected": detected,
             "max_probability": max_prob,

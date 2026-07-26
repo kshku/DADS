@@ -1,96 +1,103 @@
-// wavesurfer.js wrapper for audio playback + spectrogram/waveform
-const AudioPlayer = {
-    ws: null,
-    spectrogram: null,
-    isSpectrogram: true,
+/**
+ * Audio player with wavesurfer.js + spectrogram.
+ */
+class AudioPlayer {
+    constructor() {
+        this.wavesurfer = null;
+        this.spectrogram = null;
+        this.playing = false;
+    }
 
-    init() {
-        this.ws = WaveSurfer.create({
-            container: '#waveform',
-            waveColor: '#3498db',
-            progressColor: '#2980b9',
+    init(containerId, spectrogramId) {
+        this.wavesurfer = WaveSurfer.create({
+            container: containerId,
+            waveColor: '#4a6a8a',
+            progressColor: '#4fc3f7',
             cursorColor: '#fff',
-            height: 80,
+            height: 64,
+            responsive: true,
             barWidth: 2,
             barGap: 1,
-            responsive: true,
-            backend: 'WebAudio',
         });
 
-        this.spectrogram = this.ws.registerPlugin(
-            WaveSurfer.Spectrogram.create({
-                container: '#waveform',
-                labels: true,
-                height: 80,
-                splitChannels: false,
-                colorMap: 'magma',
-            })
-        );
+        this.spectrogram = WaveSurfer.Spectrogram.create({
+            container: spectrogramId,
+            labels: true,
+            height: 200,
+            splitChannels: false,
+            colorMap: 'inferno',
+        });
 
-        this.ws.on('timeupdate', (t) => this.onTimeUpdate(t));
-        this.ws.on('finish', () => this.onFinish());
-        this.ws.on('ready', () => this.onReady());
+        this.wavesurfer.registerPlugin(this.spectrogram);
 
-        document.getElementById('play-pause').addEventListener('click', () => this.togglePlay());
-        document.getElementById('seek-back').addEventListener('click', () => this.seekRelative(-5));
-        document.getElementById('seek-forward').addEventListener('click', () => this.seekRelative(5));
-        document.getElementById('toggle-spectrogram').addEventListener('click', () => this.setMode(true));
-        document.getElementById('toggle-waveform').addEventListener('click', () => this.setMode(false));
-    },
+        this.wavesurfer.on('play', () => {
+            this.playing = true;
+            this._updatePlayButton();
+        });
+
+        this.wavesurfer.on('pause', () => {
+            this.playing = false;
+            this._updatePlayButton();
+        });
+
+        this.wavesurfer.on('finish', () => {
+            this.playing = false;
+            this._updatePlayButton();
+        });
+
+        this.wavesurfer.on('timeupdate', (currentTime) => {
+            this._updateTimeDisplay(currentTime);
+        });
+
+        this.wavesurfer.on('ready', () => {
+            this._updateTimeDisplay(0);
+        });
+    }
 
     loadBlob(blob) {
-        const url = URL.createObjectURL(blob);
-        this.ws.load(url);
-    },
+        if (this.wavesurfer) {
+            this.wavesurfer.loadBlob(blob);
+        }
+    }
 
     loadUrl(url) {
-        this.ws.load(url);
-    },
-
-    togglePlay() {
-        this.ws.playPause();
-        document.getElementById('play-pause').textContent =
-            this.ws.isPlaying() ? 'Pause' : 'Play';
-    },
-
-    seekRelative(seconds) {
-        const current = this.ws.getCurrentTime();
-        this.ws.seekTo(Math.max(0, (current + seconds) / this.ws.getDuration()));
-    },
-
-    setMode(spectrogram) {
-        this.isSpectrogram = spectrogram;
-        const url = this.ws.getSrc();
-        if (url) {
-            this.ws.load(url);
+        if (this.wavesurfer) {
+            this.wavesurfer.load(url);
         }
-    },
+    }
 
-    onTimeUpdate(time) {
-        const duration = this.ws.getDuration();
-        const format = (s) => {
-            const m = Math.floor(s / 60);
-            const sec = Math.floor(s % 60);
-            return `${m}:${sec.toString().padStart(2, '0')}`;
-        };
-        document.getElementById('time-display').textContent =
-            `${format(time)} / ${format(duration)}`;
-        document.getElementById('progress-fill').style.width =
-            `${(time / duration) * 100}%`;
-    },
-
-    onFinish() {
-        document.getElementById('play-pause').textContent = 'Play';
-        document.getElementById('progress-fill').style.width = '100%';
-    },
-
-    onReady() {
-        const duration = this.ws.getDuration();
-        document.getElementById('time-display').textContent =
-            `0:00 / ${Math.floor(duration / 60)}:${(Math.floor(duration) % 60).toString().padStart(2, '0')}`;
-    },
+    togglePlayPause() {
+        if (this.wavesurfer) {
+            this.wavesurfer.playPause();
+        }
+    }
 
     getDuration() {
-        return this.ws ? this.ws.getDuration() : 0;
+        return this.wavesurfer ? this.wavesurfer.getDuration() : 0;
     }
-};
+
+    _updatePlayButton() {
+        const playIcon = document.getElementById('play-icon');
+        const pauseIcon = document.getElementById('pause-icon');
+        if (playIcon && pauseIcon) {
+            playIcon.classList.toggle('hidden', this.playing);
+            pauseIcon.classList.toggle('hidden', !this.playing);
+        }
+    }
+
+    _updateTimeDisplay(currentTime) {
+        const display = document.getElementById('time-display');
+        if (display) {
+            const duration = this.getDuration();
+            display.textContent = `${this._formatTime(currentTime)} / ${this._formatTime(duration)}`;
+        }
+    }
+
+    _formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+}
+
+window.AudioPlayer = AudioPlayer;

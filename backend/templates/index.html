@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DADS — Stutter Detection</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>DADS <span class="subtitle">Stutter Detection</span></h1>
+    </header>
+
+    <main>
+        <!-- Upload Zone -->
+        <section id="upload-section">
+            <div id="drop-zone" class="drop-zone">
+                <div class="drop-zone-content">
+                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    <p>Drop audio file here or <label for="file-input" class="browse-link">browse</label></p>
+                    <p class="drop-hint">WAV, MP3, WebM, OGG, FLAC</p>
+                </div>
+                <input type="file" id="file-input" accept=".wav,.mp3,.webm,.ogg,.flac,audio/*" hidden>
+            </div>
+            <div id="file-info" class="file-info hidden">
+                <span id="file-name"></span>
+                <button id="clear-file" class="btn-icon" title="Remove file">&times;</button>
+            </div>
+        </section>
+
+        <!-- Analyze Button -->
+        <section id="controls-section" class="hidden">
+            <button id="analyze-btn" class="btn-primary">Analyze</button>
+        </section>
+
+        <!-- Progress -->
+        <section id="progress-section" class="hidden">
+            <div class="progress-bar-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+            <p id="progress-text" class="progress-text"></p>
+        </section>
+
+        <!-- Spectrogram + Player -->
+        <section id="player-section" class="hidden">
+            <div id="spectrogram"></div>
+            <div class="player-controls">
+                <button id="play-btn" class="btn-icon" title="Play/Pause">
+                    <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+                    <svg id="pause-icon" viewBox="0 0 24 24" fill="currentColor" class="hidden"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                </button>
+                <div id="waveform" class="waveform"></div>
+                <span id="time-display" class="time-display">0:00 / 0:00</span>
+            </div>
+        </section>
+
+        <!-- Detection Results -->
+        <section id="results-section" class="hidden">
+            <h2>Detection Results</h2>
+            <div id="results-grid" class="results-grid">
+                <div class="result-card" data-label="prolongation">
+                    <h3>Prolongation</h3>
+                    <div class="confidence-value" id="conf-prolongation">0%</div>
+                    <div class="detected-status" id="status-prolongation">Not Detected</div>
+                </div>
+                <div class="result-card" data-label="block">
+                    <h3>Block</h3>
+                    <div class="confidence-value" id="conf-block">0%</div>
+                    <div class="detected-status" id="status-block">Not Detected</div>
+                </div>
+                <div class="result-card" data-label="soundrep">
+                    <h3>Sound Repetition</h3>
+                    <div class="confidence-value" id="conf-soundrep">0%</div>
+                    <div class="detected-status" id="status-soundrep">Not Detected</div>
+                </div>
+                <div class="result-card" data-label="wordrep">
+                    <h3>Word Repetition</h3>
+                    <div class="confidence-value" id="conf-wordrep">0%</div>
+                    <div class="detected-status" id="status-wordrep">Not Detected</div>
+                </div>
+                <div class="result-card" data-label="interjection">
+                    <h3>Interjection</h3>
+                    <div class="confidence-value" id="conf-interjection">0%</div>
+                    <div class="detected-status" id="status-interjection">Not Detected</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Report Download -->
+        <section id="report-section" class="hidden">
+            <button id="download-btn" class="btn-secondary">Download Report</button>
+        </section>
+    </main>
+
+    <script src="https://unpkg.com/wavesurfer.js@7"></script>
+    <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/spectrogram.js"></script>
+    <script src="/static/js/player.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
