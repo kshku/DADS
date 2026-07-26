@@ -21,7 +21,7 @@ templates = Jinja2Templates(directory=os.path.join(os.path.dirname(__file__), "t
 app.include_router(analysis.router)
 
 
-@app.get("/", response_class=HTMLResponse)
+@app.api_route("/", methods=["GET", "HEAD"], response_class=HTMLResponse)
 async def home(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
