@@ -86,6 +86,7 @@ def step_download(workers):
         sys.exit(1)
 
     df = pd.read_csv(EPISODES_CSV, header=None, names=["show", "episode", "url", "show_id", "ep_idx"])
+    df = df.apply(lambda col: col.str.strip() if col.dtype == "object" else col)
     print(f"  Found {len(df)} episodes")
 
     tasks = [(row.url, row.show_id, int(row.ep_idx)) for _, row in df.iterrows()]
