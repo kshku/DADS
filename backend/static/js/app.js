@@ -162,6 +162,9 @@
 
     function handleSSEEvent(type, data) {
         switch (type) {
+            case 'started':
+                progressText.textContent = 'Loading audio...';
+                break;
             case 'progress':
                 handleProgress(data);
                 break;
