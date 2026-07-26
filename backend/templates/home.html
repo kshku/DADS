@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DADS - Stutter Detection</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="/" class="nav-brand">DADS</a>
+        <div class="nav-links">
+            <a href="/" class="nav-link active">Home</a>
+            <a href="/analyze" class="nav-link">Analyze</a>
+        </div>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Menu">&#9776;</button>
+    </nav>
+
+    <div class="container">
+        <div class="home-layout">
+            <!-- Passages Sidebar -->
+            <aside class="panel sidebar" id="passages-panel">
+                <h2 class="panel-title">Passages</h2>
+                <div id="passage-list"></div>
+                <label class="btn btn-sm btn-block" style="margin-top: 12px;">
+                    + Upload Passage
+                    <input type="file" id="passage-upload" class="hidden" accept=".pdf">
+                </label>
+            </aside>
+
+            <!-- PDF Viewer -->
+            <main class="panel pdf-panel">
+                <div class="pdf-content" id="pdf-container">
+                    <span style="color: #666;">Select a passage to read</span>
+                </div>
+                <div class="pdf-nav" id="pdf-nav" style="display: none;">
+                    <button class="btn btn-sm" id="pdf-prev">&lt; Prev</button>
+                    <span id="pdf-page-info">Page 1 / 1</span>
+                    <button class="btn btn-sm" id="pdf-next">Next &gt;</button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="/static/js/pdf-viewer.js"></script>
+    <script src="/static/js/home.js"></script>
+</body>
+</html>
