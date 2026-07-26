@@ -6,6 +6,5 @@ librosa
 numpy
 soundfile
 torch
-torchaudio
 scipy
 matplotlib

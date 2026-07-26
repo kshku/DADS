@@ -11,7 +11,6 @@ COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY shared/ shared/
-COPY App/ App/
 COPY Model/models/copy/ Model/models/copy/
 COPY backend/ backend/
 
