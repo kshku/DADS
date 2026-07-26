@@ -9,12 +9,14 @@ import tempfile
 
 import numpy as np
 from fastapi import APIRouter, File, UploadFile
-from fastapi.responses import StreamingResponse
+from fastapi.responses import Response, StreamingResponse
 from services.detector import get_detector
 
 router = APIRouter(prefix="/api", tags=["analysis"])
 
 LABELS = ["prolongation", "block", "soundrep", "wordrep", "interjection"]
+
+_spectrogram_cache: dict[str, str] = {}
 
 
 @router.post("/analyze")
@@ -28,6 +30,8 @@ async def analyze_audio(file: UploadFile = File(...)):
     with tempfile.NamedTemporaryFile(suffix=ext, delete=False) as tmp:
         tmp.write(audio_bytes)
         tmp_path = tmp.name
+
+    session_id = f"{os.getpid()}_{id(audio_bytes)}"
 
     async def event_stream():
         try:
@@ -85,11 +89,13 @@ async def analyze_audio(file: UploadFile = File(...)):
                     }
                 )
                 yield f"event: progress\ndata: {event_data}\n\n"
+                yield ": ping\n\n"
                 await asyncio.sleep(0)
 
             summary = detector.get_summary(chunk_results_all)
 
             spectrogram_b64 = _generate_spectrogram(y, detector.sample_rate)
+            _spectrogram_cache[session_id] = spectrogram_b64
 
             complete_data = json.dumps(
                 {
@@ -97,10 +103,11 @@ async def analyze_audio(file: UploadFile = File(...)):
                     "total_chunks": total_chunks,
                     "duration": total_duration,
                     "filename": file.filename,
-                    "spectrogram": spectrogram_b64,
+                    "session_id": session_id,
                 }
             )
             yield f"event: complete\ndata: {complete_data}\n\n"
+            yield ": ping\n\n"
 
         except Exception as e:
             error_data = json.dumps({"error": str(e)})
@@ -118,6 +125,16 @@ async def analyze_audio(file: UploadFile = File(...)):
             "X-Accel-Buffering": "no",
         },
     )
+
+
+@router.get("/spectrogram/{session_id}")
+async def get_spectrogram(session_id: str):
+    """Return spectrogram as PNG image."""
+    b64 = _spectrogram_cache.pop(session_id, None)
+    if not b64:
+        return Response(status_code=404)
+    img_bytes = base64.b64decode(b64)
+    return Response(content=img_bytes, media_type="image/png")
 
 
 def _aggregate_results(results, processed_chunks):

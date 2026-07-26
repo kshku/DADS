@@ -194,8 +194,8 @@
         resultsSection.classList.remove('hidden');
         reportSection.classList.remove('hidden');
 
-        if (data.spectrogram) {
-            displaySpectrogram(data.spectrogram);
+        if (data.session_id) {
+            loadSpectrogram(data.session_id);
         }
         loadAudioPlayer();
     }
@@ -245,12 +245,11 @@
         });
     }
 
-    function displaySpectrogram(base64Data) {
+    function loadSpectrogram(sessionId) {
         const img = document.getElementById('spectrogram-img');
-        if (img && base64Data) {
-            img.src = `data:image/png;base64,${base64Data}`;
-            img.classList.remove('hidden');
-        }
+        if (!img) return;
+        img.onload = () => img.classList.remove('hidden');
+        img.src = `/api/spectrogram/${sessionId}`;
     }
 
     function initPlayer() {
