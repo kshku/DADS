@@ -1,5 +1,6 @@
 """DADS Web Backend — FastAPI application entry point."""
 
+import logging
 import os
 import sys
 
@@ -11,6 +12,8 @@ from fastapi.templating import Jinja2Templates
 from routers import analysis
 from starlette.requests import Request
 from starlette.responses import HTMLResponse
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s: %(message)s")
 
 app = FastAPI(title="DADS - Stutter Detection", version="2.0.0")
 

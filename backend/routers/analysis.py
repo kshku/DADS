@@ -4,6 +4,7 @@ import asyncio
 import base64
 import io
 import json
+import logging
 import os
 import tempfile
 
@@ -11,6 +12,8 @@ import numpy as np
 from fastapi import APIRouter, File, UploadFile
 from fastapi.responses import Response, StreamingResponse
 from services.detector import get_detector
+
+log = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api", tags=["analysis"])
 
@@ -35,10 +38,14 @@ async def analyze_audio(file: UploadFile = File(...)):
 
     async def event_stream():
         try:
+            yield ": " + " " * 2048 + "\n\n"
+
             yield f"event: started\ndata: {json.dumps({'status': 'loading'})}\n\n"
             yield ": ping\n\n"
+            log.info("[%s] started event sent", session_id)
 
             detector = get_detector()
+            log.info("[%s] detector ready, loading audio", session_id)
 
             def _load_audio():
                 import librosa
@@ -47,8 +54,9 @@ async def analyze_audio(file: UploadFile = File(...)):
                 return y.astype(np.float32)
 
             y = await asyncio.to_thread(_load_audio)
-
             total_duration = len(y) / detector.sample_rate
+            log.info("[%s] audio loaded: %.1fs, %d samples", session_id, total_duration, len(y))
+
             chunk_size = detector.target_length
             total_chunks = int(np.ceil(len(y) / chunk_size))
 
@@ -76,6 +84,7 @@ async def analyze_audio(file: UploadFile = File(...)):
                     return results
 
                 chunk_results = await asyncio.to_thread(_infer_chunk)
+                log.info("[%s] chunk %d/%d done", session_id, chunk_idx + 1, total_chunks)
 
                 chunk_results_all[chunk_idx] = {
                     "time_start": time_start,
@@ -106,6 +115,7 @@ async def analyze_audio(file: UploadFile = File(...)):
 
             spectrogram_b64 = await asyncio.to_thread(_make_spectrogram)
             _spectrogram_cache[session_id] = spectrogram_b64
+            log.info("[%s] spectrogram generated", session_id)
 
             complete_data = json.dumps(
                 {
@@ -120,9 +130,11 @@ async def analyze_audio(file: UploadFile = File(...)):
             yield ": ping\n\n"
 
         except Exception as e:
+            log.error("[%s] error: %s", session_id, e, exc_info=True)
             error_data = json.dumps({"error": str(e)})
             yield f"event: error\ndata: {error_data}\n\n"
         finally:
+            log.info("[%s] stream ended", session_id)
             if os.path.exists(tmp_path):
                 os.remove(tmp_path)
 
