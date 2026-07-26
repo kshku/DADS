@@ -35,12 +35,18 @@ async def analyze_audio(file: UploadFile = File(...)):
 
     async def event_stream():
         try:
+            yield f"event: started\ndata: {json.dumps({'status': 'loading'})}\n\n"
+            yield ": ping\n\n"
+
             detector = get_detector()
 
-            import librosa
+            def _load_audio():
+                import librosa
 
-            y, _ = librosa.load(tmp_path, sr=detector.sample_rate, mono=True)
-            y = y.astype(np.float32)
+                y, _ = librosa.load(tmp_path, sr=detector.sample_rate, mono=True)
+                return y.astype(np.float32)
+
+            y = await asyncio.to_thread(_load_audio)
 
             total_duration = len(y) / detector.sample_rate
             chunk_size = detector.target_length
@@ -56,19 +62,20 @@ async def analyze_audio(file: UploadFile = File(...)):
                 time_start = chunk_idx * detector.target_duration
                 time_end = min((chunk_idx + 1) * detector.target_duration, total_duration)
 
-                chunk_results = {}
-                for i in range(5):
-                    if detector.models[i] is not None:
-                        params = detector.model_params[i]
-                        result = detector._predict_model(
-                            chunk_audio, i, params["n_mels"], params["n_fft"], params["hop_length"]
-                        )
-                        if result:
-                            label_name, prob, is_detected = result
-                            chunk_results[label_name] = {
-                                "probability": prob,
-                                "detected": is_detected,
-                            }
+                def _infer_chunk(audio=chunk_audio):
+                    results = {}
+                    for i in range(5):
+                        if detector.models[i] is not None:
+                            params = detector.model_params[i]
+                            result = detector._predict_model(
+                                audio, i, params["n_mels"], params["n_fft"], params["hop_length"]
+                            )
+                            if result:
+                                label_name, prob, is_detected = result
+                                results[label_name] = {"probability": prob, "detected": is_detected}
+                    return results
+
+                chunk_results = await asyncio.to_thread(_infer_chunk)
 
                 chunk_results_all[chunk_idx] = {
                     "time_start": time_start,
@@ -94,7 +101,10 @@ async def analyze_audio(file: UploadFile = File(...)):
 
             summary = detector.get_summary(chunk_results_all)
 
-            spectrogram_b64 = _generate_spectrogram(y, detector.sample_rate)
+            def _make_spectrogram():
+                return _generate_spectrogram(y, detector.sample_rate)
+
+            spectrogram_b64 = await asyncio.to_thread(_make_spectrogram)
             _spectrogram_cache[session_id] = spectrogram_b64
 
             complete_data = json.dumps(
