@@ -1,7 +1,7 @@
 [tool.ruff]
 line-length = 120
-target-version = "py310"
-exclude = ["*.ipynb", "__pycache__"]
+target-version = "py312"
+exclude = ["*.ipynb", "__pycache__", "dataset/"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I"]

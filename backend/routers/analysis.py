@@ -1,6 +1,8 @@
-"""Analysis API — SSE-based stutter detection. No persistence."""
+"""Analysis API — SSE-based stutter detection."""
 
 import asyncio
+import base64
+import io
 import json
 import os
 import tempfile
@@ -10,7 +12,9 @@ from fastapi import APIRouter, File, UploadFile
 from fastapi.responses import StreamingResponse
 from services.detector import get_detector
 
-router = APIRouter(prefix="/api/analysis", tags=["analysis"])
+router = APIRouter(prefix="/api", tags=["analysis"])
+
+LABELS = ["prolongation", "block", "soundrep", "wordrep", "interjection"]
 
 
 @router.post("/analyze")
@@ -19,7 +23,9 @@ async def analyze_audio(file: UploadFile = File(...)):
 
     audio_bytes = await file.read()
 
-    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp:
+    ext = os.path.splitext(file.filename or "audio.wav")[1] or ".wav"
+
+    with tempfile.NamedTemporaryFile(suffix=ext, delete=False) as tmp:
         tmp.write(audio_bytes)
         tmp_path = tmp.name
 
@@ -40,8 +46,7 @@ async def analyze_audio(file: UploadFile = File(...)):
             for chunk_idx in range(total_chunks):
                 start_sample = chunk_idx * chunk_size
                 end_sample = min((chunk_idx + 1) * chunk_size, len(y))
-                chunk_audio = y[start_sample:end_sample]
-                chunk_audio = detector.pad_or_truncate(chunk_audio)
+                chunk_audio = detector.pad_or_truncate(y[start_sample:end_sample])
 
                 time_start = chunk_idx * detector.target_duration
                 time_end = min((chunk_idx + 1) * detector.target_duration, total_duration)
@@ -83,12 +88,15 @@ async def analyze_audio(file: UploadFile = File(...)):
 
             summary = detector.get_summary(chunk_results_all)
 
+            spectrogram_b64 = _generate_spectrogram(y, detector.sample_rate)
+
             complete_data = json.dumps(
                 {
                     "summary": summary,
                     "total_chunks": total_chunks,
                     "duration": total_duration,
                     "filename": file.filename,
+                    "spectrogram": spectrogram_b64,
                 }
             )
             yield f"event: complete\ndata: {complete_data}\n\n"
@@ -114,14 +122,14 @@ async def analyze_audio(file: UploadFile = File(...)):
 def _aggregate_results(results, processed_chunks):
     """Calculate aggregated stats (matching PyQt5 analysis_widget.py logic)."""
     aggregated = {}
-    for stutter_type in ["prolongation", "soundrep", "wordrep", "block", "interjection"]:
+    for label in LABELS:
         max_prob = 0.0
         detected_count = 0
 
         for chunk_data in results.values():
-            if stutter_type in chunk_data.get("detections", {}):
-                prob = chunk_data["detections"][stutter_type]["probability"]
-                is_detected = chunk_data["detections"][stutter_type]["detected"]
+            if label in chunk_data.get("detections", {}):
+                prob = chunk_data["detections"][label]["probability"]
+                is_detected = chunk_data["detections"][label]["detected"]
                 max_prob = max(max_prob, prob)
                 if is_detected and prob > 0.4:
                     detected_count += 1
@@ -129,7 +137,7 @@ def _aggregate_results(results, processed_chunks):
         confidence = max_prob * 100 if processed_chunks > 0 else 0.0
         detected = max_prob > 0.4
 
-        aggregated[stutter_type] = {
+        aggregated[label] = {
             "confidence": confidence,
             "detected": detected,
             "max_probability": max_prob,
@@ -137,3 +145,29 @@ def _aggregate_results(results, processed_chunks):
         }
 
     return aggregated
+
+
+def _generate_spectrogram(y, sample_rate):
+    """Generate spectrogram image as base64 PNG (matching PyQt5 plot_canvas.py)."""
+    import matplotlib
+
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    fig, ax = plt.subplots(figsize=(10, 2.5), facecolor="#1e1e1e")
+    ax.set_facecolor("#1e1e1e")
+
+    ax.specgram(y, Fs=sample_rate, cmap="viridis", NFFT=1024, noverlap=512)
+    ax.set_xlabel("Time (s)", color="#ffffff")
+    ax.set_ylabel("Frequency (Hz)", color="#ffffff")
+    ax.set_title("Spectrogram", color="#ffffff")
+    ax.tick_params(axis="x", colors="#ffffff")
+    ax.tick_params(axis="y", colors="#ffffff")
+    fig.tight_layout()
+
+    buf = io.BytesIO()
+    fig.savefig(buf, format="png", dpi=72, facecolor=fig.get_facecolor())
+    plt.close(fig)
+    buf.seek(0)
+
+    return base64.b64encode(buf.read()).decode("utf-8")

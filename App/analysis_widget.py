@@ -4,11 +4,13 @@ Handles audio analysis, playback controls, and visualization
 """
 
 import os
+import sys
 import tempfile
 from datetime import datetime
 
 import numpy as np
-from connector import StutterDetector
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from plot_canvas import PlotCanvas
 from PyQt5.QtCore import Qt, QThread, QTimer, pyqtSignal
 from PyQt5.QtCore import pyqtSignal as Signal
@@ -25,6 +27,8 @@ from PyQt5.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
+
+from shared.connector import StutterDetector
 
 
 class StutterDetectionThread(QThread):

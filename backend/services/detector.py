@@ -1,13 +1,13 @@
-"""Service wrapper for StutterDetector from App/connector.py"""
+"""Service wrapper for StutterDetector from shared/connector.py"""
 
 import os
 import sys
 
-# Add App/ to path so we can import connector
-APP_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "App")
-sys.path.insert(0, os.path.abspath(APP_DIR))
+# Add project root to path so we can import shared.connector
+PROJECT_ROOT = os.path.join(os.path.dirname(__file__), "..", "..")
+sys.path.insert(0, os.path.abspath(PROJECT_ROOT))
 
-from connector import StutterDetector  # noqa: E402
+from shared.connector import StutterDetector  # noqa: E402
 
 _detector = None
 

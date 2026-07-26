@@ -3,113 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DADS - Stutter Detection</title>
+    <title>DADS — Stutter Detection</title>
     <link rel="stylesheet" href="/static/css/style.css">
-    <!-- PDF.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <!-- wavesurfer.js -->
-    <script src="https://unpkg.com/wavesurfer.js@7"></script>
-    <script src="https://unpkg.com/wavesurfer.js@7/dist/plugins/spectrogram.js"></script>
 </head>
 <body>
-    <div class="header">
-        <h1>DADS - Stutter Detection</h1>
-        <span style="color: #666; font-size: 13px;">Detection and Analysis of Dysfluencies in Speech</span>
-    </div>
+    <header>
+        <h1>DADS <span class="subtitle">Stutter Detection</span></h1>
+    </header>
 
-    <div class="main-layout">
-        <!-- Passages Sidebar -->
-        <div class="panel passages-panel">
-            <div class="panel-title">Passages</div>
-            <div id="passage-list"></div>
-            <label class="btn btn-sm btn-block" style="margin-top: 12px;">
-                + Upload Passage
-                <input type="file" id="passage-upload" class="hidden" accept=".pdf">
-            </label>
-        </div>
-
-        <!-- Center: PDF + Audio -->
-        <div style="grid-column: 2; display: flex; flex-direction: column; overflow: hidden;">
-            <!-- PDF Viewer -->
-            <div class="panel pdf-panel" style="flex: 1; min-height: 0;">
-                <div class="pdf-content" id="pdf-container">
-                    <span style="color: #666;">Select a passage or start a new session</span>
+    <main>
+        <!-- Upload Zone -->
+        <section id="upload-section">
+            <div id="drop-zone" class="drop-zone">
+                <div class="drop-zone-content">
+                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                        <polyline points="17 8 12 3 7 8"/>
+                        <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                    <p>Drop audio file here or <label for="file-input" class="browse-link">browse</label></p>
+                    <p class="drop-hint">WAV, MP3, WebM, OGG, FLAC</p>
                 </div>
-                <div class="pdf-nav" id="pdf-nav" style="display: none;">
-                    <button class="btn btn-sm" id="pdf-prev">Prev</button>
-                    <span id="pdf-page-info">Page 1 / 1</span>
-                    <button class="btn btn-sm" id="pdf-next">Next</button>
+                <input type="file" id="file-input" accept=".wav,.mp3,.webm,.ogg,.flac,audio/*" hidden>
+            </div>
+            <div id="file-info" class="file-info hidden">
+                <span id="file-name"></span>
+                <button id="clear-file" class="btn-icon" title="Remove file">&times;</button>
+            </div>
+        </section>
+
+        <!-- Analyze Button -->
+        <section id="controls-section" class="hidden">
+            <button id="analyze-btn" class="btn-primary">Analyze</button>
+        </section>
+
+        <!-- Progress -->
+        <section id="progress-section" class="hidden">
+            <div class="progress-bar-container">
+                <div id="progress-bar" class="progress-bar"></div>
+            </div>
+            <p id="progress-text" class="progress-text"></p>
+        </section>
+
+        <!-- Spectrogram + Player -->
+        <section id="player-section" class="hidden">
+            <img id="spectrogram-img" class="spectrogram-img" alt="Spectrogram">
+            <div class="player-controls">
+                <button id="play-btn" class="btn-icon" title="Play/Pause">
+                    <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+                    <svg id="pause-icon" viewBox="0 0 24 24" fill="currentColor" class="hidden"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                </button>
+                <div id="waveform" class="waveform"></div>
+                <span id="time-display" class="time-display">0:00 / 0:00</span>
+            </div>
+        </section>
+
+        <!-- Detection Results -->
+        <section id="results-section" class="hidden">
+            <h2>Detection Results</h2>
+            <div id="results-grid" class="results-grid">
+                <div class="result-card" data-label="prolongation">
+                    <h3>Prolongation</h3>
+                    <div class="confidence-value" id="conf-prolongation">0%</div>
+                    <div class="detected-status" id="status-prolongation">Not Detected</div>
+                </div>
+                <div class="result-card" data-label="block">
+                    <h3>Block</h3>
+                    <div class="confidence-value" id="conf-block">0%</div>
+                    <div class="detected-status" id="status-block">Not Detected</div>
+                </div>
+                <div class="result-card" data-label="soundrep">
+                    <h3>Sound Repetition</h3>
+                    <div class="confidence-value" id="conf-soundrep">0%</div>
+                    <div class="detected-status" id="status-soundrep">Not Detected</div>
+                </div>
+                <div class="result-card" data-label="wordrep">
+                    <h3>Word Repetition</h3>
+                    <div class="confidence-value" id="conf-wordrep">0%</div>
+                    <div class="detected-status" id="status-wordrep">Not Detected</div>
+                </div>
+                <div class="result-card" data-label="interjection">
+                    <h3>Interjection</h3>
+                    <div class="confidence-value" id="conf-interjection">0%</div>
+                    <div class="detected-status" id="status-interjection">Not Detected</div>
                 </div>
             </div>
+        </section>
 
-            <!-- Audio Section -->
-            <div class="panel audio-section">
-                <div id="waveform"></div>
-                <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-                <div class="audio-controls">
-                    <button class="btn btn-sm" id="seek-back">&lt;&lt; 5s</button>
-                    <button class="btn" id="play-pause">Play</button>
-                    <button class="btn btn-sm" id="seek-forward">5s &gt;&gt;</button>
-                    <span class="time-display" id="time-display">0:00 / 0:00</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div class="audio-actions">
-                        <label class="btn btn-sm">
-                            Upload Audio
-                            <input type="file" id="audio-upload" class="hidden" accept="audio/*,.wav,.mp3,.ogg,.flac">
-                        </label>
-                        <button class="btn btn-sm" id="record-btn">Record</button>
-                        <div class="recording-indicator" id="recording-indicator">
-                            <div class="rec-dot"></div>
-                            <span>Recording...</span>
-                        </div>
-                    </div>
-                    <div class="graph-toggles">
-                        <button class="btn btn-sm" id="toggle-spectrogram">Spectrogram</button>
-                        <button class="btn btn-sm" id="toggle-waveform">Waveform</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Report Download -->
+        <section id="report-section" class="hidden">
+            <button id="download-btn" class="btn-secondary">Download Report</button>
+        </section>
+    </main>
 
-        <!-- Stutter Panel -->
-        <div class="panel stutter-panel">
-            <div class="panel-title">Stutter Classes</div>
-            <div class="detection-status" id="detection-status" style="display: none;"></div>
-            <div class="stutter-class" id="class-prolongation">
-                <div class="label">Prolongation</div>
-                <div class="value">-</div>
-                <div class="count">[0]</div>
-            </div>
-            <div class="stutter-class" id="class-block">
-                <div class="label">Block</div>
-                <div class="value">-</div>
-                <div class="count">[0]</div>
-            </div>
-            <div class="stutter-class" id="class-soundrep">
-                <div class="label">Sound Repetition</div>
-                <div class="value">-</div>
-                <div class="count">[0]</div>
-            </div>
-            <div class="stutter-class" id="class-wordrep">
-                <div class="label">Word Repetition</div>
-                <div class="value">-</div>
-                <div class="count">[0]</div>
-            </div>
-            <div class="stutter-class" id="class-interjection">
-                <div class="label">Interjection</div>
-                <div class="value">-</div>
-                <div class="count">[0]</div>
-            </div>
-            <div style="flex: 1;"></div>
-            <button class="btn btn-block" id="export-btn" disabled>Export Report</button>
-        </div>
-    </div>
-
-    <script src="/static/js/pdf-viewer.js"></script>
+    <script src="https://unpkg.com/wavesurfer.js@7"></script>
     <script src="/static/js/player.js"></script>
-    <script src="/static/js/recorder.js"></script>
-    <script src="/static/js/analysis.js"></script>
     <script src="/static/js/app.js"></script>
 </body>
 </html>

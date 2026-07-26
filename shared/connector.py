@@ -64,7 +64,7 @@ class StutterDetector:
         # Auto-detect models directory relative to this file
         if models_dir is None:
             current_dir = os.path.dirname(os.path.abspath(__file__))
-            project_root = os.path.dirname(current_dir)  # Go up from App/ to project root
+            project_root = os.path.dirname(current_dir)  # Go up from shared/ to project root
             models_dir = os.path.join(project_root, "Model", "models", "copy")
             if not os.path.exists(models_dir):
                 raise RuntimeError(f"Models directory not found at: {models_dir}")
@@ -111,7 +111,6 @@ class StutterDetector:
         """Load all 5 pre-trained binary models"""
         for i, model_file in enumerate(self.model_files):
             model_path = os.path.join(self.models_dir, model_file)
-            list(self.label_dict.keys())[i]
 
             if not os.path.exists(model_path):
                 self.models.append(None)
@@ -121,18 +120,13 @@ class StutterDetector:
                 params = self._parse_model_params(model_file)
                 self.model_params[i] = params
                 model = Model(n_mels=params["n_mels"])
-                state_dict = torch.load(model_path, map_location=self.device)
-                if state_dict:
-                    model.load_state_dict(state_dict)
-                    model.to(self.device)
-                    model.eval()
-                    self.models.append(model)
-                else:
-                    self.models.append(None)
+                state_dict = torch.load(model_path, map_location=self.device, weights_only=True)
+                model.load_state_dict(state_dict)
+                model.to(self.device)
+                model.eval()
+                self.models.append(model)
             except Exception as e:
-                error_msg = f"Failed to load {model_file}: {str(e)}"
-                self.models.append(None)
-                raise RuntimeError(error_msg)
+                raise RuntimeError(f"Failed to load {model_file}: {e}")
 
         loaded_count = sum(1 for m in self.models if m is not None)
         if loaded_count == 0:
@@ -333,10 +327,10 @@ class StutterDetector:
         for i in range(5):
             if self.models[i] is not None:
                 params = self.model_params[i]
-                label_name, prob, is_detected = self._predict_model(
-                    audio_data, i, params["n_mels"], params["n_fft"], params["hop_length"]
-                )
-                results[label_name] = {"probability": prob, "detected": is_detected}
+                result = self._predict_model(audio_data, i, params["n_mels"], params["n_fft"], params["hop_length"])
+                if result:
+                    label_name, prob, is_detected = result
+                    results[label_name] = {"probability": prob, "detected": is_detected}
 
         return results
 
