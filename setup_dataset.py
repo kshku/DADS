@@ -63,7 +63,7 @@ def _download_one(args):
 
     audio_path = os.path.join(show_dir, f"{ep_idx}{ext}")
     try:
-        subprocess.run(["wget", "-q", "-O", audio_path, url], check=True, timeout=120)
+        subprocess.run(["wget", "-O", audio_path, url], check=True, timeout=120)
         subprocess.run(
             ["ffmpeg", "-y", "-i", audio_path, "-ac", "1", "-ar", "16000", wav_path],
             check=True,
