@@ -5,7 +5,8 @@ __pycache__
 .vscode
 .DS_Store
 dataset
-Model/models
+Model/models/*
+!Model/models/copy
 Model/*.ipynb
 App
 docs
