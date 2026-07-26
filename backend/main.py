@@ -32,6 +32,12 @@ async def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 
+@app.get("/health")
+async def health():
+    """Healthcheck endpoint for Render deployment."""
+    return {"status": "ok"}
+
+
 if __name__ == "__main__":
     import uvicorn
 
