@@ -68,25 +68,29 @@ async def analyze_audio(file: UploadFile = File(...)):
 
                 aggregated = _aggregate_results(chunk_results_all, chunk_idx + 1)
 
-                event_data = json.dumps({
-                    "chunk": chunk_idx + 1,
-                    "total": total_chunks,
-                    "time_start": time_start,
-                    "time_end": time_end,
-                    "results": chunk_results,
-                    "aggregated": aggregated,
-                })
+                event_data = json.dumps(
+                    {
+                        "chunk": chunk_idx + 1,
+                        "total": total_chunks,
+                        "time_start": time_start,
+                        "time_end": time_end,
+                        "results": chunk_results,
+                        "aggregated": aggregated,
+                    }
+                )
                 yield f"event: progress\ndata: {event_data}\n\n"
                 await asyncio.sleep(0)
 
             summary = detector.get_summary(chunk_results_all)
 
-            complete_data = json.dumps({
-                "summary": summary,
-                "total_chunks": total_chunks,
-                "duration": total_duration,
-                "filename": file.filename,
-            })
+            complete_data = json.dumps(
+                {
+                    "summary": summary,
+                    "total_chunks": total_chunks,
+                    "duration": total_duration,
+                    "filename": file.filename,
+                }
+            )
             yield f"event: complete\ndata: {complete_data}\n\n"
 
         except Exception as e:
