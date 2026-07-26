@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Dataset setup for DADS.
 
-Downloads audio from SEP-28k and extracts clips for model training.
+Downloads audio from SEP-28k and extracts 3-second clips for model training.
+Replaces the broken download_audio.py and extract_clips.py from the submodule.
 Run via: ./setup_dataset.sh (preferred) or python3 setup_dataset.py
 
 Requires: ffmpeg, numpy, pandas, scipy
@@ -10,27 +11,28 @@ Requires: ffmpeg, numpy, pandas, scipy
 import argparse
 import multiprocessing
 import os
-import pathlib
 import shutil
 import subprocess
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
+import numpy as np
 import pandas as pd
+from scipy.io import wavfile
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATASET_DIR = os.path.join(ROOT_DIR, "dataset")
 
 EPISODES_CSV = os.path.join(DATASET_DIR, "SEP-28k_episodes.csv")
 LABELS_CSV = os.path.join(DATASET_DIR, "SEP-28k_labels.csv")
-DOWNLOAD_SCRIPT = os.path.join(DATASET_DIR, "download_audio.py")
-EXTRACT_SCRIPT = os.path.join(DATASET_DIR, "extract_clips.py")
 
 WAVS_DIR = os.path.join(DATASET_DIR, "Waves")
 CLIPS_DIR = os.path.join(DATASET_DIR, "Clips")
 
 MAX_WORKERS = 8
+SAMPLE_RATE = 16000
+AUDIO_EXTENSIONS = (".mp3", ".m4a", ".mp4")
 
 
 def get_workers():
@@ -39,44 +41,118 @@ def get_workers():
     return min(nproc, MAX_WORKERS)
 
 
+# ---------------------------------------------------------------------------
+# Step 1: Download — fetch episodes, convert to 16kHz mono WAV
+# ---------------------------------------------------------------------------
+
+def _download_one(args):
+    """Download a single episode: fetch URL, convert to 16kHz mono WAV."""
+    url, show, ep_idx = args
+    ext = ""
+    for e in AUDIO_EXTENSIONS:
+        if e in url:
+            ext = e
+            break
+
+    show_dir = os.path.join(WAVS_DIR, show)
+    os.makedirs(show_dir, exist_ok=True)
+
+    wav_path = os.path.join(show_dir, f"{ep_idx}.wav")
+    if os.path.exists(wav_path):
+        return True
+
+    audio_path = os.path.join(show_dir, f"{ep_idx}{ext}")
+    try:
+        subprocess.run(["wget", "-q", "-O", audio_path, url], check=True, timeout=120)
+        subprocess.run(
+            ["ffmpeg", "-y", "-i", audio_path, "-ac", "1", "-ar", "16000", wav_path],
+            check=True,
+            timeout=120,
+            capture_output=True,
+        )
+        os.remove(audio_path)
+        return True
+    except Exception as e:
+        print(f"  WARN: Failed {show}/{ep_idx}: {e}")
+        if os.path.exists(audio_path):
+            os.remove(audio_path)
+        return False
+
+
 def step_download(workers):
     """Download raw audio files and convert to 16kHz mono WAV."""
-    if not os.path.exists(DOWNLOAD_SCRIPT):
-        print(f"ERROR: {DOWNLOAD_SCRIPT} not found. Is the submodule initialized?")
+    if not os.path.exists(EPISODES_CSV):
+        print(f"ERROR: {EPISODES_CSV} not found. Is the submodule initialized?")
         sys.exit(1)
 
-    print(f"  Downloading audio files to {WAVS_DIR}/ ...")
-    cmd = [
-        sys.executable,
-        DOWNLOAD_SCRIPT,
-        "--episodes",
-        EPISODES_CSV,
-        "--wavs",
-        WAVS_DIR,
-    ]
-    subprocess.run(cmd, check=True)
+    df = pd.read_csv(EPISODES_CSV, header=None, names=["show", "episode", "url", "show_id", "ep_idx"])
+    print(f"  Found {len(df)} episodes")
+
+    tasks = [(row.url, row.show_id, int(row.ep_idx)) for _, row in df.iterrows()]
+
+    done = 0
+    failed = 0
+    with ThreadPoolExecutor(max_workers=workers) as pool:
+        futures = {pool.submit(_download_one, t): t for t in tasks}
+        for future in as_completed(futures):
+            done += 1
+            if not future.result():
+                failed += 1
+            if done % 50 == 0 or done == len(tasks):
+                print(f"  Progress: {done}/{len(tasks)} ({failed} failed)")
+
+    print(f"  Download complete")
 
 
-def step_extract(workers):
-    """Extract 3-second clips from downloaded WAV files."""
-    if not os.path.exists(EXTRACT_SCRIPT):
-        print(f"ERROR: {EXTRACT_SCRIPT} not found. Is the submodule initialized?")
+# ---------------------------------------------------------------------------
+# Step 2: Extract clips — slice 3-second segments from downloaded WAVs
+# ---------------------------------------------------------------------------
+
+def step_extract():
+    """Extract clips from downloaded WAV files using labels CSV."""
+    if not os.path.exists(LABELS_CSV):
+        print(f"ERROR: {LABELS_CSV} not found.")
         sys.exit(1)
 
-    print(f"  Extracting clips to {CLIPS_DIR}/ ...")
-    cmd = [
-        sys.executable,
-        EXTRACT_SCRIPT,
-        "--labels",
-        LABELS_CSV,
-        "--wavs",
-        WAVS_DIR,
-        "--clips",
-        CLIPS_DIR,
-        "--progress",
-    ]
-    subprocess.run(cmd, check=True)
+    data = pd.read_csv(LABELS_CSV, dtype={"EpId": str})
+    print(f"  Found {len(data)} clips in SEP-28k_labels.csv")
 
+    loaded_wav = ""
+    audio = None
+
+    for i, row in data.iterrows():
+        show = row.Show
+        episode = row.EpId.strip()
+        clip_idx = row.ClipId
+        start = row.Start
+        stop = row.Stop
+
+        wav_path = os.path.join(WAVS_DIR, show, f"{episode}.wav")
+        clip_dir = os.path.join(CLIPS_DIR, show, episode)
+        clip_path = os.path.join(clip_dir, f"{show}_{episode}_{clip_idx}.wav")
+
+        if not os.path.exists(wav_path):
+            continue
+
+        if wav_path != loaded_wav:
+            sr, audio = wavfile.read(wav_path)
+            assert sr == SAMPLE_RATE, f"Expected 16kHz, got {sr}Hz for {wav_path}"
+            loaded_wav = wav_path
+
+        os.makedirs(clip_dir, exist_ok=True)
+
+        clip = audio[start:stop]
+        wavfile.write(clip_path, sr, clip)
+
+        if (i + 1) % 5000 == 0 or (i + 1) == len(data):
+            print(f"  Progress: {i + 1}/{len(data)}")
+
+    print("  Extraction complete")
+
+
+# ---------------------------------------------------------------------------
+# Step 3: Cleanup
+# ---------------------------------------------------------------------------
 
 def step_cleanup():
     """Remove temporary Waves directory after extraction."""
@@ -84,6 +160,10 @@ def step_cleanup():
         print(f"  Cleaning up {WAVS_DIR}/ ...")
         shutil.rmtree(WAVS_DIR)
 
+
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
 
 def main():
     parser = argparse.ArgumentParser(description="Set up DADS dataset")
@@ -98,7 +178,7 @@ def main():
     # Skip if Clips/ already exists
     if os.path.exists(CLIPS_DIR) and os.listdir(CLIPS_DIR):
         print(f"\nClips directory already exists at {CLIPS_DIR}/")
-        print("Use --skip-download --skip-extract to force re-download, or delete Clips/ first.")
+        print("Delete Clips/ first to re-run.")
         return
 
     start = time.time()
@@ -108,21 +188,21 @@ def main():
         print("\n[1/3] Downloading audio...")
         step_download(workers)
     else:
-        print("\n[1/3] Skipping download (--skip-download)")
+        print("\n[1/3] Skipping download")
 
     # Step 2: Extract clips
     if not args.skip_extract:
         print("\n[2/3] Extracting clips...")
-        step_extract(workers)
+        step_extract()
     else:
-        print("\n[2/3] Skipping extract (--skip-extract)")
+        print("\n[2/3] Skipping extract")
 
     # Step 3: Cleanup
     if not args.skip_cleanup:
         print("\n[3/3] Cleaning up...")
         step_cleanup()
     else:
-        print("\n[3/3] Skipping cleanup (--skip-cleanup)")
+        print("\n[3/3] Skipping cleanup")
 
     elapsed = time.time() - start
     print(f"\nDone! ({elapsed:.1f}s)")
