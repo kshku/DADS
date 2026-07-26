@@ -20,6 +20,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import numpy as np
 import pandas as pd
 from scipy.io import wavfile
+from tqdm import tqdm
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 DATASET_DIR = os.path.join(ROOT_DIR, "dataset")
@@ -91,17 +92,16 @@ def step_download(workers):
 
     tasks = [(row.url, row.show_id, int(row.ep_idx)) for _, row in df.iterrows()]
 
-    done = 0
     failed = 0
     with ThreadPoolExecutor(max_workers=workers) as pool:
         futures = {pool.submit(_download_one, t): t for t in tasks}
-        for future in as_completed(futures):
-            done += 1
-            if not future.result():
-                failed += 1
-            if done % 50 == 0 or done == len(tasks):
-                print(f"  Progress: {done}/{len(tasks)} ({failed} failed)")
-
+        with tqdm(total=len(tasks), desc="  Downloading", unit="file") as pbar:
+            for future in as_completed(futures):
+                if not future.result():
+                    failed += 1
+                pbar.update(1)
+    if failed:
+        print(f"  {failed} downloads failed")
     print(f"  Download complete")
 
 
@@ -121,32 +121,32 @@ def step_extract():
     loaded_wav = ""
     audio = None
 
-    for i, row in data.iterrows():
-        show = row.Show
-        episode = row.EpId.strip()
-        clip_idx = row.ClipId
-        start = row.Start
-        stop = row.Stop
+    with tqdm(total=len(data), desc="  Extracting", unit="clip") as pbar:
+        for _, row in data.iterrows():
+            show = row.Show
+            episode = row.EpId.strip()
+            clip_idx = row.ClipId
+            start = row.Start
+            stop = row.Stop
 
-        wav_path = os.path.join(WAVS_DIR, show, f"{episode}.wav")
-        clip_dir = os.path.join(CLIPS_DIR, show, episode)
-        clip_path = os.path.join(clip_dir, f"{show}_{episode}_{clip_idx}.wav")
+            wav_path = os.path.join(WAVS_DIR, show, f"{episode}.wav")
+            clip_dir = os.path.join(CLIPS_DIR, show, episode)
+            clip_path = os.path.join(clip_dir, f"{show}_{episode}_{clip_idx}.wav")
 
-        if not os.path.exists(wav_path):
-            continue
+            if not os.path.exists(wav_path):
+                pbar.update(1)
+                continue
 
-        if wav_path != loaded_wav:
-            sr, audio = wavfile.read(wav_path)
-            assert sr == SAMPLE_RATE, f"Expected 16kHz, got {sr}Hz for {wav_path}"
-            loaded_wav = wav_path
+            if wav_path != loaded_wav:
+                sr, audio = wavfile.read(wav_path)
+                assert sr == SAMPLE_RATE, f"Expected 16kHz, got {sr}Hz for {wav_path}"
+                loaded_wav = wav_path
 
-        os.makedirs(clip_dir, exist_ok=True)
+            os.makedirs(clip_dir, exist_ok=True)
 
-        clip = audio[start:stop]
-        wavfile.write(clip_path, sr, clip)
-
-        if (i + 1) % 5000 == 0 or (i + 1) == len(data):
-            print(f"  Progress: {i + 1}/{len(data)}")
+            clip = audio[start:stop]
+            wavfile.write(clip_path, sr, clip)
+            pbar.update(1)
 
     print("  Extraction complete")
 
