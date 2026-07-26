@@ -1,13 +1,13 @@
 # DADS — Detection and Analysis of Dysfluencies in Speech
 
-AI-powered stutter detection system. Analyzes speech audio across 5 stutter types using separate CNN models trained on the [SEP28k dataset](https://www.kaggle.com/datasets/ikrbasak/sep-28k), and visualizes results with waveform/spectrogram playback.
+AI-powered stutter detection system. Analyzes speech audio across 5 stutter types using separate CNN models trained on the [SEP28k dataset](https://www.kaggle.com/datasets/ikrbasak/sep-28k), and visualizes results with spectrogram playback.
 
 ## Stutter Types
 
 | Type | Description |
 |------|-------------|
 | **Prolongation** | Sound stretched beyond normal length (e.g., "sss-snake") |
-| **Block** | airflow stops mid-utterance (silent pause with visible effort) |
+| **Block** | Airflow stops mid-utterance (silent pause with visible effort) |
 | **Sound Repetition** | Repeating a single sound (e.g., "b-b-ball") |
 | **Word Repetition** | Repeating whole words (e.g., "I-I-I want") |
 | **Interjection** | Filler sounds/words (e.g., "um", "uh", "like") |
@@ -16,7 +16,7 @@ AI-powered stutter detection system. Analyzes speech audio across 5 stutter type
 
 ### Prerequisites
 
-- Python 3.10
+- Python 3.12
 - ffmpeg (for dataset setup)
 - CUDA-capable GPU (recommended)
 
@@ -51,10 +51,10 @@ Full desktop application with recording, playback, PDF passage viewer, and analy
 ### Run — FastAPI Web App
 
 ```bash
-cd backend && uvicorn main:app --reload
+uvicorn backend.main:app --reload
 ```
 
-Browser-based interface at `http://localhost:8000`. Supports file upload, audio playback with spectrogram, and real-time stutter detection.
+Opens at `http://localhost:8000`. Upload an audio file, hit Analyze, view spectrogram with real-time detection results, and download the report.
 
 ## Architecture
 
@@ -85,7 +85,7 @@ Browser-based interface at `http://localhost:8000`. Supports file upload, audio 
 | Analysis widget | `App/analysis_widget.py` | Spectrogram/waveform plots, stutter results panel, report export |
 | Plot canvas | `App/plot_canvas.py` | Matplotlib-based spectrogram and waveform rendering |
 | **Detector** | `shared/connector.py` | Model loading, mel spectrogram extraction, inference engine |
-| Web backend | `backend/main.py` | FastAPI app, SSE streaming, passage serving |
+| Web backend | `backend/main.py` | FastAPI app, single-page analyzer |
 | Web detector | `backend/services/detector.py` | Singleton wrapper around StutterDetector |
 
 ### Data Flow
@@ -174,9 +174,13 @@ DADS/
 ├── backend/                    # FastAPI web application
 │   ├── main.py                 # FastAPI app entry point
 │   ├── services/detector.py    # StutterDetector singleton wrapper
-│   ├── routers/                # API endpoints (analysis, passages)
-│   ├── templates/              # Jinja2 HTML templates
-│   └── static/                 # CSS, JS, assets
+│   ├── routers/analysis.py     # POST /api/analyze (SSE streaming)
+│   ├── templates/index.html    # Single-page analyzer UI
+│   └── static/                 # CSS + JS
+│       ├── css/style.css       # Dark theme
+│       └── js/
+│           ├── app.js          # Upload, SSE, results, report download
+│           └── player.js       # wavesurfer.js + spectrogram
 ├── shared/                     # Shared inference code
 │   └── connector.py            # StutterDetector + Model class
 ├── Model/
