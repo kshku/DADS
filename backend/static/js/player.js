@@ -1,10 +1,11 @@
 /**
- * Audio player with wavesurfer.js.
+ * Audio player with wavesurfer.js — play/pause, ±5s seek, scrubber, progress callbacks.
  */
 class AudioPlayer {
     constructor() {
         this.wavesurfer = null;
         this.playing = false;
+        this.onProgress = null;
     }
 
     init(containerId) {
@@ -32,19 +33,27 @@ class AudioPlayer {
         this.wavesurfer.on('finish', () => {
             this.playing = false;
             this._updatePlayButton();
+            this._emitProgress(this.wavesurfer.getDuration(), this.wavesurfer.getDuration());
         });
 
         this.wavesurfer.on('timeupdate', (currentTime) => {
             this._updateTimeDisplay(currentTime);
+            this._emitProgress(currentTime, this.wavesurfer.getDuration());
         });
 
         this.wavesurfer.on('ready', () => {
             this._updateTimeDisplay(0);
+            this._emitProgress(0, this.wavesurfer.getDuration());
         });
 
         this.wavesurfer.on('decode', () => {
             this._updateTimeDisplay(0);
+            this._emitProgress(0, this.wavesurfer.getDuration());
         });
+    }
+
+    setOnProgress(cb) {
+        this.onProgress = cb;
     }
 
     loadBlob(blob) {
@@ -55,6 +64,29 @@ class AudioPlayer {
     togglePlayPause() {
         if (this.wavesurfer) {
             this.wavesurfer.playPause();
+        }
+    }
+
+    seekBy(seconds) {
+        if (!this.wavesurfer) return;
+        const current = this.wavesurfer.getCurrentTime() || 0;
+        const duration = this.wavesurfer.getDuration() || 0;
+        const target = Math.min(Math.max(current + seconds, 0), duration);
+        this.wavesurfer.setTime(target);
+        this._updateTimeDisplay(target);
+        this._emitProgress(target, duration);
+    }
+
+    seekToRatio(ratio) {
+        if (!this.wavesurfer) return;
+        const clamped = Math.min(Math.max(ratio, 0), 1);
+        this.wavesurfer.seekTo(clamped);
+        this._emitProgress(this.wavesurfer.getCurrentTime(), this.wavesurfer.getDuration());
+    }
+
+    _emitProgress(currentTime, duration) {
+        if (this.onProgress) {
+            this.onProgress(currentTime, duration);
         }
     }
 

@@ -50,7 +50,15 @@ async def analyze_audio(file: UploadFile = File(...)):
             def _load_audio():
                 import librosa
 
-                y, _ = librosa.load(tmp_path, sr=detector.sample_rate, mono=True)
+                try:
+                    y, _ = librosa.load(tmp_path, sr=detector.sample_rate, mono=True)
+                except Exception:
+                    wav_path = _transcode_to_wav(tmp_path, detector.sample_rate)
+                    try:
+                        y, _ = librosa.load(wav_path, sr=detector.sample_rate, mono=True)
+                    finally:
+                        if os.path.exists(wav_path):
+                            os.remove(wav_path)
                 return y.astype(np.float32)
 
             y = await asyncio.to_thread(_load_audio)
@@ -211,3 +219,45 @@ def _generate_spectrogram(y, sample_rate):
     buf.seek(0)
 
     return base64.b64encode(buf.read()).decode("utf-8")
+
+
+def _transcode_to_wav(src_path, sample_rate):
+    """Transcode a non-WAV audio file to mono WAV using ffmpeg.
+
+    librosa >= 1.0 dropped the ffmpeg/audioread fallback, so soundfile-only
+    decoding fails on formats like webm/opus. This helper keeps them working.
+    """
+    import shutil
+    import subprocess
+
+    ffmpeg = shutil.which("ffmpeg")
+    if not ffmpeg:
+        raise RuntimeError("Could not decode this audio format (no ffmpeg available on the server).")
+
+    fd, wav_path = tempfile.mkstemp(suffix=".wav")
+    os.close(fd)
+    os.unlink(wav_path)
+
+    result = subprocess.run(
+        [
+            ffmpeg,
+            "-y",
+            "-i",
+            src_path,
+            "-ac",
+            "1",
+            "-ar",
+            str(int(sample_rate)),
+            "-c:a",
+            "pcm_s16le",
+            wav_path,
+        ],
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode != 0 or not os.path.exists(wav_path):
+        tail = (result.stderr or "").strip().splitlines()
+        detail = tail[-1] if tail else result.returncode
+        raise RuntimeError(f"ffmpeg could not decode the audio: {detail}")
+
+    return wav_path

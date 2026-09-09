@@ -4,100 +4,167 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DADS — Stutter Detection</title>
-    <link rel="stylesheet" href="/static/css/style.css?v=3">
+    <link rel="stylesheet" href="/static/css/style.css?v=5">
 </head>
 <body>
     <header>
-        <h1>DADS <span class="subtitle">Stutter Detection</span></h1>
+        <div class="header-row">
+            <h1>DADS <span class="subtitle">Stutter Detection</span></h1>
+            <nav class="view-tabs">
+                <button id="tab-main" class="tab active">Main</button>
+                <button id="tab-analysis" class="tab">Analysis</button>
+            </nav>
+        </div>
+        <div id="status-banner" class="status-banner">Ready</div>
     </header>
 
     <main>
-        <!-- Upload Zone -->
-        <section id="upload-section">
-            <div id="drop-zone" class="drop-zone">
-                <div class="drop-zone-content">
-                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-                        <polyline points="17 8 12 3 7 8"/>
-                        <line x1="12" y1="3" x2="12" y2="15"/>
-                    </svg>
-                    <p>Drop audio file here or <label for="file-input" class="browse-link">browse</label></p>
-                    <p class="drop-hint">WAV, MP3, WebM, OGG, FLAC</p>
-                </div>
-                <input type="file" id="file-input" accept=".wav,.mp3,.webm,.ogg,.flac,audio/*" hidden>
-            </div>
-            <div id="file-info" class="file-info hidden">
-                <span id="file-name"></span>
-                <button id="clear-file" class="btn-icon" title="Remove file">&times;</button>
-            </div>
-        </section>
+        <!-- ============ MAIN VIEW ============ -->
+        <section id="view-main" class="view">
+            <div class="main-grid">
+                <div class="main-left">
+                    <!-- Record from microphone -->
+                    <section class="panel">
+                        <h2>Record from Microphone</h2>
+                        <div id="record-timer" class="record-timer">0:00</div>
+                        <button id="record-btn" class="btn-record">Start Recording</button>
+                        <p id="record-status" class="hint">Records via your microphone; the clip is then analyzed like any upload.</p>
+                    </section>
 
-        <!-- Analyze Button -->
-        <section id="controls-section" class="hidden">
-            <button id="analyze-btn" class="btn-primary">Analyze</button>
-        </section>
+                    <!-- Upload audio -->
+                    <section class="panel">
+                        <h2>Or Upload an Audio File</h2>
+                        <div id="drop-zone" class="drop-zone">
+                            <div class="drop-zone-content">
+                                <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                                    <polyline points="17 8 12 3 7 8"/>
+                                    <line x1="12" y1="3" x2="12" y2="15"/>
+                                </svg>
+                                <p>Drop audio file here or <label for="file-input" class="browse-link">browse</label></p>
+                                <p class="drop-hint">WAV, MP3, WebM, OGG, FLAC</p>
+                            </div>
+                            <input type="file" id="file-input" accept=".wav,.mp3,.webm,.ogg,.flac,audio/*" hidden>
+                        </div>
+                        <div id="file-info" class="file-info hidden">
+                            <span id="file-name"></span>
+                            <button id="clear-file" class="btn-icon" title="Remove file">&times;</button>
+                        </div>
+                    </section>
+                </div>
 
-        <!-- Progress -->
-        <section id="progress-section" class="hidden">
-            <div class="progress-bar-container">
-                <div id="progress-bar" class="progress-bar"></div>
-            </div>
-            <p id="progress-text" class="progress-text"></p>
-        </section>
-
-        <!-- Spectrogram + Player -->
-        <section id="player-section" class="hidden">
-            <img id="spectrogram-img" class="spectrogram-img" alt="Spectrogram">
-            <div class="player-controls">
-                <button id="play-btn" class="btn-icon" title="Play/Pause">
-                    <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
-                    <svg id="pause-icon" viewBox="0 0 24 24" fill="currentColor" class="hidden"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
-                </button>
-                <div id="waveform" class="waveform"></div>
-                <span id="time-display" class="time-display">0:00 / 0:00</span>
-            </div>
-        </section>
-
-        <!-- Detection Results -->
-        <section id="results-section" class="hidden">
-            <h2>Detection Results</h2>
-            <div id="results-grid" class="results-grid">
-                <div class="result-card" data-label="prolongation">
-                    <h3>Prolongation</h3>
-                    <div class="confidence-value" id="conf-prolongation">0%</div>
-                    <div class="detected-status" id="status-prolongation">Not Detected</div>
-                </div>
-                <div class="result-card" data-label="block">
-                    <h3>Block</h3>
-                    <div class="confidence-value" id="conf-block">0%</div>
-                    <div class="detected-status" id="status-block">Not Detected</div>
-                </div>
-                <div class="result-card" data-label="soundrep">
-                    <h3>Sound Repetition</h3>
-                    <div class="confidence-value" id="conf-soundrep">0%</div>
-                    <div class="detected-status" id="status-soundrep">Not Detected</div>
-                </div>
-                <div class="result-card" data-label="wordrep">
-                    <h3>Word Repetition</h3>
-                    <div class="confidence-value" id="conf-wordrep">0%</div>
-                    <div class="detected-status" id="status-wordrep">Not Detected</div>
-                </div>
-                <div class="result-card" data-label="interjection">
-                    <h3>Interjection</h3>
-                    <div class="confidence-value" id="conf-interjection">0%</div>
-                    <div class="detected-status" id="status-interjection">Not Detected</div>
-                </div>
+                <!-- Reading passage PDF -->
+                <section id="pdf-section" class="panel">
+                    <div class="pdf-toolbar">
+                        <h2>Reading Passage</h2>
+                    </div>
+                    <div class="pdf-controls">
+                        <button id="pdf-zoom-out" class="btn-icon" title="Zoom out">&minus;</button>
+                        <span id="pdf-zoom-label" class="pdf-zoom-label">100%</span>
+                        <button id="pdf-zoom-in" class="btn-icon" title="Zoom in">+</button>
+                        <button id="pdf-prev" class="btn-icon" title="Previous page">&laquo;</button>
+                        <span id="pdf-page-label" class="pdf-page-label">1 / 1</span>
+                        <button id="pdf-next" class="btn-icon" title="Next page">&raquo;</button>
+                    </div>
+                    <div id="pdf-container" class="pdf-container">
+                        <canvas id="pdf-canvas"></canvas>
+                    </div>
+                    <div class="pdf-upload">
+                        <label for="pdf-input" class="btn-secondary btn-small">Load Custom PDF</label>
+                        <input type="file" id="pdf-input" accept="application/pdf,.pdf" hidden>
+                    </div>
+                </section>
             </div>
         </section>
 
-        <!-- Report Download -->
-        <section id="report-section" class="hidden">
-            <button id="download-btn" class="btn-secondary">Download Report</button>
+        <!-- ============ ANALYSIS VIEW ============ -->
+        <section id="view-analysis" class="view hidden">
+            <!-- Analyze -->
+            <section id="controls-section" class="hidden">
+                <button id="analyze-btn" class="btn-primary">Analyze</button>
+            </section>
+
+            <!-- Progress -->
+            <section id="progress-section" class="hidden">
+                <div class="progress-bar-container">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+                <p id="progress-text" class="progress-text"></p>
+            </section>
+
+            <!-- Graph + Player -->
+            <section id="player-section" class="hidden">
+                <div class="graph-toggle">
+                    <button id="spec-toggle" class="toggle active">Spectrogram</button>
+                    <button id="wave-toggle" class="toggle">Waveform</button>
+                </div>
+                <div id="spectrogram-wrap" class="spectrogram-wrap">
+                    <img id="spectrogram-img" class="spectrogram-img hidden" alt="Spectrogram">
+                    <div id="playhead" class="playhead hidden"></div>
+                </div>
+                <div id="waveform" class="waveform hidden"></div>
+                <div class="player-controls">
+                    <button id="back-5-btn" class="btn-secondary btn-seek" title="Back 5 seconds">&laquo; 5s</button>
+                    <button id="play-btn" class="btn-icon" title="Play/Pause">
+                        <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor"><polygon points="5,3 19,12 5,21"/></svg>
+                        <svg id="pause-icon" viewBox="0 0 24 24" fill="currentColor" class="hidden"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                    </button>
+                    <button id="fwd-5-btn" class="btn-secondary btn-seek" title="Forward 5 seconds">5s &raquo;</button>
+                    <input type="range" id="seek-slider" class="seek-slider" min="0" max="1000" value="0" step="1">
+                    <span id="time-display" class="time-display">0:00 / 0:00</span>
+                </div>
+            </section>
+
+            <!-- Detection Results -->
+            <section id="results-section" class="hidden">
+                <h2>Detection Results</h2>
+                <div id="results-grid" class="results-grid">
+                    <div class="result-card" data-label="prolongation">
+                        <h3>Prolongation</h3>
+                        <div class="confidence-value" id="conf-prolongation">0%</div>
+                        <div class="detected-status" id="status-prolongation">Not Detected</div>
+                        <div class="chunk-count" id="chunks-prolongation">0 chunks</div>
+                    </div>
+                    <div class="result-card" data-label="block">
+                        <h3>Block</h3>
+                        <div class="confidence-value" id="conf-block">0%</div>
+                        <div class="detected-status" id="status-block">Not Detected</div>
+                        <div class="chunk-count" id="chunks-block">0 chunks</div>
+                    </div>
+                    <div class="result-card" data-label="soundrep">
+                        <h3>Sound Repetition</h3>
+                        <div class="confidence-value" id="conf-soundrep">0%</div>
+                        <div class="detected-status" id="status-soundrep">Not Detected</div>
+                        <div class="chunk-count" id="chunks-soundrep">0 chunks</div>
+                    </div>
+                    <div class="result-card" data-label="wordrep">
+                        <h3>Word Repetition</h3>
+                        <div class="confidence-value" id="conf-wordrep">0%</div>
+                        <div class="detected-status" id="status-wordrep">Not Detected</div>
+                        <div class="chunk-count" id="chunks-wordrep">0 chunks</div>
+                    </div>
+                    <div class="result-card" data-label="interjection">
+                        <h3>Interjection</h3>
+                        <div class="confidence-value" id="conf-interjection">0%</div>
+                        <div class="detected-status" id="status-interjection">Not Detected</div>
+                        <div class="chunk-count" id="chunks-interjection">0 chunks</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Report Download -->
+            <section id="report-section" class="hidden">
+                <div class="report-actions">
+                    <button id="download-btn" class="btn-secondary">Download Report</button>
+                    <button id="back-main-btn" class="btn-secondary">Back to Main</button>
+                </div>
+            </section>
         </section>
     </main>
 
     <script src="https://unpkg.com/wavesurfer.js@7"></script>
-    <script src="/static/js/player.js?v=3"></script>
-    <script src="/static/js/app.js?v=3"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="/static/js/player.js?v=5"></script>
+    <script src="/static/js/app.js?v=5"></script>
 </body>
 </html>
