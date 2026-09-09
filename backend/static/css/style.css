@@ -196,7 +196,6 @@ main {
 .spectrogram-img {
     width: 100%;
     border-radius: var(--radius);
-    margin-bottom: 0.75rem;
 }
 
 .waveform {
@@ -279,10 +278,316 @@ main {
     display: none !important;
 }
 
+/* Header: status banner + view tabs */
+.header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.view-tabs {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.tab {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.tab:hover {
+    color: var(--text);
+}
+
+.tab.active {
+    background: var(--primary);
+    color: var(--text);
+    border-color: var(--primary-hover);
+}
+
+.status-banner {
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.status-banner.success {
+    color: var(--success);
+    border-color: var(--success);
+}
+
+.status-banner.error {
+    color: var(--danger);
+    border-color: var(--danger);
+}
+
+.status-banner.recording {
+    color: var(--warning);
+    border-color: var(--warning);
+}
+
+/* Views */
+.view {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.main-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+}
+
+.panel h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.hint {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+}
+
+/* Recording */
+.record-timer {
+    font-size: 2.25rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 0.75rem;
+}
+
+.btn-record {
+    width: 100%;
+    padding: 0.85rem;
+    background: var(--success);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-record:hover {
+    filter: brightness(1.1);
+}
+
+.btn-record.recording {
+    background: var(--danger);
+}
+
+.btn-record:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Graph toggle */
+.graph-toggle {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.toggle {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.toggle:hover {
+    color: var(--text);
+}
+
+.toggle.active {
+    background: var(--primary);
+    color: var(--text);
+    border-color: var(--primary-hover);
+}
+
+/* Spectrogram + playhead overlay */
+.spectrogram-wrap {
+    position: relative;
+    margin-bottom: 0.75rem;
+}
+
+.spectrogram-img {
+    width: 100%;
+    border-radius: var(--radius);
+    display: block;
+}
+
+.playhead {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: var(--danger);
+    pointer-events: none;
+}
+
+/* Player controls */
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.player-controls .btn-icon {
+    flex-shrink: 0;
+}
+
+.player-controls .btn-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.btn-seek {
+    flex-shrink: 0;
+    width: auto;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.btn-small {
+    width: auto;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.85rem;
+    display: inline-block;
+    text-align: center;
+}
+
+.seek-slider {
+    flex: 1;
+    min-width: 60px;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+.time-display {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Result chunk counts */
+.chunk-count {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+}
+
+.result-card.detected .chunk-count {
+    color: var(--danger);
+}
+
+/* Report actions */
+.report-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+/* PDF passage viewer */
+.pdf-toolbar h2 {
+    margin-bottom: 0.5rem;
+}
+
+.pdf-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.pdf-zoom-label,
+.pdf-page-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    min-width: 3rem;
+    text-align: center;
+}
+
+.pdf-container {
+    max-height: 480px;
+    overflow-y: auto;
+    background: #0d0d0d;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.5rem;
+    display: flex;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.pdf-container canvas {
+    max-width: 100%;
+    height: auto;
+    background: #ffffff;
+}
+
+.pdf-upload {
+    margin-top: 0.75rem;
+    text-align: center;
+}
+
 /* Responsive */
+@media (max-width: 768px) {
+    main {
+        padding: 1.25rem;
+    }
+
+    .pdf-container {
+        max-height: 360px;
+    }
+}
+
 @media (max-width: 600px) {
     main {
         padding: 1rem;
+    }
+
+    .main-grid {
+        grid-template-columns: 1fr;
     }
 
     .results-grid {
@@ -291,5 +596,55 @@ main {
 
     .drop-zone {
         padding: 2rem 1rem;
+    }
+
+    .header-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .player-controls {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .seek-slider {
+        order: 10;
+        flex-basis: 100%;
+        min-width: 100%;
+    }
+
+    .pdf-controls {
+        flex-wrap: wrap;
+    }
+
+    .report-actions {
+        flex-direction: column;
+    }
+
+    .panel {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .record-timer {
+        font-size: 1.75rem;
+    }
+
+    header {
+        padding: 0.75rem 1rem;
+    }
+
+    .view-tabs {
+        width: 100%;
+    }
+
+    .tab {
+        flex: 1;
     }
 }
