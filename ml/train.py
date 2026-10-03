@@ -36,6 +36,7 @@ from ml.config import (
     TRAINED_MODELS_DIR,
     WAVS_DIR,
     feature_params,
+    portable_path,
 )
 from ml.data import FeatureCache, build_split, label_distribution, load_clip_table
 from ml.modeling import build_model, get_device, pos_weight_for, set_seed
@@ -425,7 +426,9 @@ def main(argv=None) -> Dict:
             {
                 "split": split.to_dict(),
                 "dropped": table.attrs.get("dropped", {}),
-                "args": vars(args),
+                "args": {
+                    k: portable_path(v) if isinstance(v, str) and os.path.isabs(v) else v for k, v in vars(args).items()
+                },
                 "results": results,
             },
             f,
