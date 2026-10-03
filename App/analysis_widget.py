@@ -28,6 +28,7 @@ from PyQt5.QtWidgets import (
     QWidget,
 )
 
+from ml.registry import default_thresholds
 from shared.connector import StutterDetector
 
 
@@ -67,6 +68,7 @@ class StutterDetectionThread(QThread):
         # Calculate aggregated statistics
         aggregated = {}
         processed_chunks = len(self.chunk_detections)
+        calibrated_thresholds = default_thresholds()
 
         for stutter_type in ["prolongation", "soundrep", "wordrep", "block", "interjection"]:
             total_prob = 0.0
@@ -81,7 +83,7 @@ class StutterDetectionThread(QThread):
 
             # Use maximum confidence instead of average
             avg_confidence = (max_prob * 100) if processed_chunks > 0 else 0.0
-            detected = max_prob > 0.4
+            detected = max_prob > calibrated_thresholds[stutter_type]
 
             aggregated[stutter_type] = {
                 "confidence": avg_confidence,
@@ -110,7 +112,7 @@ class StutterDetectionThread(QThread):
                     wav_file.writeframes(self.audio_data.tobytes())
 
             # Initialize detector and process
-            detector = StutterDetector(detection_threshold=0.4)
+            detector = StutterDetector()
 
             # Process with progress callback
             results = detector.process_audio_file(self.temp_file, callback=self.progress_callback)
@@ -461,6 +463,7 @@ class AnalysisWidget(QWidget):
         # Calculate overall statistics across all chunks
         total_chunks = len(results)
         aggregated_stats = {}
+        calibrated_thresholds = default_thresholds()
 
         for stutter_type in ["prolongation", "soundrep", "wordrep", "block", "interjection"]:
             total_prob = 0.0
@@ -476,15 +479,15 @@ class AnalysisWidget(QWidget):
                     total_prob += prob
                     max_prob = max(max_prob, prob)
 
-                    # Count each chunk where this stutter was detected
-                    if is_detected and prob > 0.4:  # Only count if it exceeds detection threshold
+                    # Only count a chunk if it clears this class's own threshold
+                    if is_detected and prob > calibrated_thresholds[stutter_type]:
                         detected_chunks_count += 1
 
             # Use maximum confidence instead of average
             avg_confidence = (max_prob * 100) if total_chunks > 0 else 0.0
 
-            # Detected if max probability exceeds threshold (40%)
-            detected = max_prob > 0.4
+            # Detected if max probability clears this class's calibrated threshold
+            detected = max_prob > calibrated_thresholds[stutter_type]
 
             # Set counter to the number of chunks where detected
             if stutter_type in self.stutter_counts:
@@ -858,6 +861,7 @@ class AnalysisWidget(QWidget):
 
                 # Aggregate statistics - calculate average confidence
                 aggregated_stats = {}
+                calibrated_thresholds = default_thresholds()
                 for stutter_type in ["prolongation", "soundrep", "wordrep", "block", "interjection"]:
                     total_prob = 0.0
                     max_prob = 0.0
@@ -871,7 +875,7 @@ class AnalysisWidget(QWidget):
 
                     # Use maximum confidence instead of average
                     avg_confidence = (max_prob * 100) if total_chunks > 0 else 0.0
-                    detected = max_prob > 0.4
+                    detected = max_prob > calibrated_thresholds[stutter_type]
 
                     aggregated_stats[stutter_type] = {
                         "confidence": avg_confidence,

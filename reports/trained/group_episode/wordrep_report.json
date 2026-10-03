@@ -1,0 +1,200 @@
+{
+  "class_name": "wordrep",
+  "model_path": "Model/models/trained/wordrep_e40_b32_lr0.001_n1024h512m64_bce_s42_group_episode_19733cb2.pth",
+  "model": {
+    "class_name": "wordrep",
+    "epochs": 40,
+    "batch_size": 32,
+    "lr": 0.001,
+    "n_fft": 1024,
+    "hop_length": 512,
+    "n_mels": 64,
+    "loss_type": "bce",
+    "seed": 42,
+    "split": "group_episode",
+    "hash": "19733cb2",
+    "format": "fingerprint"
+  },
+  "confusion_matrix": [
+    [
+      3241,
+      213
+    ],
+    [
+      631,
+      108
+    ]
+  ],
+  "confusion_matrix_png": "reports/trained/group_episode/wordrep_confusion_matrix.png",
+  "threshold_sweep": {
+    "auroc": 0.6392,
+    "auprc": 0.266,
+    "sweep": [
+      {
+        "threshold": 0.1,
+        "f1": 0.3072,
+        "precision": 0.1821,
+        "recall": 0.9824,
+        "specificity": 0.0559,
+        "accuracy": 0.2192
+      },
+      {
+        "threshold": 0.15,
+        "f1": 0.3178,
+        "precision": 0.192,
+        "recall": 0.9202,
+        "specificity": 0.1717,
+        "accuracy": 0.3036
+      },
+      {
+        "threshold": 0.2,
+        "f1": 0.3337,
+        "precision": 0.2093,
+        "recall": 0.8227,
+        "specificity": 0.335,
+        "accuracy": 0.4209
+      },
+      {
+        "threshold": 0.25,
+        "f1": 0.3442,
+        "precision": 0.2281,
+        "recall": 0.7009,
+        "specificity": 0.4925,
+        "accuracy": 0.5292
+      },
+      {
+        "threshold": 0.3,
+        "f1": 0.3517,
+        "precision": 0.2549,
+        "recall": 0.567,
+        "specificity": 0.6453,
+        "accuracy": 0.6315
+      },
+      {
+        "threshold": 0.35,
+        "f1": 0.3305,
+        "precision": 0.2827,
+        "recall": 0.3978,
+        "specificity": 0.784,
+        "accuracy": 0.716
+      },
+      {
+        "threshold": 0.4,
+        "f1": 0.2038,
+        "precision": 0.3364,
+        "recall": 0.1461,
+        "specificity": 0.9383,
+        "accuracy": 0.7987
+      },
+      {
+        "threshold": 0.45,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "accuracy": 0.8238
+      },
+      {
+        "threshold": 0.5,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "accuracy": 0.8238
+      },
+      {
+        "threshold": 0.55,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "accuracy": 0.8238
+      },
+      {
+        "threshold": 0.6,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "accuracy": 0.8238
+      },
+      {
+        "threshold": 0.65,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "accuracy": 0.8238
+      },
+      {
+        "threshold": 0.7,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "accuracy": 0.8238
+      },
+      {
+        "threshold": 0.75,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "accuracy": 0.8238
+      },
+      {
+        "threshold": 0.8,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "accuracy": 0.8238
+      },
+      {
+        "threshold": 0.85,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "accuracy": 0.8238
+      },
+      {
+        "threshold": 0.9,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "accuracy": 0.8238
+      }
+    ],
+    "best_f1": {
+      "threshold": 0.3,
+      "f1": 0.35165757448594215
+    },
+    "best_specificity": {
+      "threshold": 0.45,
+      "specificity": 1.0
+    },
+    "best_youden": {
+      "threshold": 0.3,
+      "youden": 0.21232114635577748
+    }
+  },
+  "misclassified_json": null,
+  "auroc": 0.6392,
+  "auprc": 0.266,
+  "threshold": 0.4,
+  "precision": 0.3364,
+  "recall": 0.1461,
+  "f1": 0.2038,
+  "specificity": 0.9383,
+  "false_positive_rate": 0.0617,
+  "balanced_accuracy": 0.5422,
+  "accuracy": 0.7987,
+  "support": 739,
+  "num_samples": 4193,
+  "tn": 3241,
+  "fp": 213,
+  "fn": 631,
+  "tp": 108
+}
