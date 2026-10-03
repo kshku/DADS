@@ -1,0 +1,196 @@
+{
+  "class_name": "block",
+  "model_path": "Model/models/copy/block_model_1024_512_128_40.pth",
+  "model": {
+    "class_name": "block",
+    "n_fft": 1024,
+    "hop_length": 512,
+    "n_mels": 128,
+    "epochs": 40,
+    "format": "legacy",
+    "path": "Model/models/copy/block_model_1024_512_128_40.pth"
+  },
+  "confusion_matrix": [
+    [
+      1712,
+      791
+    ],
+    [
+      842,
+      848
+    ]
+  ],
+  "confusion_matrix_png": "reports/group_episode/block_confusion_matrix.png",
+  "threshold_sweep": {
+    "auroc": 0.635,
+    "auprc": 0.5347,
+    "sweep": [
+      {
+        "threshold": 0.1,
+        "f1": 0.5778,
+        "precision": 0.4108,
+        "recall": 0.974,
+        "specificity": 0.0567,
+        "accuracy": 0.4264
+      },
+      {
+        "threshold": 0.15,
+        "f1": 0.5847,
+        "precision": 0.4258,
+        "recall": 0.9331,
+        "specificity": 0.1502,
+        "accuracy": 0.4658
+      },
+      {
+        "threshold": 0.2,
+        "f1": 0.5862,
+        "precision": 0.4415,
+        "recall": 0.8716,
+        "specificity": 0.2557,
+        "accuracy": 0.5039
+      },
+      {
+        "threshold": 0.25,
+        "f1": 0.5858,
+        "precision": 0.4621,
+        "recall": 0.8,
+        "specificity": 0.3712,
+        "accuracy": 0.544
+      },
+      {
+        "threshold": 0.3,
+        "f1": 0.5699,
+        "precision": 0.4771,
+        "recall": 0.7077,
+        "specificity": 0.4762,
+        "accuracy": 0.5695
+      },
+      {
+        "threshold": 0.35,
+        "f1": 0.5412,
+        "precision": 0.4913,
+        "recall": 0.6024,
+        "specificity": 0.5789,
+        "accuracy": 0.5884
+      },
+      {
+        "threshold": 0.4,
+        "f1": 0.5095,
+        "precision": 0.5174,
+        "recall": 0.5018,
+        "specificity": 0.684,
+        "accuracy": 0.6105
+      },
+      {
+        "threshold": 0.45,
+        "f1": 0.4647,
+        "precision": 0.5455,
+        "recall": 0.4047,
+        "specificity": 0.7723,
+        "accuracy": 0.6241
+      },
+      {
+        "threshold": 0.5,
+        "f1": 0.3919,
+        "precision": 0.5693,
+        "recall": 0.2988,
+        "specificity": 0.8474,
+        "accuracy": 0.6263
+      },
+      {
+        "threshold": 0.55,
+        "f1": 0.2886,
+        "precision": 0.6123,
+        "recall": 0.1888,
+        "specificity": 0.9193,
+        "accuracy": 0.6249
+      },
+      {
+        "threshold": 0.6,
+        "f1": 0.1982,
+        "precision": 0.6258,
+        "recall": 0.1178,
+        "specificity": 0.9525,
+        "accuracy": 0.616
+      },
+      {
+        "threshold": 0.65,
+        "f1": 0.1176,
+        "precision": 0.6687,
+        "recall": 0.0645,
+        "specificity": 0.9784,
+        "accuracy": 0.6101
+      },
+      {
+        "threshold": 0.7,
+        "f1": 0.059,
+        "precision": 0.7123,
+        "recall": 0.0308,
+        "specificity": 0.9916,
+        "accuracy": 0.6043
+      },
+      {
+        "threshold": 0.75,
+        "f1": 0.0211,
+        "precision": 0.9474,
+        "recall": 0.0107,
+        "specificity": 0.9996,
+        "accuracy": 0.601
+      },
+      {
+        "threshold": 0.8,
+        "f1": 0.0012,
+        "precision": 1.0,
+        "recall": 0.0006,
+        "specificity": 1.0,
+        "accuracy": 0.5972
+      },
+      {
+        "threshold": 0.85,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "accuracy": 0.5969
+      },
+      {
+        "threshold": 0.9,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "accuracy": 0.5969
+      }
+    ],
+    "best_f1": {
+      "threshold": 0.2,
+      "f1": 0.5861520095503383
+    },
+    "best_specificity": {
+      "threshold": 0.8,
+      "specificity": 1.0
+    },
+    "best_youden": {
+      "threshold": 0.4,
+      "youden": 0.18575437285907803
+    }
+  },
+  "misclassified_json": "reports/group_episode/block_misclassified.json",
+  "auroc": 0.635,
+  "auprc": 0.5347,
+  "threshold": 0.4,
+  "precision": 0.5174,
+  "recall": 0.5018,
+  "f1": 0.5095,
+  "specificity": 0.684,
+  "false_positive_rate": 0.316,
+  "balanced_accuracy": 0.5929,
+  "accuracy": 0.6105,
+  "support": 1690,
+  "num_samples": 4193,
+  "tn": 1712,
+  "fp": 791,
+  "fn": 842,
+  "tp": 848,
+  "num_misclassified": 1633
+}

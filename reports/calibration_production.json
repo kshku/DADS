@@ -1,0 +1,111 @@
+{
+  "entry": "production",
+  "split": "group",
+  "results": {
+    "prolongation": {
+      "threshold": 0.1,
+      "fitted_on": "val",
+      "objective": "f1",
+      "checkpoint": "Model/models/copy/prolongation_model_1024_512_128_40.pth",
+      "val": {
+        "auroc": 0.7572,
+        "best_score": 0.6066350710900474
+      },
+      "test": {
+        "auroc": 0.7199,
+        "auprc": 0.6016,
+        "f1_at_threshold": 0.5985,
+        "f1_at_0.4": 0.3998,
+        "precision": 0.465,
+        "recall": 0.8394,
+        "specificity": 0.4371,
+        "accuracy": 0.5853,
+        "youden_threshold": 0.2
+      }
+    },
+    "block": {
+      "threshold": 0.25,
+      "fitted_on": "val",
+      "objective": "f1",
+      "checkpoint": "Model/models/copy/block_model_1024_512_128_40.pth",
+      "val": {
+        "auroc": 0.6471,
+        "best_score": 0.6475164572112507
+      },
+      "test": {
+        "auroc": 0.635,
+        "auprc": 0.5347,
+        "f1_at_threshold": 0.5858,
+        "f1_at_0.4": 0.5095,
+        "precision": 0.4621,
+        "recall": 0.8,
+        "specificity": 0.3712,
+        "accuracy": 0.544,
+        "youden_threshold": 0.4
+      }
+    },
+    "soundrep": {
+      "threshold": 0.2,
+      "fitted_on": "val",
+      "objective": "f1",
+      "checkpoint": "Model/models/copy/soundrep_model_1024_512_256_40.pth",
+      "val": {
+        "auroc": 0.7039,
+        "best_score": 0.45768772348033376
+      },
+      "test": {
+        "auroc": 0.6552,
+        "auprc": 0.3092,
+        "f1_at_threshold": 0.3777,
+        "f1_at_0.4": 0.1463,
+        "precision": 0.306,
+        "recall": 0.4932,
+        "specificity": 0.7318,
+        "accuracy": 0.6857,
+        "youden_threshold": 0.2
+      }
+    },
+    "wordrep": {
+      "threshold": 0.15,
+      "fitted_on": "val",
+      "objective": "f1",
+      "checkpoint": "Model/models/copy/wordrep_model_1024_512_64_40.pth",
+      "val": {
+        "auroc": 0.7922,
+        "best_score": 0.5122807017543859
+      },
+      "test": {
+        "auroc": 0.8069,
+        "auprc": 0.4986,
+        "f1_at_threshold": 0.5201,
+        "f1_at_0.4": 0.2869,
+        "precision": 0.4561,
+        "recall": 0.6049,
+        "specificity": 0.8457,
+        "accuracy": 0.8032,
+        "youden_threshold": 0.1
+      }
+    },
+    "interjection": {
+      "threshold": 0.15,
+      "fitted_on": "val",
+      "objective": "f1",
+      "checkpoint": "Model/models/copy/interjection_model_1024_512_128_40.pth",
+      "val": {
+        "auroc": 0.6966,
+        "best_score": 0.5964828897338403
+      },
+      "test": {
+        "auroc": 0.6748,
+        "auprc": 0.5278,
+        "f1_at_threshold": 0.5327,
+        "f1_at_0.4": 0.5046,
+        "precision": 0.3992,
+        "recall": 0.8001,
+        "specificity": 0.3893,
+        "accuracy": 0.5275,
+        "youden_threshold": 0.4
+      }
+    }
+  }
+}

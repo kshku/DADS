@@ -1,0 +1,59 @@
+{
+  "defaults": {
+    "detector": "production"
+  },
+  "detectors": {
+    "production": {
+      "models_dir": "Model/models/copy",
+      "thresholds": {
+        "prolongation": 0.1,
+        "block": 0.25,
+        "soundrep": 0.2,
+        "wordrep": 0.15,
+        "interjection": 0.15
+      },
+      "model_files": {
+        "prolongation": "Model/models/copy/prolongation_model_1024_512_128_40.pth",
+        "block": "Model/models/copy/block_model_1024_512_128_40.pth",
+        "soundrep": "Model/models/copy/soundrep_model_1024_512_256_40.pth",
+        "wordrep": "Model/models/copy/wordrep_model_1024_512_64_40.pth",
+        "interjection": "Model/models/copy/interjection_model_1024_512_128_40.pth"
+      },
+      "calibration": {
+        "split": "group",
+        "group_by": "episode",
+        "seed": 42,
+        "objective": "f1",
+        "fitted_on": "val",
+        "n_val": 4070,
+        "n_test": 4193
+      }
+    },
+    "retrained": {
+      "models_dir": "Model/models/trained",
+      "thresholds": {
+        "prolongation": 0.35,
+        "block": 0.5,
+        "soundrep": 0.4,
+        "wordrep": 0.35,
+        "interjection": 0.35
+      },
+      "model_files": {
+        "prolongation": "Model/models/trained/prolongation_e40_b32_lr0.001_n1024h512m128_bce_s42_group_episode_21076775.pth",
+        "block": "Model/models/trained/block_e40_b32_lr0.001_n1024h512m128_bce_s42_group_episode_439c79b1.pth",
+        "soundrep": "Model/models/trained/soundrep_e40_b32_lr0.001_n1024h512m256_bce_s42_group_episode_d4e9111a.pth",
+        "wordrep": "Model/models/trained/wordrep_e40_b32_lr0.001_n1024h512m64_bce_s42_group_episode_19733cb2.pth",
+        "interjection": "Model/models/trained/interjection_e40_b32_lr0.001_n1024h512m128_bce_s42_group_episode_55ce268b.pth"
+      },
+      "calibration": {
+        "split": "group",
+        "group_by": "episode",
+        "seed": 42,
+        "objective": "f1",
+        "fitted_on": "val",
+        "n_val": 4070,
+        "n_test": 4193
+      }
+    }
+  }
+}

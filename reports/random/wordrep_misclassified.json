@@ -1,0 +1,5274 @@
+[
+  {
+    "clip": "HVSA_0_14",
+    "show_id": "HVSA",
+    "episode": "0",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.038611
+  },
+  {
+    "clip": "HVSA_0_67",
+    "show_id": "HVSA",
+    "episode": "0",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.43418
+  },
+  {
+    "clip": "HVSA_0_110",
+    "show_id": "HVSA",
+    "episode": "0",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.02396
+  },
+  {
+    "clip": "HVSA_0_116",
+    "show_id": "HVSA",
+    "episode": "0",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.139881
+  },
+  {
+    "clip": "HVSA_1_99",
+    "show_id": "HVSA",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.028035
+  },
+  {
+    "clip": "HVSA_1_53",
+    "show_id": "HVSA",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.305624
+  },
+  {
+    "clip": "HVSA_1_55",
+    "show_id": "HVSA",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.033732
+  },
+  {
+    "clip": "HVSA_1_81",
+    "show_id": "HVSA",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.150609
+  },
+  {
+    "clip": "HVSA_1_103",
+    "show_id": "HVSA",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.115007
+  },
+  {
+    "clip": "HVSA_1_1",
+    "show_id": "HVSA",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.020648
+  },
+  {
+    "clip": "HVSA_1_22",
+    "show_id": "HVSA",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.060972
+  },
+  {
+    "clip": "HVSA_2_34",
+    "show_id": "HVSA",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.011952
+  },
+  {
+    "clip": "HVSA_2_38",
+    "show_id": "HVSA",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.003165
+  },
+  {
+    "clip": "HVSA_2_62",
+    "show_id": "HVSA",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.13376
+  },
+  {
+    "clip": "HVSA_2_101",
+    "show_id": "HVSA",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.070579
+  },
+  {
+    "clip": "HVSA_2_141",
+    "show_id": "HVSA",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.166609
+  },
+  {
+    "clip": "HVSA_2_159",
+    "show_id": "HVSA",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.075098
+  },
+  {
+    "clip": "HVSA_2_3",
+    "show_id": "HVSA",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.085188
+  },
+  {
+    "clip": "HVSA_2_6",
+    "show_id": "HVSA",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.00901
+  },
+  {
+    "clip": "HVSA_3_93",
+    "show_id": "HVSA",
+    "episode": "3",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.045898
+  },
+  {
+    "clip": "HeStutters_1_157",
+    "show_id": "HeStutters",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.318809
+  },
+  {
+    "clip": "HeStutters_1_194",
+    "show_id": "HeStutters",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.081956
+  },
+  {
+    "clip": "HeStutters_1_252",
+    "show_id": "HeStutters",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.170789
+  },
+  {
+    "clip": "HeStutters_1_80",
+    "show_id": "HeStutters",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.152616
+  },
+  {
+    "clip": "HeStutters_1_111",
+    "show_id": "HeStutters",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.093873
+  },
+  {
+    "clip": "HeStutters_1_127",
+    "show_id": "HeStutters",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.050253
+  },
+  {
+    "clip": "HeStutters_1_175",
+    "show_id": "HeStutters",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.120165
+  },
+  {
+    "clip": "HeStutters_1_193",
+    "show_id": "HeStutters",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.297052
+  },
+  {
+    "clip": "HeStutters_1_224",
+    "show_id": "HeStutters",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.033549
+  },
+  {
+    "clip": "HeStutters_1_7",
+    "show_id": "HeStutters",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.140082
+  },
+  {
+    "clip": "HeStutters_1_13",
+    "show_id": "HeStutters",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.390472
+  },
+  {
+    "clip": "HeStutters_11_148",
+    "show_id": "HeStutters",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.281664
+  },
+  {
+    "clip": "HeStutters_11_36",
+    "show_id": "HeStutters",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.298586
+  },
+  {
+    "clip": "HeStutters_11_38",
+    "show_id": "HeStutters",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.058525
+  },
+  {
+    "clip": "HeStutters_11_45",
+    "show_id": "HeStutters",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.120374
+  },
+  {
+    "clip": "HeStutters_11_46",
+    "show_id": "HeStutters",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.29005
+  },
+  {
+    "clip": "HeStutters_11_48",
+    "show_id": "HeStutters",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.391835
+  },
+  {
+    "clip": "HeStutters_11_88",
+    "show_id": "HeStutters",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.271079
+  },
+  {
+    "clip": "HeStutters_11_94",
+    "show_id": "HeStutters",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.391842
+  },
+  {
+    "clip": "HeStutters_11_108",
+    "show_id": "HeStutters",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.311144
+  },
+  {
+    "clip": "HeStutters_11_135",
+    "show_id": "HeStutters",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.363216
+  },
+  {
+    "clip": "HeStutters_11_168",
+    "show_id": "HeStutters",
+    "episode": "11",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.483847
+  },
+  {
+    "clip": "HeStutters_11_175",
+    "show_id": "HeStutters",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.25436
+  },
+  {
+    "clip": "HeStutters_11_193",
+    "show_id": "HeStutters",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.32192
+  },
+  {
+    "clip": "HeStutters_11_200",
+    "show_id": "HeStutters",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.19492
+  },
+  {
+    "clip": "HeStutters_11_5",
+    "show_id": "HeStutters",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.227298
+  },
+  {
+    "clip": "HeStutters_11_15",
+    "show_id": "HeStutters",
+    "episode": "11",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.494988
+  },
+  {
+    "clip": "HeStutters_12_73",
+    "show_id": "HeStutters",
+    "episode": "12",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.051477
+  },
+  {
+    "clip": "HeStutters_12_84",
+    "show_id": "HeStutters",
+    "episode": "12",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.038233
+  },
+  {
+    "clip": "HeStutters_12_98",
+    "show_id": "HeStutters",
+    "episode": "12",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.241337
+  },
+  {
+    "clip": "HeStutters_12_99",
+    "show_id": "HeStutters",
+    "episode": "12",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.024323
+  },
+  {
+    "clip": "HeStutters_12_134",
+    "show_id": "HeStutters",
+    "episode": "12",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.205726
+  },
+  {
+    "clip": "HeStutters_12_138",
+    "show_id": "HeStutters",
+    "episode": "12",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.192284
+  },
+  {
+    "clip": "HeStutters_12_140",
+    "show_id": "HeStutters",
+    "episode": "12",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.166704
+  },
+  {
+    "clip": "HeStutters_12_144",
+    "show_id": "HeStutters",
+    "episode": "12",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.089363
+  },
+  {
+    "clip": "HeStutters_12_183",
+    "show_id": "HeStutters",
+    "episode": "12",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.167491
+  },
+  {
+    "clip": "HeStutters_12_185",
+    "show_id": "HeStutters",
+    "episode": "12",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.371786
+  },
+  {
+    "clip": "HeStutters_12_198",
+    "show_id": "HeStutters",
+    "episode": "12",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.099295
+  },
+  {
+    "clip": "HeStutters_12_8",
+    "show_id": "HeStutters",
+    "episode": "12",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.360003
+  },
+  {
+    "clip": "HeStutters_12_16",
+    "show_id": "HeStutters",
+    "episode": "12",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.065865
+  },
+  {
+    "clip": "HeStutters_13_27",
+    "show_id": "HeStutters",
+    "episode": "13",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.122352
+  },
+  {
+    "clip": "HeStutters_14_27",
+    "show_id": "HeStutters",
+    "episode": "14",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.246364
+  },
+  {
+    "clip": "HeStutters_14_1",
+    "show_id": "HeStutters",
+    "episode": "14",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.155886
+  },
+  {
+    "clip": "HeStutters_15_28",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.223072
+  },
+  {
+    "clip": "HeStutters_15_30",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.327974
+  },
+  {
+    "clip": "HeStutters_15_35",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.284913
+  },
+  {
+    "clip": "HeStutters_15_48",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.370907
+  },
+  {
+    "clip": "HeStutters_15_50",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.375158
+  },
+  {
+    "clip": "HeStutters_15_62",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.111893
+  },
+  {
+    "clip": "HeStutters_15_84",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.422238
+  },
+  {
+    "clip": "HeStutters_15_108",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.41389
+  },
+  {
+    "clip": "HeStutters_15_120",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.073464
+  },
+  {
+    "clip": "HeStutters_15_122",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.129272
+  },
+  {
+    "clip": "HeStutters_15_124",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.309867
+  },
+  {
+    "clip": "HeStutters_15_144",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.204447
+  },
+  {
+    "clip": "HeStutters_15_149",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.377719
+  },
+  {
+    "clip": "HeStutters_15_162",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.332589
+  },
+  {
+    "clip": "HeStutters_15_178",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.279852
+  },
+  {
+    "clip": "HeStutters_15_185",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.08204
+  },
+  {
+    "clip": "HeStutters_15_191",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.199729
+  },
+  {
+    "clip": "HeStutters_15_4",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.298242
+  },
+  {
+    "clip": "HeStutters_15_15",
+    "show_id": "HeStutters",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.162574
+  },
+  {
+    "clip": "HeStutters_16_37",
+    "show_id": "HeStutters",
+    "episode": "16",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.035935
+  },
+  {
+    "clip": "HeStutters_16_64",
+    "show_id": "HeStutters",
+    "episode": "16",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.010447
+  },
+  {
+    "clip": "HeStutters_16_83",
+    "show_id": "HeStutters",
+    "episode": "16",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.004307
+  },
+  {
+    "clip": "HeStutters_16_97",
+    "show_id": "HeStutters",
+    "episode": "16",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.152059
+  },
+  {
+    "clip": "HeStutters_16_114",
+    "show_id": "HeStutters",
+    "episode": "16",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.020882
+  },
+  {
+    "clip": "HeStutters_16_136",
+    "show_id": "HeStutters",
+    "episode": "16",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.114916
+  },
+  {
+    "clip": "HeStutters_16_146",
+    "show_id": "HeStutters",
+    "episode": "16",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.064535
+  },
+  {
+    "clip": "HeStutters_16_160",
+    "show_id": "HeStutters",
+    "episode": "16",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.088538
+  },
+  {
+    "clip": "HeStutters_16_200",
+    "show_id": "HeStutters",
+    "episode": "16",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.01451
+  },
+  {
+    "clip": "HeStutters_18_155",
+    "show_id": "HeStutters",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.159145
+  },
+  {
+    "clip": "HeStutters_18_176",
+    "show_id": "HeStutters",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.099353
+  },
+  {
+    "clip": "HeStutters_18_63",
+    "show_id": "HeStutters",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.378008
+  },
+  {
+    "clip": "HeStutters_18_100",
+    "show_id": "HeStutters",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.380825
+  },
+  {
+    "clip": "HeStutters_18_107",
+    "show_id": "HeStutters",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.245875
+  },
+  {
+    "clip": "HeStutters_18_122",
+    "show_id": "HeStutters",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.160084
+  },
+  {
+    "clip": "HeStutters_18_127",
+    "show_id": "HeStutters",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.235287
+  },
+  {
+    "clip": "HeStutters_18_164",
+    "show_id": "HeStutters",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.166555
+  },
+  {
+    "clip": "HeStutters_18_172",
+    "show_id": "HeStutters",
+    "episode": "18",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.421511
+  },
+  {
+    "clip": "HeStutters_18_182",
+    "show_id": "HeStutters",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.238835
+  },
+  {
+    "clip": "HeStutters_18_194",
+    "show_id": "HeStutters",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.368394
+  },
+  {
+    "clip": "HeStutters_18_203",
+    "show_id": "HeStutters",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.149568
+  },
+  {
+    "clip": "HeStutters_18_205",
+    "show_id": "HeStutters",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.102675
+  },
+  {
+    "clip": "HeStutters_18_208",
+    "show_id": "HeStutters",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.222901
+  },
+  {
+    "clip": "HeStutters_18_13",
+    "show_id": "HeStutters",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.095821
+  },
+  {
+    "clip": "HeStutters_19_32",
+    "show_id": "HeStutters",
+    "episode": "19",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.059323
+  },
+  {
+    "clip": "HeStutters_19_57",
+    "show_id": "HeStutters",
+    "episode": "19",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.294688
+  },
+  {
+    "clip": "HeStutters_19_99",
+    "show_id": "HeStutters",
+    "episode": "19",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.471844
+  },
+  {
+    "clip": "HeStutters_19_164",
+    "show_id": "HeStutters",
+    "episode": "19",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.245073
+  },
+  {
+    "clip": "HeStutters_19_177",
+    "show_id": "HeStutters",
+    "episode": "19",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.058814
+  },
+  {
+    "clip": "HeStutters_2_44",
+    "show_id": "HeStutters",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.110066
+  },
+  {
+    "clip": "HeStutters_2_70",
+    "show_id": "HeStutters",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.050242
+  },
+  {
+    "clip": "HeStutters_2_73",
+    "show_id": "HeStutters",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.009065
+  },
+  {
+    "clip": "HeStutters_2_105",
+    "show_id": "HeStutters",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.327524
+  },
+  {
+    "clip": "HeStutters_2_126",
+    "show_id": "HeStutters",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.028654
+  },
+  {
+    "clip": "HeStutters_2_149",
+    "show_id": "HeStutters",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.058694
+  },
+  {
+    "clip": "HeStutters_2_197",
+    "show_id": "HeStutters",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.044578
+  },
+  {
+    "clip": "HeStutters_2_21",
+    "show_id": "HeStutters",
+    "episode": "2",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.534456
+  },
+  {
+    "clip": "HeStutters_2_24",
+    "show_id": "HeStutters",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.14361
+  },
+  {
+    "clip": "HeStutters_20_186",
+    "show_id": "HeStutters",
+    "episode": "20",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.047717
+  },
+  {
+    "clip": "HeStutters_20_196",
+    "show_id": "HeStutters",
+    "episode": "20",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.052048
+  },
+  {
+    "clip": "HeStutters_20_224",
+    "show_id": "HeStutters",
+    "episode": "20",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.39317
+  },
+  {
+    "clip": "HeStutters_20_248",
+    "show_id": "HeStutters",
+    "episode": "20",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.048334
+  },
+  {
+    "clip": "HeStutters_20_252",
+    "show_id": "HeStutters",
+    "episode": "20",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.073757
+  },
+  {
+    "clip": "HeStutters_20_31",
+    "show_id": "HeStutters",
+    "episode": "20",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.083896
+  },
+  {
+    "clip": "HeStutters_21_177",
+    "show_id": "HeStutters",
+    "episode": "21",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.370277
+  },
+  {
+    "clip": "HeStutters_21_53",
+    "show_id": "HeStutters",
+    "episode": "21",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.307153
+  },
+  {
+    "clip": "HeStutters_21_62",
+    "show_id": "HeStutters",
+    "episode": "21",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.445404
+  },
+  {
+    "clip": "HeStutters_21_76",
+    "show_id": "HeStutters",
+    "episode": "21",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.03153
+  },
+  {
+    "clip": "HeStutters_21_78",
+    "show_id": "HeStutters",
+    "episode": "21",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.436723
+  },
+  {
+    "clip": "HeStutters_21_99",
+    "show_id": "HeStutters",
+    "episode": "21",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.38527
+  },
+  {
+    "clip": "HeStutters_21_110",
+    "show_id": "HeStutters",
+    "episode": "21",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.458308
+  },
+  {
+    "clip": "HeStutters_21_113",
+    "show_id": "HeStutters",
+    "episode": "21",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.241629
+  },
+  {
+    "clip": "HeStutters_21_122",
+    "show_id": "HeStutters",
+    "episode": "21",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.386417
+  },
+  {
+    "clip": "HeStutters_21_140",
+    "show_id": "HeStutters",
+    "episode": "21",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.216571
+  },
+  {
+    "clip": "HeStutters_21_153",
+    "show_id": "HeStutters",
+    "episode": "21",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.519538
+  },
+  {
+    "clip": "HeStutters_21_180",
+    "show_id": "HeStutters",
+    "episode": "21",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.103082
+  },
+  {
+    "clip": "HeStutters_21_183",
+    "show_id": "HeStutters",
+    "episode": "21",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.225755
+  },
+  {
+    "clip": "HeStutters_21_202",
+    "show_id": "HeStutters",
+    "episode": "21",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.344358
+  },
+  {
+    "clip": "HeStutters_21_208",
+    "show_id": "HeStutters",
+    "episode": "21",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.47517
+  },
+  {
+    "clip": "HeStutters_21_30",
+    "show_id": "HeStutters",
+    "episode": "21",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.03171
+  },
+  {
+    "clip": "HeStutters_21_31",
+    "show_id": "HeStutters",
+    "episode": "21",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.24323
+  },
+  {
+    "clip": "HeStutters_22_0",
+    "show_id": "HeStutters",
+    "episode": "22",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.127998
+  },
+  {
+    "clip": "HeStutters_22_205",
+    "show_id": "HeStutters",
+    "episode": "22",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.454381
+  },
+  {
+    "clip": "HeStutters_22_40",
+    "show_id": "HeStutters",
+    "episode": "22",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.075972
+  },
+  {
+    "clip": "HeStutters_22_57",
+    "show_id": "HeStutters",
+    "episode": "22",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.40158
+  },
+  {
+    "clip": "HeStutters_22_108",
+    "show_id": "HeStutters",
+    "episode": "22",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.390286
+  },
+  {
+    "clip": "HeStutters_22_112",
+    "show_id": "HeStutters",
+    "episode": "22",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.481251
+  },
+  {
+    "clip": "HeStutters_22_129",
+    "show_id": "HeStutters",
+    "episode": "22",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.40979
+  },
+  {
+    "clip": "HeStutters_22_134",
+    "show_id": "HeStutters",
+    "episode": "22",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.316413
+  },
+  {
+    "clip": "HeStutters_22_155",
+    "show_id": "HeStutters",
+    "episode": "22",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.2352
+  },
+  {
+    "clip": "HeStutters_22_161",
+    "show_id": "HeStutters",
+    "episode": "22",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.359349
+  },
+  {
+    "clip": "HeStutters_22_162",
+    "show_id": "HeStutters",
+    "episode": "22",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.425011
+  },
+  {
+    "clip": "HeStutters_22_191",
+    "show_id": "HeStutters",
+    "episode": "22",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.494267
+  },
+  {
+    "clip": "HeStutters_22_2",
+    "show_id": "HeStutters",
+    "episode": "22",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.19732
+  },
+  {
+    "clip": "HeStutters_22_4",
+    "show_id": "HeStutters",
+    "episode": "22",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.485253
+  },
+  {
+    "clip": "HeStutters_22_16",
+    "show_id": "HeStutters",
+    "episode": "22",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.169492
+  },
+  {
+    "clip": "HeStutters_22_22",
+    "show_id": "HeStutters",
+    "episode": "22",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.536258
+  },
+  {
+    "clip": "HeStutters_23_74",
+    "show_id": "HeStutters",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.238601
+  },
+  {
+    "clip": "HeStutters_23_193",
+    "show_id": "HeStutters",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.138551
+  },
+  {
+    "clip": "HeStutters_23_194",
+    "show_id": "HeStutters",
+    "episode": "23",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.486956
+  },
+  {
+    "clip": "HeStutters_23_57",
+    "show_id": "HeStutters",
+    "episode": "23",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.40578
+  },
+  {
+    "clip": "HeStutters_23_87",
+    "show_id": "HeStutters",
+    "episode": "23",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.527981
+  },
+  {
+    "clip": "HeStutters_23_144",
+    "show_id": "HeStutters",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.092634
+  },
+  {
+    "clip": "HeStutters_23_156",
+    "show_id": "HeStutters",
+    "episode": "23",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.493661
+  },
+  {
+    "clip": "HeStutters_23_172",
+    "show_id": "HeStutters",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.350293
+  },
+  {
+    "clip": "HeStutters_23_195",
+    "show_id": "HeStutters",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.115291
+  },
+  {
+    "clip": "HeStutters_23_205",
+    "show_id": "HeStutters",
+    "episode": "23",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.40216
+  },
+  {
+    "clip": "HeStutters_23_22",
+    "show_id": "HeStutters",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.092032
+  },
+  {
+    "clip": "HeStutters_23_27",
+    "show_id": "HeStutters",
+    "episode": "23",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.473075
+  },
+  {
+    "clip": "HeStutters_3_12",
+    "show_id": "HeStutters",
+    "episode": "3",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.458084
+  },
+  {
+    "clip": "HeStutters_3_23",
+    "show_id": "HeStutters",
+    "episode": "3",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.172665
+  },
+  {
+    "clip": "HeStutters_3_30",
+    "show_id": "HeStutters",
+    "episode": "3",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.124322
+  },
+  {
+    "clip": "HeStutters_3_37",
+    "show_id": "HeStutters",
+    "episode": "3",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.139589
+  },
+  {
+    "clip": "HeStutters_4_28",
+    "show_id": "HeStutters",
+    "episode": "4",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.136823
+  },
+  {
+    "clip": "HeStutters_4_27",
+    "show_id": "HeStutters",
+    "episode": "4",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.160806
+  },
+  {
+    "clip": "HeStutters_5_48",
+    "show_id": "HeStutters",
+    "episode": "5",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.470081
+  },
+  {
+    "clip": "HeStutters_5_55",
+    "show_id": "HeStutters",
+    "episode": "5",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.098644
+  },
+  {
+    "clip": "HeStutters_5_92",
+    "show_id": "HeStutters",
+    "episode": "5",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.337716
+  },
+  {
+    "clip": "HeStutters_5_99",
+    "show_id": "HeStutters",
+    "episode": "5",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.207365
+  },
+  {
+    "clip": "HeStutters_5_163",
+    "show_id": "HeStutters",
+    "episode": "5",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.254773
+  },
+  {
+    "clip": "HeStutters_5_179",
+    "show_id": "HeStutters",
+    "episode": "5",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.303121
+  },
+  {
+    "clip": "HeStutters_5_190",
+    "show_id": "HeStutters",
+    "episode": "5",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.094287
+  },
+  {
+    "clip": "HeStutters_5_191",
+    "show_id": "HeStutters",
+    "episode": "5",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.426626
+  },
+  {
+    "clip": "HeStutters_5_10",
+    "show_id": "HeStutters",
+    "episode": "5",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.447317
+  },
+  {
+    "clip": "HeStutters_6_147",
+    "show_id": "HeStutters",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.388652
+  },
+  {
+    "clip": "HeStutters_6_160",
+    "show_id": "HeStutters",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.131932
+  },
+  {
+    "clip": "HeStutters_6_185",
+    "show_id": "HeStutters",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.281938
+  },
+  {
+    "clip": "HeStutters_6_194",
+    "show_id": "HeStutters",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.390242
+  },
+  {
+    "clip": "HeStutters_6_226",
+    "show_id": "HeStutters",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.016285
+  },
+  {
+    "clip": "HeStutters_6_247",
+    "show_id": "HeStutters",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.198516
+  },
+  {
+    "clip": "HeStutters_6_289",
+    "show_id": "HeStutters",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.320071
+  },
+  {
+    "clip": "HeStutters_6_291",
+    "show_id": "HeStutters",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.133217
+  },
+  {
+    "clip": "HeStutters_6_9",
+    "show_id": "HeStutters",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.297937
+  },
+  {
+    "clip": "HeStutters_6_41",
+    "show_id": "HeStutters",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.242333
+  },
+  {
+    "clip": "HeStutters_6_62",
+    "show_id": "HeStutters",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.121167
+  },
+  {
+    "clip": "HeStutters_6_98",
+    "show_id": "HeStutters",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.184265
+  },
+  {
+    "clip": "HeStutters_6_103",
+    "show_id": "HeStutters",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.106693
+  },
+  {
+    "clip": "HeStutters_6_114",
+    "show_id": "HeStutters",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.074918
+  },
+  {
+    "clip": "HeStutters_7_12",
+    "show_id": "HeStutters",
+    "episode": "7",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.079939
+  },
+  {
+    "clip": "HeStutters_8_138",
+    "show_id": "HeStutters",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.059813
+  },
+  {
+    "clip": "HeStutters_8_28",
+    "show_id": "HeStutters",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.36037
+  },
+  {
+    "clip": "HeStutters_8_48",
+    "show_id": "HeStutters",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.19365
+  },
+  {
+    "clip": "HeStutters_8_107",
+    "show_id": "HeStutters",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.387187
+  },
+  {
+    "clip": "HeStutters_8_136",
+    "show_id": "HeStutters",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.07186
+  },
+  {
+    "clip": "HeStutters_8_137",
+    "show_id": "HeStutters",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.165311
+  },
+  {
+    "clip": "HeStutters_8_165",
+    "show_id": "HeStutters",
+    "episode": "8",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.48863
+  },
+  {
+    "clip": "HeStutters_8_194",
+    "show_id": "HeStutters",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.035685
+  },
+  {
+    "clip": "HeStutters_8_8",
+    "show_id": "HeStutters",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.167452
+  },
+  {
+    "clip": "HeStutters_9_35",
+    "show_id": "HeStutters",
+    "episode": "9",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.11901
+  },
+  {
+    "clip": "IStutterSoWhat_0_156",
+    "show_id": "IStutterSoWhat",
+    "episode": "0",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.461999
+  },
+  {
+    "clip": "IStutterSoWhat_0_43",
+    "show_id": "IStutterSoWhat",
+    "episode": "0",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.482895
+  },
+  {
+    "clip": "IStutterSoWhat_0_45",
+    "show_id": "IStutterSoWhat",
+    "episode": "0",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.130758
+  },
+  {
+    "clip": "IStutterSoWhat_0_61",
+    "show_id": "IStutterSoWhat",
+    "episode": "0",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.247215
+  },
+  {
+    "clip": "IStutterSoWhat_0_124",
+    "show_id": "IStutterSoWhat",
+    "episode": "0",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.034019
+  },
+  {
+    "clip": "IStutterSoWhat_0_160",
+    "show_id": "IStutterSoWhat",
+    "episode": "0",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.269201
+  },
+  {
+    "clip": "IStutterSoWhat_0_161",
+    "show_id": "IStutterSoWhat",
+    "episode": "0",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.320708
+  },
+  {
+    "clip": "IStutterSoWhat_0_168",
+    "show_id": "IStutterSoWhat",
+    "episode": "0",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.514662
+  },
+  {
+    "clip": "IStutterSoWhat_0_180",
+    "show_id": "IStutterSoWhat",
+    "episode": "0",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.146072
+  },
+  {
+    "clip": "IStutterSoWhat_0_182",
+    "show_id": "IStutterSoWhat",
+    "episode": "0",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.072292
+  },
+  {
+    "clip": "IStutterSoWhat_0_3",
+    "show_id": "IStutterSoWhat",
+    "episode": "0",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.025897
+  },
+  {
+    "clip": "IStutterSoWhat_0_4",
+    "show_id": "IStutterSoWhat",
+    "episode": "0",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.04228
+  },
+  {
+    "clip": "IStutterSoWhat_0_23",
+    "show_id": "IStutterSoWhat",
+    "episode": "0",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.281513
+  },
+  {
+    "clip": "IStutterSoWhat_0_30",
+    "show_id": "IStutterSoWhat",
+    "episode": "0",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.42773
+  },
+  {
+    "clip": "IStutterSoWhat_1_107",
+    "show_id": "IStutterSoWhat",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.021423
+  },
+  {
+    "clip": "IStutterSoWhat_1_120",
+    "show_id": "IStutterSoWhat",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.077034
+  },
+  {
+    "clip": "IStutterSoWhat_2_58",
+    "show_id": "IStutterSoWhat",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.06949
+  },
+  {
+    "clip": "IStutterSoWhat_2_65",
+    "show_id": "IStutterSoWhat",
+    "episode": "2",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.453436
+  },
+  {
+    "clip": "IStutterSoWhat_2_83",
+    "show_id": "IStutterSoWhat",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.29674
+  },
+  {
+    "clip": "IStutterSoWhat_2_99",
+    "show_id": "IStutterSoWhat",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.062832
+  },
+  {
+    "clip": "IStutterSoWhat_2_139",
+    "show_id": "IStutterSoWhat",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.028646
+  },
+  {
+    "clip": "IStutterSoWhat_2_186",
+    "show_id": "IStutterSoWhat",
+    "episode": "2",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.408962
+  },
+  {
+    "clip": "IStutterSoWhat_2_198",
+    "show_id": "IStutterSoWhat",
+    "episode": "2",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.485762
+  },
+  {
+    "clip": "IStutterSoWhat_2_1",
+    "show_id": "IStutterSoWhat",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.340476
+  },
+  {
+    "clip": "IStutterSoWhat_2_29",
+    "show_id": "IStutterSoWhat",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.275493
+  },
+  {
+    "clip": "IStutterSoWhat_3_121",
+    "show_id": "IStutterSoWhat",
+    "episode": "3",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.040101
+  },
+  {
+    "clip": "IStutterSoWhat_3_11",
+    "show_id": "IStutterSoWhat",
+    "episode": "3",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.517822
+  },
+  {
+    "clip": "IStutterSoWhat_3_56",
+    "show_id": "IStutterSoWhat",
+    "episode": "3",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.212768
+  },
+  {
+    "clip": "IStutterSoWhat_3_73",
+    "show_id": "IStutterSoWhat",
+    "episode": "3",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.284567
+  },
+  {
+    "clip": "IStutterSoWhat_4_85",
+    "show_id": "IStutterSoWhat",
+    "episode": "4",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.108989
+  },
+  {
+    "clip": "IStutterSoWhat_4_165",
+    "show_id": "IStutterSoWhat",
+    "episode": "4",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.117176
+  },
+  {
+    "clip": "IStutterSoWhat_4_167",
+    "show_id": "IStutterSoWhat",
+    "episode": "4",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.028135
+  },
+  {
+    "clip": "IStutterSoWhat_4_5",
+    "show_id": "IStutterSoWhat",
+    "episode": "4",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.028739
+  },
+  {
+    "clip": "MyStutteringLife_1_16",
+    "show_id": "MyStutteringLife",
+    "episode": "1",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.508346
+  },
+  {
+    "clip": "MyStutteringLife_10_24",
+    "show_id": "MyStutteringLife",
+    "episode": "10",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.323196
+  },
+  {
+    "clip": "MyStutteringLife_12_25",
+    "show_id": "MyStutteringLife",
+    "episode": "12",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.421082
+  },
+  {
+    "clip": "MyStutteringLife_12_31",
+    "show_id": "MyStutteringLife",
+    "episode": "12",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.04711
+  },
+  {
+    "clip": "MyStutteringLife_13_19",
+    "show_id": "MyStutteringLife",
+    "episode": "13",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.221927
+  },
+  {
+    "clip": "MyStutteringLife_13_26",
+    "show_id": "MyStutteringLife",
+    "episode": "13",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.190266
+  },
+  {
+    "clip": "MyStutteringLife_14_15",
+    "show_id": "MyStutteringLife",
+    "episode": "14",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.202938
+  },
+  {
+    "clip": "MyStutteringLife_14_39",
+    "show_id": "MyStutteringLife",
+    "episode": "14",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.092555
+  },
+  {
+    "clip": "MyStutteringLife_14_6",
+    "show_id": "MyStutteringLife",
+    "episode": "14",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.388311
+  },
+  {
+    "clip": "MyStutteringLife_15_21",
+    "show_id": "MyStutteringLife",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.079967
+  },
+  {
+    "clip": "MyStutteringLife_15_28",
+    "show_id": "MyStutteringLife",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.150992
+  },
+  {
+    "clip": "MyStutteringLife_15_38",
+    "show_id": "MyStutteringLife",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.250245
+  },
+  {
+    "clip": "MyStutteringLife_16_4",
+    "show_id": "MyStutteringLife",
+    "episode": "16",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.23507
+  },
+  {
+    "clip": "MyStutteringLife_17_2",
+    "show_id": "MyStutteringLife",
+    "episode": "17",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.01494
+  },
+  {
+    "clip": "MyStutteringLife_19_14",
+    "show_id": "MyStutteringLife",
+    "episode": "19",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.124333
+  },
+  {
+    "clip": "MyStutteringLife_2_10",
+    "show_id": "MyStutteringLife",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.199532
+  },
+  {
+    "clip": "MyStutteringLife_2_24",
+    "show_id": "MyStutteringLife",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.130487
+  },
+  {
+    "clip": "MyStutteringLife_2_28",
+    "show_id": "MyStutteringLife",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.195102
+  },
+  {
+    "clip": "MyStutteringLife_2_32",
+    "show_id": "MyStutteringLife",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.026646
+  },
+  {
+    "clip": "MyStutteringLife_20_6",
+    "show_id": "MyStutteringLife",
+    "episode": "20",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.071528
+  },
+  {
+    "clip": "MyStutteringLife_20_25",
+    "show_id": "MyStutteringLife",
+    "episode": "20",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.069476
+  },
+  {
+    "clip": "MyStutteringLife_23_96",
+    "show_id": "MyStutteringLife",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.290182
+  },
+  {
+    "clip": "MyStutteringLife_23_138",
+    "show_id": "MyStutteringLife",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.026386
+  },
+  {
+    "clip": "MyStutteringLife_23_20",
+    "show_id": "MyStutteringLife",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.342403
+  },
+  {
+    "clip": "MyStutteringLife_23_36",
+    "show_id": "MyStutteringLife",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.167454
+  },
+  {
+    "clip": "MyStutteringLife_23_53",
+    "show_id": "MyStutteringLife",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.046465
+  },
+  {
+    "clip": "MyStutteringLife_23_61",
+    "show_id": "MyStutteringLife",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.026165
+  },
+  {
+    "clip": "MyStutteringLife_23_73",
+    "show_id": "MyStutteringLife",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.00875
+  },
+  {
+    "clip": "MyStutteringLife_23_85",
+    "show_id": "MyStutteringLife",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.183012
+  },
+  {
+    "clip": "MyStutteringLife_23_145",
+    "show_id": "MyStutteringLife",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.063163
+  },
+  {
+    "clip": "MyStutteringLife_24_39",
+    "show_id": "MyStutteringLife",
+    "episode": "24",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.081895
+  },
+  {
+    "clip": "MyStutteringLife_25_17",
+    "show_id": "MyStutteringLife",
+    "episode": "25",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.05222
+  },
+  {
+    "clip": "MyStutteringLife_25_26",
+    "show_id": "MyStutteringLife",
+    "episode": "25",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.001904
+  },
+  {
+    "clip": "MyStutteringLife_27_0",
+    "show_id": "MyStutteringLife",
+    "episode": "27",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.148614
+  },
+  {
+    "clip": "MyStutteringLife_27_38",
+    "show_id": "MyStutteringLife",
+    "episode": "27",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.036858
+  },
+  {
+    "clip": "MyStutteringLife_28_3",
+    "show_id": "MyStutteringLife",
+    "episode": "28",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.303249
+  },
+  {
+    "clip": "MyStutteringLife_28_39",
+    "show_id": "MyStutteringLife",
+    "episode": "28",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.404194
+  },
+  {
+    "clip": "MyStutteringLife_3_19",
+    "show_id": "MyStutteringLife",
+    "episode": "3",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.126786
+  },
+  {
+    "clip": "MyStutteringLife_30_72",
+    "show_id": "MyStutteringLife",
+    "episode": "30",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.094632
+  },
+  {
+    "clip": "MyStutteringLife_30_80",
+    "show_id": "MyStutteringLife",
+    "episode": "30",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.044331
+  },
+  {
+    "clip": "MyStutteringLife_30_175",
+    "show_id": "MyStutteringLife",
+    "episode": "30",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.00746
+  },
+  {
+    "clip": "MyStutteringLife_30_4",
+    "show_id": "MyStutteringLife",
+    "episode": "30",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.018898
+  },
+  {
+    "clip": "MyStutteringLife_32_151",
+    "show_id": "MyStutteringLife",
+    "episode": "32",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.063594
+  },
+  {
+    "clip": "MyStutteringLife_32_157",
+    "show_id": "MyStutteringLife",
+    "episode": "32",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.155043
+  },
+  {
+    "clip": "MyStutteringLife_33_25",
+    "show_id": "MyStutteringLife",
+    "episode": "33",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.133868
+  },
+  {
+    "clip": "MyStutteringLife_33_2",
+    "show_id": "MyStutteringLife",
+    "episode": "33",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.011174
+  },
+  {
+    "clip": "MyStutteringLife_33_9",
+    "show_id": "MyStutteringLife",
+    "episode": "33",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.417781
+  },
+  {
+    "clip": "MyStutteringLife_34_26",
+    "show_id": "MyStutteringLife",
+    "episode": "34",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.046607
+  },
+  {
+    "clip": "MyStutteringLife_35_63",
+    "show_id": "MyStutteringLife",
+    "episode": "35",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.091691
+  },
+  {
+    "clip": "MyStutteringLife_35_91",
+    "show_id": "MyStutteringLife",
+    "episode": "35",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.125772
+  },
+  {
+    "clip": "MyStutteringLife_35_106",
+    "show_id": "MyStutteringLife",
+    "episode": "35",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.040754
+  },
+  {
+    "clip": "MyStutteringLife_35_127",
+    "show_id": "MyStutteringLife",
+    "episode": "35",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.301664
+  },
+  {
+    "clip": "MyStutteringLife_35_146",
+    "show_id": "MyStutteringLife",
+    "episode": "35",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.075728
+  },
+  {
+    "clip": "MyStutteringLife_35_148",
+    "show_id": "MyStutteringLife",
+    "episode": "35",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.120887
+  },
+  {
+    "clip": "MyStutteringLife_35_207",
+    "show_id": "MyStutteringLife",
+    "episode": "35",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.36077
+  },
+  {
+    "clip": "MyStutteringLife_35_18",
+    "show_id": "MyStutteringLife",
+    "episode": "35",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.302961
+  },
+  {
+    "clip": "MyStutteringLife_35_20",
+    "show_id": "MyStutteringLife",
+    "episode": "35",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.20019
+  },
+  {
+    "clip": "MyStutteringLife_36_23",
+    "show_id": "MyStutteringLife",
+    "episode": "36",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.096752
+  },
+  {
+    "clip": "MyStutteringLife_37_3",
+    "show_id": "MyStutteringLife",
+    "episode": "37",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.038507
+  },
+  {
+    "clip": "MyStutteringLife_38_26",
+    "show_id": "MyStutteringLife",
+    "episode": "38",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.037822
+  },
+  {
+    "clip": "MyStutteringLife_38_27",
+    "show_id": "MyStutteringLife",
+    "episode": "38",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.112622
+  },
+  {
+    "clip": "MyStutteringLife_38_33",
+    "show_id": "MyStutteringLife",
+    "episode": "38",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.035102
+  },
+  {
+    "clip": "MyStutteringLife_39_15",
+    "show_id": "MyStutteringLife",
+    "episode": "39",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.352714
+  },
+  {
+    "clip": "MyStutteringLife_5_0",
+    "show_id": "MyStutteringLife",
+    "episode": "5",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.463065
+  },
+  {
+    "clip": "MyStutteringLife_5_29",
+    "show_id": "MyStutteringLife",
+    "episode": "5",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.039546
+  },
+  {
+    "clip": "MyStutteringLife_5_15",
+    "show_id": "MyStutteringLife",
+    "episode": "5",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.088935
+  },
+  {
+    "clip": "MyStutteringLife_6_26",
+    "show_id": "MyStutteringLife",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.136861
+  },
+  {
+    "clip": "MyStutteringLife_7_43",
+    "show_id": "MyStutteringLife",
+    "episode": "7",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.060889
+  },
+  {
+    "clip": "MyStutteringLife_7_84",
+    "show_id": "MyStutteringLife",
+    "episode": "7",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.069116
+  },
+  {
+    "clip": "MyStutteringLife_7_101",
+    "show_id": "MyStutteringLife",
+    "episode": "7",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.218083
+  },
+  {
+    "clip": "MyStutteringLife_7_105",
+    "show_id": "MyStutteringLife",
+    "episode": "7",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.274849
+  },
+  {
+    "clip": "MyStutteringLife_7_116",
+    "show_id": "MyStutteringLife",
+    "episode": "7",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.264121
+  },
+  {
+    "clip": "MyStutteringLife_7_151",
+    "show_id": "MyStutteringLife",
+    "episode": "7",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.313211
+  },
+  {
+    "clip": "MyStutteringLife_7_160",
+    "show_id": "MyStutteringLife",
+    "episode": "7",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.061969
+  },
+  {
+    "clip": "MyStutteringLife_7_187",
+    "show_id": "MyStutteringLife",
+    "episode": "7",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.528632
+  },
+  {
+    "clip": "MyStutteringLife_7_4",
+    "show_id": "MyStutteringLife",
+    "episode": "7",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.258014
+  },
+  {
+    "clip": "MyStutteringLife_8_1",
+    "show_id": "MyStutteringLife",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.372347
+  },
+  {
+    "clip": "MyStutteringLife_9_26",
+    "show_id": "MyStutteringLife",
+    "episode": "9",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.404215
+  },
+  {
+    "clip": "StrongVoices_10_101",
+    "show_id": "StrongVoices",
+    "episode": "10",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.019576
+  },
+  {
+    "clip": "StrongVoices_10_152",
+    "show_id": "StrongVoices",
+    "episode": "10",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.020343
+  },
+  {
+    "clip": "StrongVoices_10_200",
+    "show_id": "StrongVoices",
+    "episode": "10",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.03546
+  },
+  {
+    "clip": "StrongVoices_10_216",
+    "show_id": "StrongVoices",
+    "episode": "10",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.015968
+  },
+  {
+    "clip": "StrongVoices_10_11",
+    "show_id": "StrongVoices",
+    "episode": "10",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.041378
+  },
+  {
+    "clip": "StrongVoices_11_36",
+    "show_id": "StrongVoices",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.014709
+  },
+  {
+    "clip": "StrongVoices_14_2",
+    "show_id": "StrongVoices",
+    "episode": "14",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.095728
+  },
+  {
+    "clip": "StrongVoices_16_31",
+    "show_id": "StrongVoices",
+    "episode": "16",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.008007
+  },
+  {
+    "clip": "StrongVoices_17_20",
+    "show_id": "StrongVoices",
+    "episode": "17",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.007
+  },
+  {
+    "clip": "StrongVoices_17_8",
+    "show_id": "StrongVoices",
+    "episode": "17",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.006975
+  },
+  {
+    "clip": "StrongVoices_19_16",
+    "show_id": "StrongVoices",
+    "episode": "19",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.44749
+  },
+  {
+    "clip": "StrongVoices_20_33",
+    "show_id": "StrongVoices",
+    "episode": "20",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.000453
+  },
+  {
+    "clip": "StrongVoices_21_66",
+    "show_id": "StrongVoices",
+    "episode": "21",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.008146
+  },
+  {
+    "clip": "StrongVoices_22_37",
+    "show_id": "StrongVoices",
+    "episode": "22",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.034398
+  },
+  {
+    "clip": "StrongVoices_23_108",
+    "show_id": "StrongVoices",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.044746
+  },
+  {
+    "clip": "StrongVoices_23_124",
+    "show_id": "StrongVoices",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.120965
+  },
+  {
+    "clip": "StrongVoices_23_189",
+    "show_id": "StrongVoices",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.015141
+  },
+  {
+    "clip": "StrongVoices_23_214",
+    "show_id": "StrongVoices",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.00683
+  },
+  {
+    "clip": "StrongVoices_23_1",
+    "show_id": "StrongVoices",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.011363
+  },
+  {
+    "clip": "StrongVoices_26_11",
+    "show_id": "StrongVoices",
+    "episode": "26",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.015287
+  },
+  {
+    "clip": "StrongVoices_27_3",
+    "show_id": "StrongVoices",
+    "episode": "27",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.019629
+  },
+  {
+    "clip": "StrongVoices_30_12",
+    "show_id": "StrongVoices",
+    "episode": "30",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.012534
+  },
+  {
+    "clip": "StrongVoices_31_3",
+    "show_id": "StrongVoices",
+    "episode": "31",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.002051
+  },
+  {
+    "clip": "StrongVoices_32_43",
+    "show_id": "StrongVoices",
+    "episode": "32",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.419177
+  },
+  {
+    "clip": "StrongVoices_32_59",
+    "show_id": "StrongVoices",
+    "episode": "32",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.010871
+  },
+  {
+    "clip": "StrongVoices_32_132",
+    "show_id": "StrongVoices",
+    "episode": "32",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.077517
+  },
+  {
+    "clip": "StrongVoices_33_24",
+    "show_id": "StrongVoices",
+    "episode": "33",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.159791
+  },
+  {
+    "clip": "StrongVoices_5_0",
+    "show_id": "StrongVoices",
+    "episode": "5",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.223744
+  },
+  {
+    "clip": "StutterTalk_0_0",
+    "show_id": "StutterTalk",
+    "episode": "0",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.227133
+  },
+  {
+    "clip": "StutterTalk_0_4",
+    "show_id": "StutterTalk",
+    "episode": "0",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.098108
+  },
+  {
+    "clip": "StutterTalk_0_9",
+    "show_id": "StutterTalk",
+    "episode": "0",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.055651
+  },
+  {
+    "clip": "StutterTalk_1_7",
+    "show_id": "StutterTalk",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.117039
+  },
+  {
+    "clip": "StutterTalk_11_28",
+    "show_id": "StutterTalk",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.098348
+  },
+  {
+    "clip": "StutterTalk_11_34",
+    "show_id": "StutterTalk",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.090339
+  },
+  {
+    "clip": "StutterTalk_11_4",
+    "show_id": "StutterTalk",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.060212
+  },
+  {
+    "clip": "StutterTalk_12_32",
+    "show_id": "StutterTalk",
+    "episode": "12",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.085596
+  },
+  {
+    "clip": "StutterTalk_13_20",
+    "show_id": "StutterTalk",
+    "episode": "13",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.135931
+  },
+  {
+    "clip": "StutterTalk_14_6",
+    "show_id": "StutterTalk",
+    "episode": "14",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.268065
+  },
+  {
+    "clip": "StutterTalk_15_35",
+    "show_id": "StutterTalk",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.251068
+  },
+  {
+    "clip": "StutterTalk_15_37",
+    "show_id": "StutterTalk",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.217775
+  },
+  {
+    "clip": "StutterTalk_15_5",
+    "show_id": "StutterTalk",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.017145
+  },
+  {
+    "clip": "StutterTalk_16_31",
+    "show_id": "StutterTalk",
+    "episode": "16",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.281775
+  },
+  {
+    "clip": "StutterTalk_16_23",
+    "show_id": "StutterTalk",
+    "episode": "16",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.067962
+  },
+  {
+    "clip": "StutterTalk_16_37",
+    "show_id": "StutterTalk",
+    "episode": "16",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.078298
+  },
+  {
+    "clip": "StutterTalk_16_2",
+    "show_id": "StutterTalk",
+    "episode": "16",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.100918
+  },
+  {
+    "clip": "StutterTalk_18_12",
+    "show_id": "StutterTalk",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.147716
+  },
+  {
+    "clip": "StutterTalk_19_35",
+    "show_id": "StutterTalk",
+    "episode": "19",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.152375
+  },
+  {
+    "clip": "StutterTalk_2_26",
+    "show_id": "StutterTalk",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.048578
+  },
+  {
+    "clip": "StutterTalk_21_9",
+    "show_id": "StutterTalk",
+    "episode": "21",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.042926
+  },
+  {
+    "clip": "StutterTalk_21_34",
+    "show_id": "StutterTalk",
+    "episode": "21",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.206723
+  },
+  {
+    "clip": "StutterTalk_22_17",
+    "show_id": "StutterTalk",
+    "episode": "22",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.112298
+  },
+  {
+    "clip": "StutterTalk_22_22",
+    "show_id": "StutterTalk",
+    "episode": "22",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.115481
+  },
+  {
+    "clip": "StutterTalk_22_26",
+    "show_id": "StutterTalk",
+    "episode": "22",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.084604
+  },
+  {
+    "clip": "StutterTalk_23_37",
+    "show_id": "StutterTalk",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.035319
+  },
+  {
+    "clip": "StutterTalk_23_1",
+    "show_id": "StutterTalk",
+    "episode": "23",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.414557
+  },
+  {
+    "clip": "StutterTalk_23_3",
+    "show_id": "StutterTalk",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.009341
+  },
+  {
+    "clip": "StutterTalk_25_104",
+    "show_id": "StutterTalk",
+    "episode": "25",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.124049
+  },
+  {
+    "clip": "StutterTalk_25_7",
+    "show_id": "StutterTalk",
+    "episode": "25",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.166732
+  },
+  {
+    "clip": "StutterTalk_25_49",
+    "show_id": "StutterTalk",
+    "episode": "25",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.099151
+  },
+  {
+    "clip": "StutterTalk_25_61",
+    "show_id": "StutterTalk",
+    "episode": "25",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.279029
+  },
+  {
+    "clip": "StutterTalk_25_101",
+    "show_id": "StutterTalk",
+    "episode": "25",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.15626
+  },
+  {
+    "clip": "StutterTalk_25_132",
+    "show_id": "StutterTalk",
+    "episode": "25",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.126316
+  },
+  {
+    "clip": "StutterTalk_25_141",
+    "show_id": "StutterTalk",
+    "episode": "25",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.362885
+  },
+  {
+    "clip": "StutterTalk_25_157",
+    "show_id": "StutterTalk",
+    "episode": "25",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.310875
+  },
+  {
+    "clip": "StutterTalk_25_158",
+    "show_id": "StutterTalk",
+    "episode": "25",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.176522
+  },
+  {
+    "clip": "StutterTalk_26_14",
+    "show_id": "StutterTalk",
+    "episode": "26",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.136076
+  },
+  {
+    "clip": "StutterTalk_26_15",
+    "show_id": "StutterTalk",
+    "episode": "26",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.020289
+  },
+  {
+    "clip": "StutterTalk_26_87",
+    "show_id": "StutterTalk",
+    "episode": "26",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.013278
+  },
+  {
+    "clip": "StutterTalk_26_98",
+    "show_id": "StutterTalk",
+    "episode": "26",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.286457
+  },
+  {
+    "clip": "StutterTalk_26_147",
+    "show_id": "StutterTalk",
+    "episode": "26",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.064834
+  },
+  {
+    "clip": "StutterTalk_26_152",
+    "show_id": "StutterTalk",
+    "episode": "26",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.375705
+  },
+  {
+    "clip": "StutterTalk_26_164",
+    "show_id": "StutterTalk",
+    "episode": "26",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.037699
+  },
+  {
+    "clip": "StutterTalk_26_166",
+    "show_id": "StutterTalk",
+    "episode": "26",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.207943
+  },
+  {
+    "clip": "StutterTalk_27_30",
+    "show_id": "StutterTalk",
+    "episode": "27",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.132429
+  },
+  {
+    "clip": "StutterTalk_28_10",
+    "show_id": "StutterTalk",
+    "episode": "28",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.47002
+  },
+  {
+    "clip": "StutterTalk_28_14",
+    "show_id": "StutterTalk",
+    "episode": "28",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.536258
+  },
+  {
+    "clip": "StutterTalk_3_20",
+    "show_id": "StutterTalk",
+    "episode": "3",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.311182
+  },
+  {
+    "clip": "StutterTalk_3_31",
+    "show_id": "StutterTalk",
+    "episode": "3",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.329726
+  },
+  {
+    "clip": "StutterTalk_3_19",
+    "show_id": "StutterTalk",
+    "episode": "3",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.16514
+  },
+  {
+    "clip": "StutterTalk_30_16",
+    "show_id": "StutterTalk",
+    "episode": "30",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.149106
+  },
+  {
+    "clip": "StutterTalk_30_22",
+    "show_id": "StutterTalk",
+    "episode": "30",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.401268
+  },
+  {
+    "clip": "StutterTalk_31_15",
+    "show_id": "StutterTalk",
+    "episode": "31",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.320605
+  },
+  {
+    "clip": "StutterTalk_31_23",
+    "show_id": "StutterTalk",
+    "episode": "31",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.160461
+  },
+  {
+    "clip": "StutterTalk_32_5",
+    "show_id": "StutterTalk",
+    "episode": "32",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.100721
+  },
+  {
+    "clip": "StutterTalk_33_76",
+    "show_id": "StutterTalk",
+    "episode": "33",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.030427
+  },
+  {
+    "clip": "StutterTalk_33_78",
+    "show_id": "StutterTalk",
+    "episode": "33",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.279798
+  },
+  {
+    "clip": "StutterTalk_33_150",
+    "show_id": "StutterTalk",
+    "episode": "33",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.359526
+  },
+  {
+    "clip": "StutterTalk_33_174",
+    "show_id": "StutterTalk",
+    "episode": "33",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.110273
+  },
+  {
+    "clip": "StutterTalk_34_17",
+    "show_id": "StutterTalk",
+    "episode": "34",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.08414
+  },
+  {
+    "clip": "StutterTalk_35_13",
+    "show_id": "StutterTalk",
+    "episode": "35",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.091268
+  },
+  {
+    "clip": "StutterTalk_35_19",
+    "show_id": "StutterTalk",
+    "episode": "35",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.188086
+  },
+  {
+    "clip": "StutterTalk_35_22",
+    "show_id": "StutterTalk",
+    "episode": "35",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.018847
+  },
+  {
+    "clip": "StutterTalk_37_47",
+    "show_id": "StutterTalk",
+    "episode": "37",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.447031
+  },
+  {
+    "clip": "StutterTalk_37_48",
+    "show_id": "StutterTalk",
+    "episode": "37",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.086216
+  },
+  {
+    "clip": "StutterTalk_37_50",
+    "show_id": "StutterTalk",
+    "episode": "37",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.338883
+  },
+  {
+    "clip": "StutterTalk_37_58",
+    "show_id": "StutterTalk",
+    "episode": "37",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.041672
+  },
+  {
+    "clip": "StutterTalk_37_74",
+    "show_id": "StutterTalk",
+    "episode": "37",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.137478
+  },
+  {
+    "clip": "StutterTalk_37_86",
+    "show_id": "StutterTalk",
+    "episode": "37",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.208749
+  },
+  {
+    "clip": "StutterTalk_37_100",
+    "show_id": "StutterTalk",
+    "episode": "37",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.114724
+  },
+  {
+    "clip": "StutterTalk_37_137",
+    "show_id": "StutterTalk",
+    "episode": "37",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.383314
+  },
+  {
+    "clip": "StutterTalk_37_147",
+    "show_id": "StutterTalk",
+    "episode": "37",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.322177
+  },
+  {
+    "clip": "StutterTalk_37_175",
+    "show_id": "StutterTalk",
+    "episode": "37",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.104704
+  },
+  {
+    "clip": "StutterTalk_37_186",
+    "show_id": "StutterTalk",
+    "episode": "37",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.096813
+  },
+  {
+    "clip": "StutterTalk_38_2",
+    "show_id": "StutterTalk",
+    "episode": "38",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.264186
+  },
+  {
+    "clip": "StutterTalk_38_7",
+    "show_id": "StutterTalk",
+    "episode": "38",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.252787
+  },
+  {
+    "clip": "StutterTalk_38_28",
+    "show_id": "StutterTalk",
+    "episode": "38",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.241996
+  },
+  {
+    "clip": "StutterTalk_39_9",
+    "show_id": "StutterTalk",
+    "episode": "39",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.472698
+  },
+  {
+    "clip": "StutterTalk_39_18",
+    "show_id": "StutterTalk",
+    "episode": "39",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.427445
+  },
+  {
+    "clip": "StutterTalk_39_27",
+    "show_id": "StutterTalk",
+    "episode": "39",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.446667
+  },
+  {
+    "clip": "StutterTalk_39_33",
+    "show_id": "StutterTalk",
+    "episode": "39",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.348124
+  },
+  {
+    "clip": "StutterTalk_39_34",
+    "show_id": "StutterTalk",
+    "episode": "39",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.401919
+  },
+  {
+    "clip": "StutterTalk_39_5",
+    "show_id": "StutterTalk",
+    "episode": "39",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.400328
+  },
+  {
+    "clip": "StutterTalk_40_11",
+    "show_id": "StutterTalk",
+    "episode": "40",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.065416
+  },
+  {
+    "clip": "StutterTalk_40_28",
+    "show_id": "StutterTalk",
+    "episode": "40",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.304196
+  },
+  {
+    "clip": "StutterTalk_41_24",
+    "show_id": "StutterTalk",
+    "episode": "41",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.094025
+  },
+  {
+    "clip": "StutterTalk_42_31",
+    "show_id": "StutterTalk",
+    "episode": "42",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.339059
+  },
+  {
+    "clip": "StutterTalk_42_3",
+    "show_id": "StutterTalk",
+    "episode": "42",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.442043
+  },
+  {
+    "clip": "StutterTalk_42_28",
+    "show_id": "StutterTalk",
+    "episode": "42",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.389143
+  },
+  {
+    "clip": "StutterTalk_43_48",
+    "show_id": "StutterTalk",
+    "episode": "43",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.058741
+  },
+  {
+    "clip": "StutterTalk_43_69",
+    "show_id": "StutterTalk",
+    "episode": "43",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.180843
+  },
+  {
+    "clip": "StutterTalk_43_94",
+    "show_id": "StutterTalk",
+    "episode": "43",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.253582
+  },
+  {
+    "clip": "StutterTalk_43_176",
+    "show_id": "StutterTalk",
+    "episode": "43",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.176787
+  },
+  {
+    "clip": "StutterTalk_43_185",
+    "show_id": "StutterTalk",
+    "episode": "43",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.091673
+  },
+  {
+    "clip": "StutterTalk_43_20",
+    "show_id": "StutterTalk",
+    "episode": "43",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.044981
+  },
+  {
+    "clip": "StutterTalk_43_21",
+    "show_id": "StutterTalk",
+    "episode": "43",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.250218
+  },
+  {
+    "clip": "StutterTalk_43_30",
+    "show_id": "StutterTalk",
+    "episode": "43",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.209747
+  },
+  {
+    "clip": "StutterTalk_43_34",
+    "show_id": "StutterTalk",
+    "episode": "43",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.054065
+  },
+  {
+    "clip": "StutterTalk_44_27",
+    "show_id": "StutterTalk",
+    "episode": "44",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.291701
+  },
+  {
+    "clip": "StutterTalk_46_15",
+    "show_id": "StutterTalk",
+    "episode": "46",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.430773
+  },
+  {
+    "clip": "StutterTalk_46_17",
+    "show_id": "StutterTalk",
+    "episode": "46",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.162946
+  },
+  {
+    "clip": "StutterTalk_46_26",
+    "show_id": "StutterTalk",
+    "episode": "46",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.306497
+  },
+  {
+    "clip": "StutterTalk_47_16",
+    "show_id": "StutterTalk",
+    "episode": "47",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.052529
+  },
+  {
+    "clip": "StutterTalk_48_16",
+    "show_id": "StutterTalk",
+    "episode": "48",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.150769
+  },
+  {
+    "clip": "StutterTalk_48_26",
+    "show_id": "StutterTalk",
+    "episode": "48",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.095738
+  },
+  {
+    "clip": "StutterTalk_48_39",
+    "show_id": "StutterTalk",
+    "episode": "48",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.140305
+  },
+  {
+    "clip": "StutterTalk_49_27",
+    "show_id": "StutterTalk",
+    "episode": "49",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.056081
+  },
+  {
+    "clip": "StutterTalk_5_25",
+    "show_id": "StutterTalk",
+    "episode": "5",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.131623
+  },
+  {
+    "clip": "StutterTalk_50_8",
+    "show_id": "StutterTalk",
+    "episode": "50",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.087519
+  },
+  {
+    "clip": "StutterTalk_50_21",
+    "show_id": "StutterTalk",
+    "episode": "50",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.024248
+  },
+  {
+    "clip": "StutterTalk_50_39",
+    "show_id": "StutterTalk",
+    "episode": "50",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.194147
+  },
+  {
+    "clip": "StutterTalk_54_8",
+    "show_id": "StutterTalk",
+    "episode": "54",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.50243
+  },
+  {
+    "clip": "StutterTalk_54_10",
+    "show_id": "StutterTalk",
+    "episode": "54",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.354613
+  },
+  {
+    "clip": "StutterTalk_55_7",
+    "show_id": "StutterTalk",
+    "episode": "55",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.019423
+  },
+  {
+    "clip": "StutterTalk_56_19",
+    "show_id": "StutterTalk",
+    "episode": "56",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.186381
+  },
+  {
+    "clip": "StutterTalk_56_16",
+    "show_id": "StutterTalk",
+    "episode": "56",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.159317
+  },
+  {
+    "clip": "StutterTalk_56_22",
+    "show_id": "StutterTalk",
+    "episode": "56",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.430804
+  },
+  {
+    "clip": "StutterTalk_57_14",
+    "show_id": "StutterTalk",
+    "episode": "57",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.096863
+  },
+  {
+    "clip": "StutterTalk_57_25",
+    "show_id": "StutterTalk",
+    "episode": "57",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.095782
+  },
+  {
+    "clip": "StutterTalk_58_39",
+    "show_id": "StutterTalk",
+    "episode": "58",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.28482
+  },
+  {
+    "clip": "StutterTalk_58_4",
+    "show_id": "StutterTalk",
+    "episode": "58",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.145543
+  },
+  {
+    "clip": "StutterTalk_58_15",
+    "show_id": "StutterTalk",
+    "episode": "58",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.086962
+  },
+  {
+    "clip": "StutterTalk_59_5",
+    "show_id": "StutterTalk",
+    "episode": "59",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.416063
+  },
+  {
+    "clip": "StutterTalk_6_42",
+    "show_id": "StutterTalk",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.296536
+  },
+  {
+    "clip": "StutterTalk_6_72",
+    "show_id": "StutterTalk",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.286148
+  },
+  {
+    "clip": "StutterTalk_6_73",
+    "show_id": "StutterTalk",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.24686
+  },
+  {
+    "clip": "StutterTalk_6_103",
+    "show_id": "StutterTalk",
+    "episode": "6",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.431985
+  },
+  {
+    "clip": "StutterTalk_6_132",
+    "show_id": "StutterTalk",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.039929
+  },
+  {
+    "clip": "StutterTalk_6_134",
+    "show_id": "StutterTalk",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.395373
+  },
+  {
+    "clip": "StutterTalk_6_142",
+    "show_id": "StutterTalk",
+    "episode": "6",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.471669
+  },
+  {
+    "clip": "StutterTalk_6_149",
+    "show_id": "StutterTalk",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.059784
+  },
+  {
+    "clip": "StutterTalk_6_174",
+    "show_id": "StutterTalk",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.082743
+  },
+  {
+    "clip": "StutterTalk_6_188",
+    "show_id": "StutterTalk",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.007459
+  },
+  {
+    "clip": "StutterTalk_6_198",
+    "show_id": "StutterTalk",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.020767
+  },
+  {
+    "clip": "StutterTalk_6_28",
+    "show_id": "StutterTalk",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.050619
+  },
+  {
+    "clip": "StutterTalk_6_38",
+    "show_id": "StutterTalk",
+    "episode": "6",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.364195
+  },
+  {
+    "clip": "StutterTalk_60_12",
+    "show_id": "StutterTalk",
+    "episode": "60",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.026683
+  },
+  {
+    "clip": "StutterTalk_60_18",
+    "show_id": "StutterTalk",
+    "episode": "60",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.086002
+  },
+  {
+    "clip": "StutterTalk_61_26",
+    "show_id": "StutterTalk",
+    "episode": "61",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.435491
+  },
+  {
+    "clip": "StutterTalk_61_28",
+    "show_id": "StutterTalk",
+    "episode": "61",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.501474
+  },
+  {
+    "clip": "StutterTalk_62_34",
+    "show_id": "StutterTalk",
+    "episode": "62",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.040094
+  },
+  {
+    "clip": "StutterTalk_63_5",
+    "show_id": "StutterTalk",
+    "episode": "63",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.01116
+  },
+  {
+    "clip": "StutterTalk_63_36",
+    "show_id": "StutterTalk",
+    "episode": "63",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.090804
+  },
+  {
+    "clip": "StutterTalk_63_46",
+    "show_id": "StutterTalk",
+    "episode": "63",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.139162
+  },
+  {
+    "clip": "StutterTalk_63_53",
+    "show_id": "StutterTalk",
+    "episode": "63",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.256429
+  },
+  {
+    "clip": "StutterTalk_63_58",
+    "show_id": "StutterTalk",
+    "episode": "63",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.114349
+  },
+  {
+    "clip": "StutterTalk_63_89",
+    "show_id": "StutterTalk",
+    "episode": "63",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.326346
+  },
+  {
+    "clip": "StutterTalk_63_102",
+    "show_id": "StutterTalk",
+    "episode": "63",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.220814
+  },
+  {
+    "clip": "StutterTalk_63_129",
+    "show_id": "StutterTalk",
+    "episode": "63",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.018601
+  },
+  {
+    "clip": "StutterTalk_63_130",
+    "show_id": "StutterTalk",
+    "episode": "63",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.213402
+  },
+  {
+    "clip": "StutterTalk_63_146",
+    "show_id": "StutterTalk",
+    "episode": "63",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.091975
+  },
+  {
+    "clip": "StutterTalk_63_148",
+    "show_id": "StutterTalk",
+    "episode": "63",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.362564
+  },
+  {
+    "clip": "StutterTalk_63_152",
+    "show_id": "StutterTalk",
+    "episode": "63",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.253207
+  },
+  {
+    "clip": "StutterTalk_63_162",
+    "show_id": "StutterTalk",
+    "episode": "63",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.101927
+  },
+  {
+    "clip": "StutterTalk_63_170",
+    "show_id": "StutterTalk",
+    "episode": "63",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.30424
+  },
+  {
+    "clip": "StutterTalk_64_117",
+    "show_id": "StutterTalk",
+    "episode": "64",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.364515
+  },
+  {
+    "clip": "StutterTalk_64_173",
+    "show_id": "StutterTalk",
+    "episode": "64",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.079217
+  },
+  {
+    "clip": "StutterTalk_64_195",
+    "show_id": "StutterTalk",
+    "episode": "64",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.218264
+  },
+  {
+    "clip": "StutterTalk_64_21",
+    "show_id": "StutterTalk",
+    "episode": "64",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.341502
+  },
+  {
+    "clip": "StutterTalk_65_39",
+    "show_id": "StutterTalk",
+    "episode": "65",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.063096
+  },
+  {
+    "clip": "StutterTalk_65_21",
+    "show_id": "StutterTalk",
+    "episode": "65",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.064495
+  },
+  {
+    "clip": "StutterTalk_66_24",
+    "show_id": "StutterTalk",
+    "episode": "66",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.374459
+  },
+  {
+    "clip": "StutterTalk_66_35",
+    "show_id": "StutterTalk",
+    "episode": "66",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.146089
+  },
+  {
+    "clip": "StutterTalk_67_28",
+    "show_id": "StutterTalk",
+    "episode": "67",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.098636
+  },
+  {
+    "clip": "StutterTalk_68_36",
+    "show_id": "StutterTalk",
+    "episode": "68",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.073425
+  },
+  {
+    "clip": "StutterTalk_68_37",
+    "show_id": "StutterTalk",
+    "episode": "68",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.034487
+  },
+  {
+    "clip": "StutterTalk_68_129",
+    "show_id": "StutterTalk",
+    "episode": "68",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.139541
+  },
+  {
+    "clip": "StutterTalk_68_144",
+    "show_id": "StutterTalk",
+    "episode": "68",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.106824
+  },
+  {
+    "clip": "StutterTalk_68_149",
+    "show_id": "StutterTalk",
+    "episode": "68",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.278774
+  },
+  {
+    "clip": "StutterTalk_7_5",
+    "show_id": "StutterTalk",
+    "episode": "7",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.094467
+  },
+  {
+    "clip": "StutterTalk_7_36",
+    "show_id": "StutterTalk",
+    "episode": "7",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.018265
+  },
+  {
+    "clip": "StutterTalk_71_18",
+    "show_id": "StutterTalk",
+    "episode": "71",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.05832
+  },
+  {
+    "clip": "StutterTalk_71_16",
+    "show_id": "StutterTalk",
+    "episode": "71",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.333391
+  },
+  {
+    "clip": "StutterTalk_72_42",
+    "show_id": "StutterTalk",
+    "episode": "72",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.090942
+  },
+  {
+    "clip": "StutterTalk_72_32",
+    "show_id": "StutterTalk",
+    "episode": "72",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.098236
+  },
+  {
+    "clip": "StutterTalk_72_62",
+    "show_id": "StutterTalk",
+    "episode": "72",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.150488
+  },
+  {
+    "clip": "StutterTalk_72_63",
+    "show_id": "StutterTalk",
+    "episode": "72",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.218275
+  },
+  {
+    "clip": "StutterTalk_72_65",
+    "show_id": "StutterTalk",
+    "episode": "72",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.048977
+  },
+  {
+    "clip": "StutterTalk_72_84",
+    "show_id": "StutterTalk",
+    "episode": "72",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.045578
+  },
+  {
+    "clip": "StutterTalk_72_113",
+    "show_id": "StutterTalk",
+    "episode": "72",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.24445
+  },
+  {
+    "clip": "StutterTalk_72_162",
+    "show_id": "StutterTalk",
+    "episode": "72",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.059069
+  },
+  {
+    "clip": "StutterTalk_72_184",
+    "show_id": "StutterTalk",
+    "episode": "72",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.055029
+  },
+  {
+    "clip": "StutterTalk_72_188",
+    "show_id": "StutterTalk",
+    "episode": "72",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.39834
+  },
+  {
+    "clip": "StutterTalk_73_12",
+    "show_id": "StutterTalk",
+    "episode": "73",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.027781
+  },
+  {
+    "clip": "StutterTalk_73_22",
+    "show_id": "StutterTalk",
+    "episode": "73",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.029428
+  },
+  {
+    "clip": "StutterTalk_73_37",
+    "show_id": "StutterTalk",
+    "episode": "73",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.132141
+  },
+  {
+    "clip": "StutterTalk_74_29",
+    "show_id": "StutterTalk",
+    "episode": "74",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.02857
+  },
+  {
+    "clip": "StutterTalk_75_29",
+    "show_id": "StutterTalk",
+    "episode": "75",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.150629
+  },
+  {
+    "clip": "StutterTalk_76_3",
+    "show_id": "StutterTalk",
+    "episode": "76",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.086622
+  },
+  {
+    "clip": "StutterTalk_76_11",
+    "show_id": "StutterTalk",
+    "episode": "76",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.07118
+  },
+  {
+    "clip": "StutterTalk_76_2",
+    "show_id": "StutterTalk",
+    "episode": "76",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.030307
+  },
+  {
+    "clip": "StutterTalk_77_15",
+    "show_id": "StutterTalk",
+    "episode": "77",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.076162
+  },
+  {
+    "clip": "StutterTalk_77_25",
+    "show_id": "StutterTalk",
+    "episode": "77",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.060571
+  },
+  {
+    "clip": "StutterTalk_77_29",
+    "show_id": "StutterTalk",
+    "episode": "77",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.11872
+  },
+  {
+    "clip": "StutterTalk_78_23",
+    "show_id": "StutterTalk",
+    "episode": "78",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.23477
+  },
+  {
+    "clip": "StutterTalk_79_6",
+    "show_id": "StutterTalk",
+    "episode": "79",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.153088
+  },
+  {
+    "clip": "StutterTalk_79_32",
+    "show_id": "StutterTalk",
+    "episode": "79",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.025585
+  },
+  {
+    "clip": "StutterTalk_8_41",
+    "show_id": "StutterTalk",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.282624
+  },
+  {
+    "clip": "StutterTalk_8_48",
+    "show_id": "StutterTalk",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.295785
+  },
+  {
+    "clip": "StutterTalk_8_61",
+    "show_id": "StutterTalk",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.284864
+  },
+  {
+    "clip": "StutterTalk_8_62",
+    "show_id": "StutterTalk",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.297042
+  },
+  {
+    "clip": "StutterTalk_8_87",
+    "show_id": "StutterTalk",
+    "episode": "8",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.501561
+  },
+  {
+    "clip": "StutterTalk_8_119",
+    "show_id": "StutterTalk",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.296674
+  },
+  {
+    "clip": "StutterTalk_8_137",
+    "show_id": "StutterTalk",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.393574
+  },
+  {
+    "clip": "StutterTalk_8_145",
+    "show_id": "StutterTalk",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.104761
+  },
+  {
+    "clip": "StutterTalk_8_157",
+    "show_id": "StutterTalk",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.237151
+  },
+  {
+    "clip": "StutterTalk_8_171",
+    "show_id": "StutterTalk",
+    "episode": "8",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.490372
+  },
+  {
+    "clip": "StutterTalk_8_182",
+    "show_id": "StutterTalk",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.078619
+  },
+  {
+    "clip": "StutterTalk_8_184",
+    "show_id": "StutterTalk",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.071332
+  },
+  {
+    "clip": "StutterTalk_8_2",
+    "show_id": "StutterTalk",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.362704
+  },
+  {
+    "clip": "StutterTalk_8_14",
+    "show_id": "StutterTalk",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.267884
+  },
+  {
+    "clip": "StutterTalk_8_17",
+    "show_id": "StutterTalk",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.158571
+  },
+  {
+    "clip": "StutterTalk_8_23",
+    "show_id": "StutterTalk",
+    "episode": "8",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.287618
+  },
+  {
+    "clip": "StutterTalk_9_35",
+    "show_id": "StutterTalk",
+    "episode": "9",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.168697
+  },
+  {
+    "clip": "StutteringIsCool_0_0",
+    "show_id": "StutteringIsCool",
+    "episode": "0",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.037896
+  },
+  {
+    "clip": "StutteringIsCool_1_19",
+    "show_id": "StutteringIsCool",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.178481
+  },
+  {
+    "clip": "StutteringIsCool_1_32",
+    "show_id": "StutteringIsCool",
+    "episode": "1",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.189001
+  },
+  {
+    "clip": "StutteringIsCool_10_19",
+    "show_id": "StutteringIsCool",
+    "episode": "10",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.396235
+  },
+  {
+    "clip": "StutteringIsCool_10_35",
+    "show_id": "StutteringIsCool",
+    "episode": "10",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.008359
+  },
+  {
+    "clip": "StutteringIsCool_11_4",
+    "show_id": "StutteringIsCool",
+    "episode": "11",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.292825
+  },
+  {
+    "clip": "StutteringIsCool_12_5",
+    "show_id": "StutteringIsCool",
+    "episode": "12",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.225643
+  },
+  {
+    "clip": "StutteringIsCool_14_13",
+    "show_id": "StutteringIsCool",
+    "episode": "14",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.046271
+  },
+  {
+    "clip": "StutteringIsCool_14_17",
+    "show_id": "StutteringIsCool",
+    "episode": "14",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.061869
+  },
+  {
+    "clip": "StutteringIsCool_14_22",
+    "show_id": "StutteringIsCool",
+    "episode": "14",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.010245
+  },
+  {
+    "clip": "StutteringIsCool_14_33",
+    "show_id": "StutteringIsCool",
+    "episode": "14",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.005824
+  },
+  {
+    "clip": "StutteringIsCool_15_25",
+    "show_id": "StutteringIsCool",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.015516
+  },
+  {
+    "clip": "StutteringIsCool_15_38",
+    "show_id": "StutteringIsCool",
+    "episode": "15",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.324956
+  },
+  {
+    "clip": "StutteringIsCool_16_38",
+    "show_id": "StutteringIsCool",
+    "episode": "16",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.121717
+  },
+  {
+    "clip": "StutteringIsCool_17_32",
+    "show_id": "StutteringIsCool",
+    "episode": "17",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.029329
+  },
+  {
+    "clip": "StutteringIsCool_18_18",
+    "show_id": "StutteringIsCool",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.00501
+  },
+  {
+    "clip": "StutteringIsCool_18_23",
+    "show_id": "StutteringIsCool",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.00408
+  },
+  {
+    "clip": "StutteringIsCool_18_27",
+    "show_id": "StutteringIsCool",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.007881
+  },
+  {
+    "clip": "StutteringIsCool_18_0",
+    "show_id": "StutteringIsCool",
+    "episode": "18",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.056676
+  },
+  {
+    "clip": "StutteringIsCool_19_2",
+    "show_id": "StutteringIsCool",
+    "episode": "19",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.030382
+  },
+  {
+    "clip": "StutteringIsCool_2_11",
+    "show_id": "StutteringIsCool",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.216963
+  },
+  {
+    "clip": "StutteringIsCool_2_37",
+    "show_id": "StutteringIsCool",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.006555
+  },
+  {
+    "clip": "StutteringIsCool_2_39",
+    "show_id": "StutteringIsCool",
+    "episode": "2",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.298068
+  },
+  {
+    "clip": "StutteringIsCool_21_11",
+    "show_id": "StutteringIsCool",
+    "episode": "21",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.007149
+  },
+  {
+    "clip": "StutteringIsCool_21_12",
+    "show_id": "StutteringIsCool",
+    "episode": "21",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.106314
+  },
+  {
+    "clip": "StutteringIsCool_22_14",
+    "show_id": "StutteringIsCool",
+    "episode": "22",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.146209
+  },
+  {
+    "clip": "StutteringIsCool_22_38",
+    "show_id": "StutteringIsCool",
+    "episode": "22",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.057194
+  },
+  {
+    "clip": "StutteringIsCool_23_28",
+    "show_id": "StutteringIsCool",
+    "episode": "23",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.020388
+  },
+  {
+    "clip": "StutteringIsCool_24_26",
+    "show_id": "StutteringIsCool",
+    "episode": "24",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.226975
+  },
+  {
+    "clip": "StutteringIsCool_24_33",
+    "show_id": "StutteringIsCool",
+    "episode": "24",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.011133
+  },
+  {
+    "clip": "StutteringIsCool_24_18",
+    "show_id": "StutteringIsCool",
+    "episode": "24",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.09288
+  },
+  {
+    "clip": "StutteringIsCool_24_24",
+    "show_id": "StutteringIsCool",
+    "episode": "24",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.116787
+  },
+  {
+    "clip": "StutteringIsCool_28_10",
+    "show_id": "StutteringIsCool",
+    "episode": "28",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.104626
+  },
+  {
+    "clip": "StutteringIsCool_29_3",
+    "show_id": "StutteringIsCool",
+    "episode": "29",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.099198
+  },
+  {
+    "clip": "StutteringIsCool_29_0",
+    "show_id": "StutteringIsCool",
+    "episode": "29",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.098315
+  },
+  {
+    "clip": "StutteringIsCool_3_36",
+    "show_id": "StutteringIsCool",
+    "episode": "3",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.082672
+  },
+  {
+    "clip": "StutteringIsCool_30_8",
+    "show_id": "StutteringIsCool",
+    "episode": "30",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.417839
+  },
+  {
+    "clip": "StutteringIsCool_30_25",
+    "show_id": "StutteringIsCool",
+    "episode": "30",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.012923
+  },
+  {
+    "clip": "StutteringIsCool_30_7",
+    "show_id": "StutteringIsCool",
+    "episode": "30",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.156277
+  },
+  {
+    "clip": "StutteringIsCool_31_16",
+    "show_id": "StutteringIsCool",
+    "episode": "31",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.032755
+  },
+  {
+    "clip": "StutteringIsCool_33_23",
+    "show_id": "StutteringIsCool",
+    "episode": "33",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.044585
+  },
+  {
+    "clip": "StutteringIsCool_33_34",
+    "show_id": "StutteringIsCool",
+    "episode": "33",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.030567
+  },
+  {
+    "clip": "StutteringIsCool_34_56",
+    "show_id": "StutteringIsCool",
+    "episode": "34",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.040673
+  },
+  {
+    "clip": "StutteringIsCool_34_64",
+    "show_id": "StutteringIsCool",
+    "episode": "34",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.32344
+  },
+  {
+    "clip": "StutteringIsCool_34_93",
+    "show_id": "StutteringIsCool",
+    "episode": "34",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.115384
+  },
+  {
+    "clip": "StutteringIsCool_34_20",
+    "show_id": "StutteringIsCool",
+    "episode": "34",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.015301
+  },
+  {
+    "clip": "StutteringIsCool_34_29",
+    "show_id": "StutteringIsCool",
+    "episode": "34",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.035857
+  },
+  {
+    "clip": "StutteringIsCool_34_38",
+    "show_id": "StutteringIsCool",
+    "episode": "34",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.177695
+  },
+  {
+    "clip": "StutteringIsCool_36_27",
+    "show_id": "StutteringIsCool",
+    "episode": "36",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.103637
+  },
+  {
+    "clip": "StutteringIsCool_36_6",
+    "show_id": "StutteringIsCool",
+    "episode": "36",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.192302
+  },
+  {
+    "clip": "StutteringIsCool_37_21",
+    "show_id": "StutteringIsCool",
+    "episode": "37",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.005155
+  },
+  {
+    "clip": "StutteringIsCool_38_15",
+    "show_id": "StutteringIsCool",
+    "episode": "38",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.505349
+  },
+  {
+    "clip": "StutteringIsCool_39_10",
+    "show_id": "StutteringIsCool",
+    "episode": "39",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.143102
+  },
+  {
+    "clip": "StutteringIsCool_39_7",
+    "show_id": "StutteringIsCool",
+    "episode": "39",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.087111
+  },
+  {
+    "clip": "StutteringIsCool_4_16",
+    "show_id": "StutteringIsCool",
+    "episode": "4",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.43601
+  },
+  {
+    "clip": "StutteringIsCool_4_23",
+    "show_id": "StutteringIsCool",
+    "episode": "4",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.410803
+  },
+  {
+    "clip": "StutteringIsCool_40_3",
+    "show_id": "StutteringIsCool",
+    "episode": "40",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.010746
+  },
+  {
+    "clip": "StutteringIsCool_40_11",
+    "show_id": "StutteringIsCool",
+    "episode": "40",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.004802
+  },
+  {
+    "clip": "StutteringIsCool_40_26",
+    "show_id": "StutteringIsCool",
+    "episode": "40",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.067296
+  },
+  {
+    "clip": "StutteringIsCool_43_19",
+    "show_id": "StutteringIsCool",
+    "episode": "43",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.365247
+  },
+  {
+    "clip": "StutteringIsCool_44_36",
+    "show_id": "StutteringIsCool",
+    "episode": "44",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.359323
+  },
+  {
+    "clip": "StutteringIsCool_44_22",
+    "show_id": "StutteringIsCool",
+    "episode": "44",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.046229
+  },
+  {
+    "clip": "StutteringIsCool_46_77",
+    "show_id": "StutteringIsCool",
+    "episode": "46",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.346642
+  },
+  {
+    "clip": "StutteringIsCool_46_136",
+    "show_id": "StutteringIsCool",
+    "episode": "46",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.011778
+  },
+  {
+    "clip": "StutteringIsCool_46_28",
+    "show_id": "StutteringIsCool",
+    "episode": "46",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.010822
+  },
+  {
+    "clip": "StutteringIsCool_46_49",
+    "show_id": "StutteringIsCool",
+    "episode": "46",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.074519
+  },
+  {
+    "clip": "StutteringIsCool_46_63",
+    "show_id": "StutteringIsCool",
+    "episode": "46",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.067442
+  },
+  {
+    "clip": "StutteringIsCool_46_129",
+    "show_id": "StutteringIsCool",
+    "episode": "46",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.207263
+  },
+  {
+    "clip": "StutteringIsCool_46_153",
+    "show_id": "StutteringIsCool",
+    "episode": "46",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.014416
+  },
+  {
+    "clip": "StutteringIsCool_46_162",
+    "show_id": "StutteringIsCool",
+    "episode": "46",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.10836
+  },
+  {
+    "clip": "StutteringIsCool_46_180",
+    "show_id": "StutteringIsCool",
+    "episode": "46",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.029121
+  },
+  {
+    "clip": "StutteringIsCool_46_185",
+    "show_id": "StutteringIsCool",
+    "episode": "46",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.147995
+  },
+  {
+    "clip": "StutteringIsCool_46_10",
+    "show_id": "StutteringIsCool",
+    "episode": "46",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.534015
+  },
+  {
+    "clip": "StutteringIsCool_46_16",
+    "show_id": "StutteringIsCool",
+    "episode": "46",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.414087
+  },
+  {
+    "clip": "StutteringIsCool_47_19",
+    "show_id": "StutteringIsCool",
+    "episode": "47",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.012454
+  },
+  {
+    "clip": "StutteringIsCool_48_33",
+    "show_id": "StutteringIsCool",
+    "episode": "48",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.021711
+  },
+  {
+    "clip": "StutteringIsCool_48_18",
+    "show_id": "StutteringIsCool",
+    "episode": "48",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.148542
+  },
+  {
+    "clip": "StutteringIsCool_50_4",
+    "show_id": "StutteringIsCool",
+    "episode": "50",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.019934
+  },
+  {
+    "clip": "StutteringIsCool_53_18",
+    "show_id": "StutteringIsCool",
+    "episode": "53",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.029207
+  },
+  {
+    "clip": "StutteringIsCool_56_15",
+    "show_id": "StutteringIsCool",
+    "episode": "56",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.161547
+  },
+  {
+    "clip": "StutteringIsCool_59_13",
+    "show_id": "StutteringIsCool",
+    "episode": "59",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.003414
+  },
+  {
+    "clip": "StutteringIsCool_61_7",
+    "show_id": "StutteringIsCool",
+    "episode": "61",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.090543
+  },
+  {
+    "clip": "StutteringIsCool_61_33",
+    "show_id": "StutteringIsCool",
+    "episode": "61",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.009722
+  },
+  {
+    "clip": "StutteringIsCool_61_38",
+    "show_id": "StutteringIsCool",
+    "episode": "61",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.00468
+  },
+  {
+    "clip": "StutteringIsCool_62_28",
+    "show_id": "StutteringIsCool",
+    "episode": "62",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.014772
+  },
+  {
+    "clip": "StutteringIsCool_65_30",
+    "show_id": "StutteringIsCool",
+    "episode": "65",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.005773
+  },
+  {
+    "clip": "StutteringIsCool_65_22",
+    "show_id": "StutteringIsCool",
+    "episode": "65",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.07202
+  },
+  {
+    "clip": "StutteringIsCool_67_12",
+    "show_id": "StutteringIsCool",
+    "episode": "67",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.069443
+  },
+  {
+    "clip": "StutteringIsCool_69_10",
+    "show_id": "StutteringIsCool",
+    "episode": "69",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.388364
+  },
+  {
+    "clip": "StutteringIsCool_7_28",
+    "show_id": "StutteringIsCool",
+    "episode": "7",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.224504
+  },
+  {
+    "clip": "StutteringIsCool_70_3",
+    "show_id": "StutteringIsCool",
+    "episode": "70",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.065845
+  },
+  {
+    "clip": "StutteringIsCool_72_12",
+    "show_id": "StutteringIsCool",
+    "episode": "72",
+    "true": 1,
+    "predicted": 0,
+    "score": 0.004909
+  },
+  {
+    "clip": "WomenWhoStutter_104_6",
+    "show_id": "WomenWhoStutter",
+    "episode": "104",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.422906
+  },
+  {
+    "clip": "WomenWhoStutter_97_72",
+    "show_id": "WomenWhoStutter",
+    "episode": "97",
+    "true": 0,
+    "predicted": 1,
+    "score": 0.488379
+  }
+]

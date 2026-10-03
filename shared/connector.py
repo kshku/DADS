@@ -12,6 +12,16 @@ import numpy as np
 import torch
 import torch.nn as nn
 
+from ml.fingerprint import parse_model_file
+from ml.registry import (
+    FALLBACK_THRESHOLD,
+    get_detector_name,
+    get_entry,
+    load_registry,
+    resolve_path,
+    thresholds,
+)
+
 torch.set_num_threads(1)
 
 
@@ -53,17 +63,36 @@ class Model(nn.Module):
 
 
 class StutterDetector:
-    """Connector class for handling stutter detection using 5 separate binary models"""
+    """Connector class for handling stutter detection using 5 separate binary models
 
-    def __init__(self, models_dir=None, detection_threshold=0.5):
+    Checkpoint paths and per-class decision thresholds both come from
+    ``Model/registry.json``, so a threshold is always paired with the weights it
+    was calibrated against. Pass ``detector`` to select a different registered
+    entry, or ``detection_threshold`` to override every class with one scalar
+    (useful for tests).
+    """
+
+    def __init__(self, models_dir=None, detection_threshold=None, detector=None):
         """
         Initialize the stutter detector with pre-trained binary models
 
         Args:
-            models_dir: Path to directory containing .pth model files (default: auto-detect)
-            detection_threshold: Probability threshold for positive detection (default: 0.4)
+            models_dir: Path to directory containing .pth model files. Overrides
+                the registry's models_dir when given.
+            detection_threshold: Scalar probability threshold applied to every
+                class, overriding the calibrated per-class thresholds.
+            detector: Name of a registry entry. Defaults to
+                ``registry.defaults.detector``.
         """
-        # Auto-detect models directory relative to this file
+        self.registry = load_registry()
+        entry = get_entry(self.registry, detector)
+        self.detector_name = get_detector_name(self.registry, detector)
+        self.thresholds = thresholds(self.registry, self.detector_name)
+
+        # Registry paths are project-relative; callers pass absolute directories.
+        if models_dir is None:
+            models_dir = resolve_path(entry.get("models_dir", "")) or None
+
         if models_dir is None:
             current_dir = os.path.dirname(os.path.abspath(__file__))
             project_root = os.path.dirname(current_dir)  # Go up from shared/ to project root
@@ -72,6 +101,8 @@ class StutterDetector:
                 raise RuntimeError(f"Models directory not found at: {models_dir}")
 
         self.models_dir = models_dir
+        # A scalar override collapses the per-class thresholds to one value.
+        self.threshold_override = detection_threshold
         self.detection_threshold = detection_threshold
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.models = []
@@ -85,15 +116,20 @@ class StutterDetector:
         # Label names and model files
         self.label_dict = {"prolongation": 0, "block": 1, "soundrep": 2, "wordrep": 3, "interjection": 4}
 
+        registered_files = entry.get("model_files", {})
         self.model_files = [
-            "prolongation_model_1024_512_128_40.pth",
-            "block_model_1024_512_128_40.pth",
-            "soundrep_model_1024_512_256_40.pth",
-            "wordrep_model_1024_512_64_40.pth",
-            "interjection_model_1024_512_128_40.pth",
+            os.path.basename(registered_files.get(label))
+            or f"{label}_model_1024_512_{128 if label != 'soundrep' else 256}_40.pth"
+            for label in self.label_dict
         ]
 
         self._load_models()
+
+    def threshold_for(self, label_name: str) -> float:
+        """Decision threshold for one class, honouring any scalar override."""
+        if self.threshold_override is not None:
+            return float(self.threshold_override)
+        return float(self.thresholds.get(label_name, FALLBACK_THRESHOLD))
 
     def _parse_model_params(self, model_file):
         """
@@ -101,13 +137,16 @@ class StutterDetector:
         Convention: {type}_model_{n_fft}_{hop_length}_{n_mels}_{epochs}.pth
         """
         name = model_file.replace(".pth", "")
-        parts = name.split("_")
-        # e.g. prolongation_model_1024_512_128_40
-        n_fft = int(parts[2])
-        hop_length = int(parts[3])
-        n_mels = int(parts[4])
-        epochs = int(parts[5])
-        return {"n_fft": n_fft, "hop_length": hop_length, "n_mels": n_mels, "epochs": epochs}
+        # ``parse_model_file`` understands both the legacy
+        # ``{type}_model_{n_fft}_{hop}_{n_mels}_{epochs}.pth`` convention and the
+        # fingerprint filenames written by ``python -m ml.train``.
+        params = parse_model_file(name)
+        return {
+            "n_fft": params["n_fft"],
+            "hop_length": params["hop_length"],
+            "n_mels": params["n_mels"],
+            "epochs": params["epochs"],
+        }
 
     def _load_models(self):
         """Load all 5 pre-trained binary models"""
@@ -194,7 +233,7 @@ class StutterDetector:
             tensor = torch.tensor(mels_db, dtype=torch.float32).unsqueeze(0).to(self.device)
             output = model(tensor)
             prob = torch.sigmoid(output).item()
-            is_detected = prob > self.detection_threshold
+            is_detected = prob > self.threshold_for(label_name)
 
         return label_name, prob, is_detected
 

@@ -1,0 +1,196 @@
+{
+  "class_name": "prolongation",
+  "model_path": "Model/models/copy/prolongation_model_1024_512_128_40.pth",
+  "model": {
+    "class_name": "prolongation",
+    "n_fft": 1024,
+    "hop_length": 512,
+    "n_mels": 128,
+    "epochs": 40,
+    "format": "legacy",
+    "path": "Model/models/copy/prolongation_model_1024_512_128_40.pth"
+  },
+  "confusion_matrix": [
+    [
+      2428,
+      221
+    ],
+    [
+      1103,
+      441
+    ]
+  ],
+  "confusion_matrix_png": "reports/group_episode/prolongation_confusion_matrix.png",
+  "threshold_sweep": {
+    "auroc": 0.7199,
+    "auprc": 0.6016,
+    "sweep": [
+      {
+        "threshold": 0.1,
+        "f1": 0.5985,
+        "precision": 0.465,
+        "recall": 0.8394,
+        "specificity": 0.4371,
+        "accuracy": 0.5853
+      },
+      {
+        "threshold": 0.15,
+        "f1": 0.5949,
+        "precision": 0.5054,
+        "recall": 0.7228,
+        "specificity": 0.5878,
+        "accuracy": 0.6375
+      },
+      {
+        "threshold": 0.2,
+        "f1": 0.5773,
+        "precision": 0.5407,
+        "recall": 0.6192,
+        "specificity": 0.6935,
+        "accuracy": 0.6661
+      },
+      {
+        "threshold": 0.25,
+        "f1": 0.5506,
+        "precision": 0.5746,
+        "recall": 0.5285,
+        "specificity": 0.772,
+        "accuracy": 0.6823
+      },
+      {
+        "threshold": 0.3,
+        "f1": 0.5122,
+        "precision": 0.6082,
+        "recall": 0.4424,
+        "specificity": 0.8339,
+        "accuracy": 0.6897
+      },
+      {
+        "threshold": 0.35,
+        "f1": 0.465,
+        "precision": 0.6456,
+        "recall": 0.3633,
+        "specificity": 0.8837,
+        "accuracy": 0.6921
+      },
+      {
+        "threshold": 0.4,
+        "f1": 0.3998,
+        "precision": 0.6662,
+        "recall": 0.2856,
+        "specificity": 0.9166,
+        "accuracy": 0.6842
+      },
+      {
+        "threshold": 0.45,
+        "f1": 0.3489,
+        "precision": 0.6984,
+        "recall": 0.2325,
+        "specificity": 0.9415,
+        "accuracy": 0.6804
+      },
+      {
+        "threshold": 0.5,
+        "f1": 0.2941,
+        "precision": 0.7234,
+        "recall": 0.1846,
+        "specificity": 0.9589,
+        "accuracy": 0.6737
+      },
+      {
+        "threshold": 0.55,
+        "f1": 0.2451,
+        "precision": 0.7533,
+        "recall": 0.1464,
+        "specificity": 0.9721,
+        "accuracy": 0.668
+      },
+      {
+        "threshold": 0.6,
+        "f1": 0.2055,
+        "precision": 0.8018,
+        "recall": 0.1179,
+        "specificity": 0.983,
+        "accuracy": 0.6644
+      },
+      {
+        "threshold": 0.65,
+        "f1": 0.1706,
+        "precision": 0.8212,
+        "recall": 0.0952,
+        "specificity": 0.9879,
+        "accuracy": 0.6592
+      },
+      {
+        "threshold": 0.7,
+        "f1": 0.1325,
+        "precision": 0.8409,
+        "recall": 0.0719,
+        "specificity": 0.9921,
+        "accuracy": 0.6532
+      },
+      {
+        "threshold": 0.75,
+        "f1": 0.0976,
+        "precision": 0.8421,
+        "recall": 0.0518,
+        "specificity": 0.9943,
+        "accuracy": 0.6473
+      },
+      {
+        "threshold": 0.8,
+        "f1": 0.0709,
+        "precision": 0.8769,
+        "recall": 0.0369,
+        "specificity": 0.997,
+        "accuracy": 0.6435
+      },
+      {
+        "threshold": 0.85,
+        "f1": 0.0392,
+        "precision": 0.8378,
+        "recall": 0.0201,
+        "specificity": 0.9977,
+        "accuracy": 0.6377
+      },
+      {
+        "threshold": 0.9,
+        "f1": 0.0179,
+        "precision": 0.8235,
+        "recall": 0.0091,
+        "specificity": 0.9989,
+        "accuracy": 0.6344
+      }
+    ],
+    "best_f1": {
+      "threshold": 0.1,
+      "f1": 0.5984761025167398
+    },
+    "best_specificity": {
+      "threshold": 0.9,
+      "specificity": 0.9988674971687429
+    },
+    "best_youden": {
+      "threshold": 0.2,
+      "youden": 0.31264021812904286
+    }
+  },
+  "misclassified_json": "reports/group_episode/prolongation_misclassified.json",
+  "auroc": 0.7199,
+  "auprc": 0.6016,
+  "threshold": 0.4,
+  "precision": 0.6662,
+  "recall": 0.2856,
+  "f1": 0.3998,
+  "specificity": 0.9166,
+  "false_positive_rate": 0.0834,
+  "balanced_accuracy": 0.6011,
+  "accuracy": 0.6842,
+  "support": 1544,
+  "num_samples": 4193,
+  "tn": 2428,
+  "fp": 221,
+  "fn": 1103,
+  "tp": 441,
+  "num_misclassified": 1324
+}

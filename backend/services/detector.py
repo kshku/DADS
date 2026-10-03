@@ -20,5 +20,6 @@ def get_detector() -> StutterDetector:
     if _detector is None:
         with _lock:
             if _detector is None:
-                _detector = StutterDetector(detection_threshold=0.4)
+                # Thresholds come from Model/registry.json, per class.
+                _detector = StutterDetector()
     return _detector

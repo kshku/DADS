@@ -1,0 +1,200 @@
+{
+  "class_name": "soundrep",
+  "model_path": "Model/models/trained/soundrep_e40_b32_lr0.001_n1024h512m256_bce_s42_group_episode_d4e9111a.pth",
+  "model": {
+    "class_name": "soundrep",
+    "epochs": 40,
+    "batch_size": 32,
+    "lr": 0.001,
+    "n_fft": 1024,
+    "hop_length": 512,
+    "n_mels": 256,
+    "loss_type": "bce",
+    "seed": 42,
+    "split": "group_episode",
+    "hash": "d4e9111a",
+    "format": "fingerprint"
+  },
+  "confusion_matrix": [
+    [
+      1918,
+      1464
+    ],
+    [
+      376,
+      435
+    ]
+  ],
+  "confusion_matrix_png": "reports/trained/group_episode/soundrep_confusion_matrix.png",
+  "threshold_sweep": {
+    "auroc": 0.5693,
+    "auprc": 0.2444,
+    "sweep": [
+      {
+        "threshold": 0.1,
+        "f1": 0.3241,
+        "precision": 0.1934,
+        "recall": 1.0,
+        "specificity": 0.0,
+        "accuracy": 0.1934
+      },
+      {
+        "threshold": 0.15,
+        "f1": 0.3243,
+        "precision": 0.1936,
+        "recall": 0.9975,
+        "specificity": 0.0038,
+        "accuracy": 0.196
+      },
+      {
+        "threshold": 0.2,
+        "f1": 0.3242,
+        "precision": 0.1947,
+        "recall": 0.9679,
+        "specificity": 0.0399,
+        "accuracy": 0.2194
+      },
+      {
+        "threshold": 0.25,
+        "f1": 0.3296,
+        "precision": 0.2019,
+        "recall": 0.8952,
+        "specificity": 0.1517,
+        "accuracy": 0.2955
+      },
+      {
+        "threshold": 0.3,
+        "f1": 0.3256,
+        "precision": 0.2067,
+        "recall": 0.7657,
+        "specificity": 0.2954,
+        "accuracy": 0.3864
+      },
+      {
+        "threshold": 0.35,
+        "f1": 0.3223,
+        "precision": 0.2151,
+        "recall": 0.6424,
+        "specificity": 0.4379,
+        "accuracy": 0.4775
+      },
+      {
+        "threshold": 0.4,
+        "f1": 0.321,
+        "precision": 0.2291,
+        "recall": 0.5364,
+        "specificity": 0.5671,
+        "accuracy": 0.5612
+      },
+      {
+        "threshold": 0.45,
+        "f1": 0.3146,
+        "precision": 0.2487,
+        "recall": 0.4279,
+        "specificity": 0.6901,
+        "accuracy": 0.6394
+      },
+      {
+        "threshold": 0.5,
+        "f1": 0.2792,
+        "precision": 0.2535,
+        "recall": 0.3107,
+        "specificity": 0.7806,
+        "accuracy": 0.6897
+      },
+      {
+        "threshold": 0.55,
+        "f1": 0.235,
+        "precision": 0.2695,
+        "recall": 0.2084,
+        "specificity": 0.8646,
+        "accuracy": 0.7377
+      },
+      {
+        "threshold": 0.6,
+        "f1": 0.1671,
+        "precision": 0.2771,
+        "recall": 0.1196,
+        "specificity": 0.9252,
+        "accuracy": 0.7694
+      },
+      {
+        "threshold": 0.65,
+        "f1": 0.1148,
+        "precision": 0.3132,
+        "recall": 0.0703,
+        "specificity": 0.963,
+        "accuracy": 0.7904
+      },
+      {
+        "threshold": 0.7,
+        "f1": 0.0635,
+        "precision": 0.3944,
+        "recall": 0.0345,
+        "specificity": 0.9873,
+        "accuracy": 0.803
+      },
+      {
+        "threshold": 0.75,
+        "f1": 0.0287,
+        "precision": 0.48,
+        "recall": 0.0148,
+        "specificity": 0.9962,
+        "accuracy": 0.8063
+      },
+      {
+        "threshold": 0.8,
+        "f1": 0.0049,
+        "precision": 0.4,
+        "recall": 0.0025,
+        "specificity": 0.9991,
+        "accuracy": 0.8063
+      },
+      {
+        "threshold": 0.85,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 0.9997,
+        "accuracy": 0.8063
+      },
+      {
+        "threshold": 0.9,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "accuracy": 0.8066
+      }
+    ],
+    "best_f1": {
+      "threshold": 0.25,
+      "f1": 0.3295506128007263
+    },
+    "best_specificity": {
+      "threshold": 0.9,
+      "specificity": 1.0
+    },
+    "best_youden": {
+      "threshold": 0.45,
+      "youden": 0.11799101794442324
+    }
+  },
+  "misclassified_json": null,
+  "auroc": 0.5693,
+  "auprc": 0.2444,
+  "threshold": 0.4,
+  "precision": 0.2291,
+  "recall": 0.5364,
+  "f1": 0.321,
+  "specificity": 0.5671,
+  "false_positive_rate": 0.4329,
+  "balanced_accuracy": 0.5517,
+  "accuracy": 0.5612,
+  "support": 811,
+  "num_samples": 4193,
+  "tn": 1918,
+  "fp": 1464,
+  "fn": 376,
+  "tp": 435
+}

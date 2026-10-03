@@ -1,0 +1,200 @@
+{
+  "class_name": "block",
+  "model_path": "Model/models/trained/block_e40_b32_lr0.001_n1024h512m128_bce_s42_group_episode_439c79b1.pth",
+  "model": {
+    "class_name": "block",
+    "epochs": 40,
+    "batch_size": 32,
+    "lr": 0.001,
+    "n_fft": 1024,
+    "hop_length": 512,
+    "n_mels": 128,
+    "loss_type": "bce",
+    "seed": 42,
+    "split": "group_episode",
+    "hash": "439c79b1",
+    "format": "fingerprint"
+  },
+  "confusion_matrix": [
+    [
+      284,
+      2219
+    ],
+    [
+      111,
+      1579
+    ]
+  ],
+  "confusion_matrix_png": "reports/trained/group_episode/block_confusion_matrix.png",
+  "threshold_sweep": {
+    "auroc": 0.5986,
+    "auprc": 0.4902,
+    "sweep": [
+      {
+        "threshold": 0.1,
+        "f1": 0.5745,
+        "precision": 0.4031,
+        "recall": 1.0,
+        "specificity": 0.0,
+        "accuracy": 0.4031
+      },
+      {
+        "threshold": 0.15,
+        "f1": 0.5745,
+        "precision": 0.4031,
+        "recall": 1.0,
+        "specificity": 0.0,
+        "accuracy": 0.4031
+      },
+      {
+        "threshold": 0.2,
+        "f1": 0.5745,
+        "precision": 0.4031,
+        "recall": 1.0,
+        "specificity": 0.0,
+        "accuracy": 0.4031
+      },
+      {
+        "threshold": 0.25,
+        "f1": 0.5745,
+        "precision": 0.4031,
+        "recall": 1.0,
+        "specificity": 0.0,
+        "accuracy": 0.4031
+      },
+      {
+        "threshold": 0.3,
+        "f1": 0.5753,
+        "precision": 0.4048,
+        "recall": 0.9941,
+        "specificity": 0.0132,
+        "accuracy": 0.4085
+      },
+      {
+        "threshold": 0.35,
+        "f1": 0.5759,
+        "precision": 0.4091,
+        "recall": 0.9728,
+        "specificity": 0.0511,
+        "accuracy": 0.4226
+      },
+      {
+        "threshold": 0.4,
+        "f1": 0.5754,
+        "precision": 0.4157,
+        "recall": 0.9343,
+        "specificity": 0.1135,
+        "accuracy": 0.4443
+      },
+      {
+        "threshold": 0.45,
+        "f1": 0.5773,
+        "precision": 0.428,
+        "recall": 0.8864,
+        "specificity": 0.2002,
+        "accuracy": 0.4767
+      },
+      {
+        "threshold": 0.5,
+        "f1": 0.5646,
+        "precision": 0.4363,
+        "recall": 0.8,
+        "specificity": 0.302,
+        "accuracy": 0.5027
+      },
+      {
+        "threshold": 0.55,
+        "f1": 0.5361,
+        "precision": 0.4544,
+        "recall": 0.6538,
+        "specificity": 0.4698,
+        "accuracy": 0.544
+      },
+      {
+        "threshold": 0.6,
+        "f1": 0.4004,
+        "precision": 0.5173,
+        "recall": 0.3266,
+        "specificity": 0.7942,
+        "accuracy": 0.6058
+      },
+      {
+        "threshold": 0.65,
+        "f1": 0.1843,
+        "precision": 0.5516,
+        "recall": 0.1107,
+        "specificity": 0.9393,
+        "accuracy": 0.6053
+      },
+      {
+        "threshold": 0.7,
+        "f1": 0.0705,
+        "precision": 0.6429,
+        "recall": 0.0373,
+        "specificity": 0.986,
+        "accuracy": 0.6036
+      },
+      {
+        "threshold": 0.75,
+        "f1": 0.0059,
+        "precision": 0.5556,
+        "recall": 0.003,
+        "specificity": 0.9984,
+        "accuracy": 0.5972
+      },
+      {
+        "threshold": 0.8,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "accuracy": 0.5969
+      },
+      {
+        "threshold": 0.85,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "accuracy": 0.5969
+      },
+      {
+        "threshold": 0.9,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "specificity": 1.0,
+        "accuracy": 0.5969
+      }
+    ],
+    "best_f1": {
+      "threshold": 0.45,
+      "f1": 0.5772639691714836
+    },
+    "best_specificity": {
+      "threshold": 0.8,
+      "specificity": 1.0
+    },
+    "best_youden": {
+      "threshold": 0.55,
+      "youden": 0.12368235041027686
+    }
+  },
+  "misclassified_json": null,
+  "auroc": 0.5986,
+  "auprc": 0.4902,
+  "threshold": 0.4,
+  "precision": 0.4157,
+  "recall": 0.9343,
+  "f1": 0.5754,
+  "specificity": 0.1135,
+  "false_positive_rate": 0.8865,
+  "balanced_accuracy": 0.5239,
+  "accuracy": 0.4443,
+  "support": 1690,
+  "num_samples": 4193,
+  "tn": 284,
+  "fp": 2219,
+  "fn": 111,
+  "tp": 1579
+}

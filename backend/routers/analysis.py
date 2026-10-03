@@ -13,6 +13,8 @@ from fastapi import APIRouter, File, UploadFile
 from fastapi.responses import Response, StreamingResponse
 from services.detector import get_detector
 
+from ml.registry import default_thresholds
+
 log = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api", tags=["analysis"])
@@ -170,6 +172,7 @@ async def get_spectrogram(session_id: str):
 def _aggregate_results(results, processed_chunks):
     """Calculate aggregated stats (matching PyQt5 analysis_widget.py logic)."""
     aggregated = {}
+    calibrated_thresholds = default_thresholds()
     for label in LABELS:
         max_prob = 0.0
         detected_count = 0
@@ -179,11 +182,12 @@ def _aggregate_results(results, processed_chunks):
                 prob = chunk_data["detections"][label]["probability"]
                 is_detected = chunk_data["detections"][label]["detected"]
                 max_prob = max(max_prob, prob)
-                if is_detected and prob > 0.4:
+                # Only count a chunk if it clears this label's own threshold
+                if is_detected and prob > calibrated_thresholds[label]:
                     detected_count += 1
 
         confidence = max_prob * 100 if processed_chunks > 0 else 0.0
-        detected = max_prob > 0.4
+        detected = max_prob > calibrated_thresholds[label]
 
         aggregated[label] = {
             "confidence": confidence,

@@ -4,4 +4,4 @@ __pycache__/
 Recordings/
 .DS_Store
 .vscode/
-reports/
+.cache/
